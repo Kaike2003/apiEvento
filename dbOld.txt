@@ -1,0 +1,169 @@
+model Admin {
+   id Int @id @default(autoincrement())
+   nome String
+   email String @unique
+   senha String
+  
+   at_create DateTime @default(now())
+   at_update DateTime @updatedAt
+
+  admin Admin_evento[]
+
+   @@map("admin")
+}
+
+
+model Usuario {
+   id Int @id @default(autoincrement())
+   nome String
+   apelido String
+   telefone Int 
+   endereco String
+   dataNascimento String
+   senha String
+   email String @unique
+
+   usuarioEvento Usuario_evento[]
+   usuarioIngresso Ingresso_usuario[]
+
+   at_create DateTime @default(now())
+   at_update DateTime @updatedAt
+   @@map("user")
+}
+
+model Org {
+   id Int @id @default(autoincrement())
+   nome String
+   apelido String
+   telefone Int 
+   endereco String
+   dataNascimento String
+   senha String
+   email String @unique
+
+   at_create DateTime @default(now())
+   at_update DateTime @updatedAt
+   @@map("org")
+
+   Eventos Evento[]
+
+}
+
+model Evento{
+    id Int @id @default(autoincrement())
+    nome String
+    horario DateTime
+    endereco String
+    orador String
+    foto String
+    descricao String
+
+
+    org Org @relation(fields: [orgId] , references: [id])
+    orgId Int
+
+    eventoPalestrante Palestrante_evento[]
+    eventoUsuario Usuario_evento[]
+    eventoIngresso Evento_ingresso[]
+    eventoAdmin Admin_evento[]
+
+    at_create DateTime @default(now())
+    at_update DateTime @updatedAt
+    @@map("evento")
+}
+
+
+
+model Ingresso {
+    id Int @id @default(autoincrement())
+    nome String
+    endreco String
+    preco Int
+    quantidade Int
+    dataValidade DateTime
+
+    ingresso Evento_ingresso[]
+    ingressoUsuario Ingresso_usuario[]
+
+    at_create DateTime @default(now())
+    at_update DateTime @updatedAt
+    @@map("ingresso")
+}
+
+model Palestrante {
+  id Int @id @default(autoincrement())
+  nome  String
+  blog String
+  foto String
+
+  palestranteEvento Palestrante_evento[]
+
+  at_create DateTime @default(now())
+  at_update DateTime @updatedAt
+  @@map("palestrante")
+}
+
+
+model Palestrante_evento{
+
+  palestrante Palestrante @relation(fields: [palestranteId], references: [id])
+  palestranteId     Int 
+  evento Evento @relation(fields: [eventoId], references: [id])
+  eventoId Int 
+  at_create DateTime @default(now())
+  at_update DateTime @updatedAt
+  @@id([palestranteId, eventoId])
+  @@map("palestrante_evento")
+}
+
+model Usuario_evento{
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId     Int 
+  evento Evento @relation(fields: [eventoId], references: [id])
+  eventoId Int 
+  at_create DateTime @default(now())
+  at_update DateTime @updatedAt
+  @@id([usuarioId, eventoId])
+  @@map("usuario_evento")
+}
+
+model Evento_ingresso{
+  eventoIngresso Evento @relation(fields: [eventoId], references: [id])
+  eventoId  Int 
+  ingresso Ingresso @relation(fields: [ingressoId], references: [id])
+  ingressoId Int 
+  at_create DateTime @default(now())
+  at_update DateTime @updatedAt
+  @@id([eventoId , ingressoId])
+  @@map("evento_ingresso")
+}
+
+model Ingresso_usuario{
+
+  ingresso Ingresso @relation(fields: [ingressoId], references: [id])
+  ingressoId Int 
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId Int 
+  at_create DateTime @default(now())
+  at_update DateTime @updatedAt
+  
+
+  
+  @@id([ingressoId, usuarioId])
+  @@map("ingresso_usuario")
+}
+
+model Admin_evento{
+
+  admin Admin @relation(fields: [adminId], references: [id])
+  adminId Int 
+  evento Evento @relation(fields: [eventoId], references: [id])
+  eventoId Int 
+  at_create DateTime @default(now())
+  at_update DateTime @updatedAt
+  
+
+  
+  @@id([adminId, eventoId])
+  @@map("admin_evento")
+}

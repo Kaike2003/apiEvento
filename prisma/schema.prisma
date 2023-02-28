@@ -1,0 +1,179 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Utilizador {
+  id           Int            @id @default(autoincrement())
+  nome         String
+  email        String         @unique
+  palavraPasse String
+  // dataNascimento DateTime       @db.Date
+  localizacao  String
+  utilizador   TipoUtilizador @default(PARTICIPANTE)
+  telefone     String
+  evento       Evento[]
+
+  at_create DateTime @default(now())
+  at_update DateTime @updatedAt
+
+  @@map("utilizador")
+}
+
+enum TipoUtilizador {
+  PARTICIPANTE
+  ADMIN
+  ORGINZADOR
+
+  @@map("tipoUtilizador")
+}
+
+model Categoria {
+  id     Int      @id @default(autoincrement())
+  nome   String
+  evento Evento[]
+
+  at_create DateTime @default(now())
+  at_update DateTime @updatedAt
+
+  @@map("categoria")
+}
+
+model Palestrante {
+  id   Int    @id @default(autoincrement())
+  nome String
+  foto String?
+  blog String
+
+  evento Palestrante_Evento[]
+
+  at_create DateTime @default(now())
+  at_update DateTime @updatedAt
+
+  @@map("palestrante")
+}
+
+model Orador {
+  id   Int    @id @default(autoincrement())
+  nome String
+
+  evento Orador_Evento[]
+
+  at_create DateTime @default(now())
+  at_update DateTime @updatedAt
+
+  @@map("orador")
+}
+
+model Evento {
+  id          Int      @id @default(autoincrement())
+  nome        String
+  foto        String
+  estado      String
+  descricao   String
+  localizacao String
+  hora        DateTime @db.Time()
+  dataInicio  DateTime @db.Date()
+  dataTermino DateTime @db.Date()
+
+  bilhete     Bilhete[]
+  palestrante Palestrante_Evento[]
+  orador      Orador_Evento[]
+
+  utilizador   Utilizador @relation(fields: [utilizadorId], references: [id])
+  utilizadorId Int
+
+  categoria   Categoria @relation(fields: [categoriaId], references: [id])
+  categoriaId Int
+
+  at_create DateTime @default(now())
+  at_update DateTime @updatedAt
+
+  @@map("evento")
+}
+
+model Bilhete {
+  id          Int      @id @default(autoincrement())
+  nome        String
+  preco       Int
+  quantidade  Int
+  dataInicio  DateTime
+  dataTermino DateTime
+
+  evento   Evento @relation(fields: [eventoId], references: [id])
+  eventoId Int
+
+  item_bilhete Item_Bilhete[]
+
+  tipoEvento   TipoBilhete @relation(fields: [tipoEventoId], references: [id])
+  tipoEventoId Int
+
+  at_create DateTime @default(now())
+  at_update DateTime @updatedAt
+
+  @@map("bilhete")
+}
+
+model Item_Bilhete {
+  id   Int    @id @default(autoincrement())
+  nome String
+
+  bilhete   Bilhete @relation(fields: [bilheteId], references: [id])
+  bilheteId Int
+
+  compra   Compra @relation(fields: [compraId], references: [id])
+  compraId Int
+
+  at_create DateTime @default(now())
+  at_update DateTime @updatedAt
+}
+
+model Compra {
+  id              Int    @id @default(autoincrement())
+  quantidade      Int
+  total           Int
+  metodoPagamento String
+
+  item_Bilhte Item_Bilhete[]
+
+  at_create DateTime @default(now())
+  at_update DateTime @updatedAt
+}
+
+model Palestrante_Evento {
+  palestrante   Palestrante @relation(fields: [palestranteId], references: [id])
+  palestranteId Int
+  evento        Evento      @relation(fields: [eventoId], references: [id])
+  eventoId      Int
+
+  at_create DateTime @default(now())
+  at_update DateTime @updatedAt
+
+  @@id([palestranteId, eventoId])
+}
+
+model Orador_Evento {
+  orador   Orador @relation(fields: [oradorId], references: [id])
+  oradorId Int
+  evento   Evento @relation(fields: [eventoId], references: [id])
+  eventoId Int
+
+  at_create DateTime @default(now())
+  at_update DateTime @updatedAt
+
+  @@id([oradorId, eventoId])
+}
+
+model TipoBilhete {
+  id   Int    @id @default(autoincrement())
+  nome String
+
+  bilhete Bilhete[]
+}
