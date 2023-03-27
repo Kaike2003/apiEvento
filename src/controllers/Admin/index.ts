@@ -1,7 +1,7 @@
 import * as login from "./Login"
 import * as criar from "./CriarAdmin"
 import * as listaAdministradores from "./Administradores/ListaAdministradores"
-import * as eventosMarcados from "./Eventos/EventosMarcados"
+import * as eventosPublicados from "./Eventos/EventosPublicados"
 import * as participante from "./Usuarios/Participante"
 import * as organizador from "./Usuarios/Organizador"
 import * as informacaoBasica from "./Perfil/InformacaoBasica"
@@ -25,7 +25,9 @@ export const ControllerRoutesAdmin = {
     ...login,
     ...criar,
     ...listaAdministradores,
-    ...eventosMarcados,
+
+    // * Eventos publicados
+    ...eventosPublicados,
     ...organizador,
     ...participante,
     ...informacaoBasica,

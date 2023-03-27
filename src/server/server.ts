@@ -1,4 +1,5 @@
 import express, { Response, Request } from "express"
+import session from "express-session"
 import morgan from "morgan"
 import { routerAdmin } from "../routes/admin"
 import { routerOrganizador } from "../routes/organizador"
@@ -7,6 +8,12 @@ const server = express()
 
 server.use("/public", express.static("public"))
 
+
+server.use(session({
+    secret: 'minhaChaveSecreta',
+    resave: false,
+    saveUninitialized: true
+}));
 server.use(morgan("dev"))
 server.use(express.json())
 

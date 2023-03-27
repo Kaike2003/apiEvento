@@ -11,8 +11,6 @@ const storage = multer.diskStorage({
         cb(null, "./public/upload/evento")
     },
 })
-
-
 export const upload = multer({storage})
 
 

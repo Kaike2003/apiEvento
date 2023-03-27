@@ -8,6 +8,8 @@ const routerOrganizador = Router()
 
 routerOrganizador.post(RoutesOrganizador.criarOrganizador, ControllerRoutesOrganizador.CreateOrg)
 
+routerOrganizador.post(RoutesOrganizador.loginOganizador, ControllerRoutesOrganizador.LoginOrganizador)
+
 // * Perfil
 
 routerOrganizador.get(RoutesOrganizador.atualizarInformacaoBasica, ControllerRoutesOrganizador.AtualizarInformacaoBasica)
@@ -18,29 +20,105 @@ routerOrganizador.get(RoutesOrganizador.sair, ControllerRoutesOrganizador.Sair)
 // * Evento
 
 
+// * Criar Evento
 routerOrganizador.post(
     RoutesOrganizador.criarEvento,
-    upload.single("foto"),
     ControllerRoutesOrganizador.CriarEvento)
-routerOrganizador.get(RoutesOrganizador.atualizarEvento, ControllerRoutesOrganizador.AtualizarEvento)
-routerOrganizador.post(RoutesOrganizador.criarBilhete, ControllerRoutesOrganizador.CriarBilhete)
-routerOrganizador.get(RoutesOrganizador.atualizarBilhete, ControllerRoutesOrganizador.AtualizarBilhete)
-routerOrganizador.get(RoutesOrganizador.historicoEvento, ControllerRoutesOrganizador.HistoricoEvento)
+
+// * Publicar Evento
+routerOrganizador.get(
+    RoutesOrganizador.publicarEvento,
+    ControllerRoutesOrganizador.PublicarEvento
+)
+
+// * Listar Evento
+routerOrganizador.get(
+    RoutesOrganizador.listarEvento,
+    ControllerRoutesOrganizador.ListarEventos)
+
+// *Adicionar Foto
+routerOrganizador.get(
+    RoutesOrganizador.adicionarFotoEvento,
+    upload.single("foto"),
+    ControllerRoutesOrganizador.AdicionarFotoEvento)
+
+// * Editar Evento
+routerOrganizador.get(
+    RoutesOrganizador.editarEvento,
+    ControllerRoutesOrganizador.EditarEvento)
 
 // * Palestrante
 
-routerOrganizador.post(RoutesOrganizador.criarPalestrante,
-    upload.single("foto"), ControllerRoutesOrganizador.CriarPalestrante)
-routerOrganizador.get(RoutesOrganizador.listarPalestrante, ControllerRoutesOrganizador.ListarPalestrante)
-routerOrganizador.delete(RoutesOrganizador.apagarPalestrante, ControllerRoutesOrganizador.ApagarPalestrante)
-routerOrganizador.get(RoutesOrganizador.atualizarPalestrante, ControllerRoutesOrganizador.AtualizarPalestrante)
+
+// * Adicionar foto palestrante
+routerOrganizador.get(
+    RoutesOrganizador.adicionarFotoPalestrante,
+    upload.single("foto"),
+    ControllerRoutesOrganizador.AdicionarFotoPalestrante)
+
+// * Criar palestrante
+routerOrganizador.post(
+    RoutesOrganizador.criarPalestrante,
+    ControllerRoutesOrganizador.CriarPalestrante)
+
+// * Apagar palestrante
+routerOrganizador.delete(
+    RoutesOrganizador.apagarPalestrante,
+    ControllerRoutesOrganizador.ApagarPalestrante)
+
+// * Atualizar palestrante
+routerOrganizador.get(
+    RoutesOrganizador.atualizarPalestrante,
+    ControllerRoutesOrganizador.AtualizarPalestrante)
+
+// * Listar palestrante
+routerOrganizador.get(
+    RoutesOrganizador.listaPalestrante, ControllerRoutesOrganizador.ListarPalestrante)
+
 
 // * Orador
 
-routerOrganizador.post(RoutesOrganizador.criarOrador, ControllerRoutesOrganizador.CriarOrador)
-routerOrganizador.get(RoutesOrganizador.listarOrador, ControllerRoutesOrganizador.ListarOradores)
-routerOrganizador.delete(RoutesOrganizador.apagarOrador, ControllerRoutesOrganizador.ApagarOrador)
-routerOrganizador.get(RoutesOrganizador.atualizarOrador, ControllerRoutesOrganizador.AtualizarOrador)
+// * Criar orador
+routerOrganizador.post(
+    RoutesOrganizador.criarOrador,
+    ControllerRoutesOrganizador.CriarOrador)
+
+// * Apagar orador
+routerOrganizador.delete(
+    RoutesOrganizador.apagarOrador,
+    ControllerRoutesOrganizador.ApagarOrador)
+
+// * Atualizar orador
+routerOrganizador.get(
+    RoutesOrganizador.atualizarOrador,
+    ControllerRoutesOrganizador.AtualizarOrador)
+
+// * Listar orador
+routerOrganizador.get(
+    RoutesOrganizador.listaOrador, ControllerRoutesOrganizador.ListarOrador)
+
+
+// * Bilhete
+
+// * Criar bilhete
+routerOrganizador.post(
+    RoutesOrganizador.criarBilhete,
+    ControllerRoutesOrganizador.CriarBilhete)
+
+// * Apagar bilhete
+routerOrganizador.delete(
+    RoutesOrganizador.apagarBilhete,
+    ControllerRoutesOrganizador.ApagarBilhete)
+
+// * Atualizar bilhete
+routerOrganizador.get(
+    RoutesOrganizador.atualizarBilhete,
+    ControllerRoutesOrganizador.AtualizarBilhete)
+
+// * Listar bilhete
+routerOrganizador.get(
+    RoutesOrganizador.listaBilhete,
+    ControllerRoutesOrganizador.ListarBilhete)
 
 
 

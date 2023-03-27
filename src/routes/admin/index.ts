@@ -7,10 +7,10 @@ import { RoutesAdmin } from "../enumRoutes";
 const routerAdmin = Router()
 
 
-routerAdmin.get(RoutesAdmin.loginAdmin, ControllerRoutesAdmin.Login)
+routerAdmin.post(RoutesAdmin.loginAdmin, ControllerRoutesAdmin.Login)
 routerAdmin.post(RoutesAdmin.post, ControllerRoutesAdmin.Create)
 routerAdmin.get(RoutesAdmin.listaAdministradores, ControllerRoutesAdmin.ListaAdministradores)
-routerAdmin.get(RoutesAdmin.eventosMarcados, ControllerRoutesAdmin.EventosMarcados)
+routerAdmin.get(RoutesAdmin.eventosPublicados, ControllerRoutesAdmin.EventosPublicados)
 routerAdmin.get(RoutesAdmin.participante, ControllerRoutesAdmin.Participante)
 routerAdmin.get(RoutesAdmin.organizador, ControllerRoutesAdmin.Organizador)
 routerAdmin.get(RoutesAdmin.informacaoBasica, ControllerRoutesAdmin.InformacaoBasica)

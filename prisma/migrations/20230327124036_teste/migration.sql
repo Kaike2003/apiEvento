@@ -57,6 +57,7 @@ CREATE TABLE `evento` (
     `hora` TIME NOT NULL,
     `dataInicio` DATE NOT NULL,
     `dataTermino` DATE NOT NULL,
+    `publicado` BOOLEAN NOT NULL DEFAULT false,
     `utilizadorId` INTEGER NOT NULL,
     `categoriaId` INTEGER NOT NULL,
     `at_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),

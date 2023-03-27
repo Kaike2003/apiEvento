@@ -47,7 +47,7 @@ model Categoria {
 }
 
 model Palestrante {
-  id   Int    @id @default(autoincrement())
+  id   Int     @id @default(autoincrement())
   nome String
   foto String?
   blog String
@@ -82,6 +82,7 @@ model Evento {
   hora        DateTime @db.Time()
   dataInicio  DateTime @db.Date()
   dataTermino DateTime @db.Date()
+  publicado   Boolean  @default(false)
 
   bilhete     Bilhete[]
   palestrante Palestrante_Evento[]

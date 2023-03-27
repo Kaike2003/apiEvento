@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 
-export const EventosMarcados = async (req: Request, res: Response) => {
+export const EventosPublicados = async (req: Request, res: Response) => {
 
     res.jsonp({
         "Informação": "Os eventos marcados que estarão na aplicação. Serão todos listados aqui.",

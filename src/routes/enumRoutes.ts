@@ -2,7 +2,7 @@ export const enum RoutesAdmin {
     loginAdmin = "/loginAdmin",
     post = "/create",
     listaAdministradores = "/administradores/listaAdministradores",
-    eventosMarcados = "/eventos/eventosMarcados",
+    eventosPublicados = "/eventos/eventosPublicados",
     participante = "/usuarios/participante",
     organizador = "/usuarios/organizador",
     informacaoBasica = "/perfil/informacao/",
@@ -72,6 +72,7 @@ export const enum RoutesParticipante {
 
 export const enum RoutesOrganizador {
     criarOrganizador = "/create",
+    loginOganizador = "/loginOrganizador",
 
     //* Perfil
 
@@ -80,24 +81,69 @@ export const enum RoutesOrganizador {
     atualizarInformacaoBasica = "/perfil/atualizarInformacaoBasica",
     sair = "/perfil/sair",
 
-    //* Evento
+    // * Evento
+
+    // * Criar evento
     criarEvento = "/evento/criarEvento",
+
+
+    // * Publicar evento
+    publicarEvento = "/evento/publicar/:id",
+
     atualizarEvento = "/evento/atualizarEvento",
-    criarBilhete = "/evento/criarBilhete",
-    atualizarBilhete = "/evento/atualizarBilhete",
+
+    // * Historico evento
     historicoEvento = "/evento/historico",
 
+    // * Listar evento
+    listarEvento = "/evento/lista",
+
+    // * Editar evento
+    editarEvento = "/evento/detalhe/editar/:id",
+
+    // * Adicionar foto evento
+    adicionarFotoEvento = "/evento/detalhe/editar/:id/foto",
+
+
     // * Palestrante
-    criarPalestrante = "/evento/palestrante",
-    atualizarPalestrante = "/evento/palestrante/atualizarPalestrante/:id",
-    apagarPalestrante = "/evento/palestrante/apagarPalestrante/:id",
-    listarPalestrante = "/evento/palestrante/todosPalestrante",
+
+    // * Adicionar foto palestrante
+    adicionarFotoPalestrante = "/evento/detalhe/editar/:id/palestrante/:idPalestrante/foto"
+    ,
+    // * Criar Palestrante
+    criarPalestrante = "/evento/detalhe/editar/:id/palestrante",
+    // * Apagar Palestrante
+    apagarPalestrante = "/evento/detalhe/editar/:id/palestrante/:idPalestrante",
+    // * Atualizar Palestrante
+    atualizarPalestrante = "/evento/detalhe/editar/:id/palestrante/:idPalestrante"
+    // * Listar Palestrante
+    , listaPalestrante = "/evento/detalhe/editar/:id/palestrante"
 
     // * Orador
-    criarOrador = "/evento/orador",
-    atualizarOrador = "/evento/orador/atualizarOrador/:id",
-    apagarOrador = "/evento/orador/apagarOrador/:id",
-    listarOrador = "/evento/orador/todosOrador",
+
+    // * Criar Orador
+    , criarOrador = "/evento/detalhe/editar/:id/orador",
+    // * Apagar Orador
+    apagarOrador = "/evento/detalhe/editar/:id/orador/:idOrador",
+    // * Atualizar Orador
+    atualizarOrador = "/evento/detalhe/editar/:id/orador/:idOrador"
+    // * Listar Orador
+    , listaOrador = "/evento/detalhe/editar/:id/orador"
+
+
+    // * Bilhete
+
+    // * Criar bilhete
+    , criarBilhete = "/evento/detalhe/editar/:id/bilhete",
+    // * Apagar bilhete
+    apagarBilhete = "/evento/detalhe/editar/:id/bilhete/:idBilhete",
+    // * Atualizar bilhete
+    atualizarBilhete = "/evento/detalhe/editar/:id/bilhete/:idBilhete"
+    // * Listar Orador
+    , listaBilhete = "/evento/detalhe/editar/:id/bilhete"
+
+
+
 
 
 }

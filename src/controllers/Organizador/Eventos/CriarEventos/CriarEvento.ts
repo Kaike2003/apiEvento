@@ -90,6 +90,7 @@ export const CriarEvento = async (req: Request, res: Response) => {
                                             dataTermino: new Date(`${dataTermino}`),
                                             categoriaId: categoriaId,
                                             utilizadorId: utilizadorId,
+                                            publicado: false
                                         }
                                     }).then((sucesso) => {
 
