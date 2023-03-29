@@ -1,18 +1,19 @@
 import { Request, Response } from "express";
 import { prisma } from "../../../prisma";
+import { QueryParams } from "../../../validation";
 
 
 export const CategoriaEvento = async (req: Request, res: Response) => {
 
-    const { idCategoria } = req.params
-    const idEventoCategoria: string = String(idCategoria)
+    const { idCategoria }: QueryParams = req.params
 
 
     const categoriaEvento = await prisma.evento.findMany({
         where: {
             publicado: true,
             banido: false,
-            categoriaId: idEventoCategoria
+            aprovado: true,
+            categoriaId: idCategoria
         },
         include: {
             categoria: {
@@ -22,9 +23,9 @@ export const CategoriaEvento = async (req: Request, res: Response) => {
                 }
             }
         }
-      
+
     }).then((sucesso) => {
-        res.json({ "Todos eventos": sucesso })
+        res.json({ "Todos eventos por categoria": sucesso })
     }).catch((error) => {
         res.json({ "Erro listar todos participantes": error })
     })

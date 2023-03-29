@@ -11,10 +11,10 @@ export const enum RoutesAdmin {
     sair = "/perfil/sair",
 
     // * Banir evento
-    banirEvento = "/eventos/banido/:id",
+    banirEvento = "/eventos/banido/:idEvento",
 
     // * Aprovar evento
-    aprovarEvento = "/eventos/aprovarEventos/:id",
+    aprovarEvento = "/eventos/aprovarEventos/:idEvento",
 
     // * Eventos a espera
     eventosAespera = "/eventos/eventosEspera",
@@ -54,7 +54,7 @@ export const enum RoutesParticipante {
     // * Filtro
 
     categoriaEvento = "/filtro/categoriaEvento/:idCategoria",
-    mes = "/filtro/mes",
+    mes = "/filtro/mes/:numeroData",
 
     // * Meus eventos
 
@@ -63,8 +63,12 @@ export const enum RoutesParticipante {
 
     // * Eventos
     eventosTodos = "/todosEventos",
-    eventosTopMes = "/eventosTopMes",
+
+    // * Visualizar
+    visualizarEvento = "/eventos/visualizarEvento/:idEvento",
+    visualiarPalestrante = "/eventos/visualizarPalestrante/:idEvento",
     eventosNovos = "/novosEventos",
+
 
     // * Tipo Evento
     tipoEvento = "/tipoEvento",
@@ -93,11 +97,11 @@ export const enum RoutesOrganizador {
     // * Evento
 
     // * Criar evento
-    criarEvento = "/evento/criarEvento/:id",
+    criarEvento = "/evento/criarEvento/:idUtilizador",
 
 
     // * Publicar evento
-    publicarEvento = "/evento/publicar/:id",
+    publicarEvento = "/evento/publicar/:idUtilizador/:idEvento",
 
     atualizarEvento = "/evento/atualizarEvento",
 
@@ -105,51 +109,51 @@ export const enum RoutesOrganizador {
     historicoEvento = "/evento/historico",
 
     // * Listar evento
-    listarEvento = "/evento/lista/:id",
+    listarEvento = "/evento/lista/:idUtilizador",
 
     // * Editar evento
-    editarEvento = "/evento/detalhe/editarEvento/:id/:idEvento",
+    editarEvento = "/evento/detalhe/editarEvento/:idUtilizador/:idEvento",
 
     // * Adicionar foto evento
-    adicionarFotoEvento = "/evento/detalhe/editar/:id/foto",
+    adicionarFotoEvento = "/evento/detalhe/editar/:idUtilizador/foto/:idEvento",
 
 
     // * Palestrante
 
     // * Adicionar foto palestrante
-    adicionarFotoPalestrante = "/evento/detalhe/editar/:id/palestrante/:idPalestrante/foto"
+    adicionarFotoPalestrante = "/evento/detalhe/editar/:idEvento/palestrante/:idPalestrante/foto"
     ,
     // * Criar Palestrante
-    criarPalestrante = "/evento/detalhe/editar/:id/palestrante",
+    criarPalestrante = "/evento/detalhe/editar/:idEvento/palestrante",
     // * Apagar Palestrante
-    apagarPalestrante = "/evento/detalhe/editar/:id/palestrante/:idPalestrante",
+    apagarPalestrante = "/evento/detalhe/editar/:idEvento/palestrante/:idPalestrante",
     // * Atualizar Palestrante
-    atualizarPalestrante = "/evento/detalhe/editar/:id/palestrante/:idPalestrante"
+    atualizarPalestrante = "/evento/detalhe/editar/:idEvento/palestrante/:idPalestrante"
     // * Listar Palestrante
-    , listaPalestrante = "/evento/detalhe/editar/:id/palestrante"
+    , listaPalestrante = "/evento/detalhe/editar/:idEvento/palestrante"
 
     // * Orador
 
     // * Criar Orador
-    , criarOrador = "/evento/detalhe/editar/:id/orador",
+    , criarOrador = "/evento/detalhe/editar/:idEvento/orador",
     // * Apagar Orador
-    apagarOrador = "/evento/detalhe/editar/:id/orador/:idOrador",
+    apagarOrador = "/evento/detalhe/editar/:idEvento/orador/:idOrador",
     // * Atualizar Orador
-    atualizarOrador = "/evento/detalhe/editar/:id/orador/:idOrador"
+    atualizarOrador = "/evento/detalhe/editar/:idEvento/orador/:idOrador"
     // * Listar Orador
-    , listaOrador = "/evento/detalhe/editar/:id/orador"
+    , listaOrador = "/evento/detalhe/editar/:idEvento/orador"
 
 
     // * Bilhete
 
     // * Criar bilhete
-    , criarBilhete = "/evento/detalhe/editar/:id/bilhete",
+    , criarBilhete = "/evento/detalhe/editar/:idEvento/bilhete",
     // * Apagar bilhete
-    apagarBilhete = "/evento/detalhe/editar/:id/bilhete/:idBilhete",
+    apagarBilhete = "/evento/detalhe/editar/:idEvento/bilhete/:idBilhete",
     // * Atualizar bilhete
-    atualizarBilhete = "/evento/detalhe/editar/:id/bilhete/:idBilhete"
+    atualizarBilhete = "/evento/detalhe/editar/:idEvento/bilhete/:idBilhete"
     // * Listar Orador
-    , listaBilhete = "/evento/detalhe/editar/:id/bilhete"
+    , listaBilhete = "/evento/detalhe/editar/:idEvento/bilhete"
 
 
 

@@ -1,12 +1,11 @@
 import { Request, Response } from "express";
 import { prisma } from "../../../../../prisma";
+import { QueryParams } from "../../../../../validation";
 
 
 export const AdicionarFotoPalestrante = async (req: Request, res: Response) => {
 
-    const { id, idPalestrante } = req.params
-    const idEvento: string = String(id)
-    const idFotoPalestrante: string = String(idPalestrante)
+    const { idEvento, idPalestrante }: QueryParams = req.params
     const foto = req.file?.filename
 
 
@@ -20,11 +19,11 @@ export const AdicionarFotoPalestrante = async (req: Request, res: Response) => {
         const verificarIdPalestrante = await prisma.palestrante.findFirst
             ({
                 where: {
-                    id: idFotoPalestrante
+                    id: idPalestrante
                 }
             })
 
-        if (verificarIdEventoExiste?.id === idEvento && verificarIdPalestrante?.id === idFotoPalestrante) {
+        if (verificarIdEventoExiste?.id === idEvento && verificarIdPalestrante?.id === idPalestrante) {
 
             const adicionarFotoPalestrante = await prisma.palestrante_Evento.update({
                 where: {
@@ -42,7 +41,15 @@ export const AdicionarFotoPalestrante = async (req: Request, res: Response) => {
             }).then((sucesso) => {
                 res.json({ "Foto adicionada com sucesso": sucesso })
             }).catch((error) => {
-                res.json(error)
+                res.json({
+                    error: {
+                        "code": "P2025",
+                        "clientVersion": "4.8.0",
+                        "meta": {
+                            "cause": "Nenhum registro 'Palestrante' foi encontrado para uma atualização aninhada na relação 'PalestranteToPalestrante_Evento'."
+                        }
+                    }
+                })
             })
 
 
@@ -50,7 +57,7 @@ export const AdicionarFotoPalestrante = async (req: Request, res: Response) => {
 
             res.json({
                 "Verifique o id do evento": idEvento,
-                "Verifique o id do palestrante": idFotoPalestrante
+                "Verifique o id do palestrante": idPalestrante
             })
 
         }

@@ -1,16 +1,13 @@
 import { Request, Response } from "express";
 import { prisma } from "../../../../../prisma";
+import { PalestranteType, QueryParams } from "../../../../../validation";
 prisma
 
 export const AtualizarPalestrante = async (req: Request, res: Response) => {
 
-
-
-    const { id, idPalestrante } = req.params
-    const idEvento: string = String(id)
-    const idPalestranteAtualizar: string = String(idPalestrante)
-
-    const { nome, blog } = req.body
+    const { idEvento, idPalestrante } : QueryParams = req.params
+  
+    const { nome, blog } : PalestranteType = req.body
 
 
 
@@ -22,12 +19,12 @@ export const AtualizarPalestrante = async (req: Request, res: Response) => {
 
     const verificarIdPalestranteExiste = await prisma.palestrante.findFirst({
         where: {
-            id: idPalestranteAtualizar
+            id: idPalestrante
         }
     })
 
     try {
-        if (verificarIdEventoExiste?.id === idEvento && verificarIdPalestranteExiste?.id === idPalestranteAtualizar) {
+        if (verificarIdEventoExiste?.id === idEvento && verificarIdPalestranteExiste?.id === idPalestrante) {
 
             const adicionarFotoPalestrante = await prisma.palestrante_Evento.update({
                 where: {
@@ -54,7 +51,7 @@ export const AtualizarPalestrante = async (req: Request, res: Response) => {
 
             res.json({
                 "Verifique o id do evento": idEvento,
-                "Verifique o id do palestrante.": idPalestranteAtualizar
+                "Verifique o id do palestrante.": idPalestrante
             })
 
         }

@@ -1,11 +1,10 @@
 import { Request, Response } from "express"
 import { prisma } from "../../../../../prisma"
+import { QueryParams } from "../../../../../validation"
 
 export const ApagarBilhete = async (req: Request, res: Response) => {
 
-    const { id, idBilhete } = req.params
-    const idEvento: string = String(id)
-    const idBilheteApagar: string = String(idBilhete)
+    const { idEvento, idBilhete }: QueryParams = req.params
 
 
     const verificarIdEventoExiste = await prisma.evento.findFirst({
@@ -16,28 +15,26 @@ export const ApagarBilhete = async (req: Request, res: Response) => {
 
     const verificarIdBilheteExiste = await prisma.bilhete.findFirst({
         where: {
-            id: idBilheteApagar
+            id: idBilhete,
         }
     })
 
-
     try {
-        if (verificarIdEventoExiste?.id === idEvento && verificarIdBilheteExiste?.id === idBilheteApagar) {
-
+        if (verificarIdEventoExiste?.id === idEvento && verificarIdBilheteExiste?.id === idBilhete) {
 
             const evento = await prisma.evento.findFirst({
                 where: {
                     id: idEvento,
                     bilhete: {
-                        every: {
-                            id: idBilheteApagar
+                        some: {
+                            id: idBilhete
                         }
                     }
                 },
                 include: {
                     bilhete: {
                         where: {
-                            id: idBilheteApagar
+                            id: idBilhete
                         }
                     }
                 }
@@ -45,12 +42,13 @@ export const ApagarBilhete = async (req: Request, res: Response) => {
             }).then((sucesso) => {
 
                 if (null === sucesso) {
+                    // res.json(sucesso)
                     res.json("Não pode excluir um bilhete. Que não tenha um relacionamento com um evento.")
                 } else {
 
                     const apagarBilhete = prisma.bilhete.delete({
                         where: {
-                            id: idBilheteApagar
+                            id: idBilhete
                         }
                     }).then((sucesso) => {
                         res.json({ "Bilhete apagado com sucesso": sucesso })
@@ -68,7 +66,7 @@ export const ApagarBilhete = async (req: Request, res: Response) => {
         } else {
             res.status(400).json({
                 "Verifique o id do evento": idEvento,
-                "Verifique o Id do bilhete": idBilheteApagar
+                "Verifique o Id do bilhete": idBilhete
             })
         }
 

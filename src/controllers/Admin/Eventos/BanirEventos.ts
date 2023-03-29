@@ -1,13 +1,14 @@
 import { Request, Response } from "express";
 import { prisma } from "../../../prisma";
+import { QueryParams } from "../../../validation";
 
 
 export const BanirEventos = async (req: Request, res: Response) => {
 
-    const { id } = req.params
-    const idEvento: string = String(id)
+    const { idEvento }: QueryParams = req.params
 
     try {
+
         const verificarIdEventoExiste = await prisma.evento.findFirst({
             where: {
                 id: idEvento
@@ -22,7 +23,8 @@ export const BanirEventos = async (req: Request, res: Response) => {
                     id: idEvento
                 },
                 data: {
-                    banido: true
+                    banido: true,
+                    estado: "CANCELADO"
                 }
             }).then((sucesso) => {
                 res.json({ "O evento com id Foi banido com sucesso.": sucesso })

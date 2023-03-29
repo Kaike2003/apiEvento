@@ -1,11 +1,11 @@
 import { Request, Response } from "express"
 import { prisma } from "../../../../../prisma"
+import { QueryParams } from "../../../../../validation"
 
 export const ApagarPalestrante = async (req: Request, res: Response) => {
 
-    const { id, idPalestrante } = req.params
-    const idEvento: string = String(id)
-    const idPalestranteApagar: string = String(idPalestrante)
+    const { idEvento, idPalestrante } : QueryParams = req.params
+   
 
 
     const verificarIdEventoExiste = await prisma.evento.findFirst({
@@ -16,17 +16,17 @@ export const ApagarPalestrante = async (req: Request, res: Response) => {
 
     const verificarIdPalestranteExiste = await prisma.palestrante.findFirst({
         where: {
-            id: idPalestranteApagar
+            id: idPalestrante
         }
     })
 
     try {
-        if (verificarIdEventoExiste?.id === idEvento && verificarIdPalestranteExiste?.id === idPalestranteApagar) {
+        if (verificarIdEventoExiste?.id === idEvento && verificarIdPalestranteExiste?.id === idPalestrante) {
 
             const apagarRelacaoPalestranteID = await prisma.palestrante_Evento.delete({
                 where: {
                     palestranteId_eventoId: {
-                        palestranteId: idPalestranteApagar,
+                        palestranteId: idPalestrante,
                         eventoId: idEvento
                     }
                 }
@@ -35,7 +35,7 @@ export const ApagarPalestrante = async (req: Request, res: Response) => {
                 try {
                     const apagarPalestrante = prisma.palestrante.delete({
                         where: {
-                            id: idPalestranteApagar,
+                            id: idPalestrante,
                         }
                     }).then((sucesso) => {
                         res.status(201).json({ "Palestrante apagado com sucesso": sucesso })
@@ -61,7 +61,7 @@ export const ApagarPalestrante = async (req: Request, res: Response) => {
         } else {
             res.status(400).json({
                 "Verifique o id do evento": idEvento,
-                "Verifique o Id do palestrante": idPalestranteApagar
+                "Verifique o Id do palestrante": idPalestrante
             })
         }
 

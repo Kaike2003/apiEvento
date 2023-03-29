@@ -29,7 +29,9 @@ routerParticipante.get(RoutesParticipante.historico, ControllerParticipante.Bilh
 
 routerParticipante.get(RoutesParticipante.eventosNovos, ControllerParticipante.EventosNovos)
 routerParticipante.get(RoutesParticipante.eventosTodos, ControllerParticipante.EventosTodos)
-routerParticipante.get(RoutesParticipante.eventosTopMes, ControllerParticipante.EventosTopMes)
+routerParticipante.get(RoutesParticipante.visualizarEvento, ControllerParticipante.VisualizarEvento)
+routerParticipante.get(RoutesParticipante.visualiarPalestrante,
+    ControllerParticipante.VisualiarPalestrante)
 
 // * Tipo Evento
 

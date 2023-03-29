@@ -1,12 +1,11 @@
 import { Request, Response } from "express";
 import { string } from "zod";
 import { prisma } from "../../../../prisma";
-import { EventoType, EventoOmit, Hora_Data_Validacao, Validacao, VerificaoExiste_Evento, } from "../../../../validation";
+import { EventoType, EventoOmit, Hora_Data_Validacao, Validacao, VerificaoExiste_Evento, QueryParams, } from "../../../../validation";
 
 export const CriarEvento = async (req: Request, res: Response) => {
 
-    const { id } = req.params
-    const idUtilizador: string = String(id)
+    const { idUtilizador }: QueryParams = req.params
 
     const {
         nome,

@@ -1,16 +1,16 @@
 import { Request, Response } from "express";
 import { prisma } from "../../../../../prisma";
+import { OradorType, QueryParams } from "../../../../../validation";
 prisma
 
 export const AtualizarOrador = async (req: Request, res: Response) => {
 
 
 
-    const { id, idOrador } = req.params
-    const idEvento: string = String(id)
-    const idOradorAtualizar: string = String(idOrador)
+    const { idEvento, idOrador }: QueryParams = req.params
 
-    const { nome } = req.body
+
+    const { nome }: OradorType = req.body
 
     const verificarIdEventoExiste = await prisma.evento.findFirst({
         where: {
@@ -20,13 +20,13 @@ export const AtualizarOrador = async (req: Request, res: Response) => {
 
     const verificarIdOradorExiste = await prisma.orador.findFirst({
         where: {
-            id: idOradorAtualizar
+            id: idOrador
         }
     })
 
 
     try {
-        if (verificarIdEventoExiste?.id === idEvento && verificarIdOradorExiste?.id === idOradorAtualizar) {
+        if (verificarIdEventoExiste?.id === idEvento && verificarIdOradorExiste?.id === idOrador) {
 
             const atualizarOradorID = await prisma.orador_Evento.update({
                 where: {
@@ -40,6 +40,10 @@ export const AtualizarOrador = async (req: Request, res: Response) => {
                             nome: nome,
                         }
                     }
+                },
+                select: {
+                    orador: true,
+                    evento: true
                 }
             }).then((sucesso) => {
                 res.status(200).json({ "Atualização feita com sucesso": sucesso })
@@ -52,7 +56,7 @@ export const AtualizarOrador = async (req: Request, res: Response) => {
 
             res.json({
                 "Verifique o id do evento": idEvento,
-                "Verifique o id do palestrante.": idOradorAtualizar
+                "Verifique o id do palestrante.": idOrador
             })
 
         }

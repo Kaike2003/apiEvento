@@ -10,9 +10,6 @@ export const ListaAdministradores = async (req: Request, res: Response) => {
         const listaAdmin = await prisma.utilizador.findMany({
             where: {
                 utilizador: "ADMIN"
-            }, select: {
-                nome: true,
-                email: true
             }
         }).then((sucesso) => {
             res.status(200).json(sucesso)

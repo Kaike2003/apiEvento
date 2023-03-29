@@ -195,6 +195,12 @@ export const BilheteSchema = z.object({
     })
         .min(3, { message: "O nome deve conter 2 ou mais caracteres" })
         .max(30, { message: "O nome deve conter 30 ou menos caracteres" }),
+    tipoEvento: z.string({
+        required_error: "O id do tipo do evento é obrigátorio",
+        invalid_type_error: "O id do tipo deve ser uma string"
+    })
+        .min(3, { message: "O id do tipo evento deve conter 2 ou mais caracteres" })
+        .max(300, { message: "O id do tipo evento deve conter 30 ou menos caracteres" }),
     quantidade: z.number({
         required_error: "A quantidade é obrigátorio",
         invalid_type_error: "A quantidade deve ser um inteiro"
@@ -203,6 +209,14 @@ export const BilheteSchema = z.object({
         required_error: "O preço é obrigátorio",
         invalid_type_error: "O preço deve ser um inteiro"
     }).int({ message: "O preço deve ser inteiro" }).positive({ message: "O preço deve ser com números positivos" }),
+    horaInicio: z.date({
+        required_error: "A hora de inicico é obrigatória",
+        invalid_type_error: "A hora de inicio deve ser um inteiro"
+    }),
+    horaTermino: z.date({
+        required_error: "A hora de termino é obrigatória",
+        invalid_type_error: "A hora de termino deve ser um inteiro"
+    }),
     dataInicio: z.date({
         required_error: "O data de inicio é obrigatório",
         invalid_type_error: "A data deve ser uma data"
@@ -329,6 +343,16 @@ export type Validacao = {
     estado?: string,
     idUtilizador?: string,
     categoriaId?: string
+}
+
+export type QueryParams = {
+    idEvento?: string
+    idBilhete?: string
+    idOrador?: string
+    idPalestrante?: string
+    idUtilizador?: string
+    idCategoria?: string
+    numeroData?: number
 }
 
 

@@ -1,11 +1,12 @@
+import { Evento } from "@prisma/client"
 import { Request, Response } from "express"
 import { prisma } from "../../../../../prisma"
+import { BilheteOmit, BilheteType, QueryParams } from "../../../../../validation"
 
 
 export const CriarBilhete = async (req: Request, res: Response) => {
 
-    const { id } = req.params
-    const idEvento: string = String(id)
+    const { idEvento }: QueryParams = req.params
 
     const {
         nome,
@@ -16,48 +17,113 @@ export const CriarBilhete = async (req: Request, res: Response) => {
         dataTermino,
         quantidade,
         tipoEvento
-    } = req.body
+    }: BilheteType = req.body
+
+    const result = BilheteOmit.parseAsync({
+        nome: nome,
+        preco: preco,
+        quantidade: quantidade,
+        tipoEvento: tipoEvento,
+        dataInicio: new Date(dataInicio),
+        dataTermino: new Date(dataTermino),
+        horaInicio: new Date(`${dataInicio} ${horaInicio}`),
+        horaTermino: new Date(`${dataTermino} ${horaTermino}`),
+    })
+
+    const valores_Req_Body: (String | Number | Date)[] = [
+        nome,
+        preco,
+        horaInicio,
+        horaTermino,
+        dataInicio,
+        dataTermino,
+        quantidade,
+        tipoEvento]
 
 
-    const result: (String | Number)[] = [nome, quantidade, preco, dataInicio, dataTermino, tipoEvento, idEvento]
-
-    const verificarIdEvento = await prisma.evento.findFirst({
+    const verificarIdEvento: Evento | null = await prisma.evento.findFirst({
         where: {
             id: idEvento
         }
     })
 
-    if (verificarIdEvento?.id === idEvento) {
+    if (
+        verificarIdEvento?.id === idEvento
+        &&
+        verificarIdEvento.banido === false
+    ) {
 
-        const criarBilhete = await prisma.bilhete.create({
-            data: {
-                nome: nome,
-                preco: preco,
-                horaInicio: new Date(`${dataInicio} ${horaInicio}`),
-                horaTermino: new Date(`${dataTermino} ${horaTermino}`),
-                dataInicio: new Date(dataInicio),
-                dataTermino: new Date(dataTermino),
-                quantidade: quantidade,
-                tipoEvento: {
-                    connect: {
-                        id: tipoEvento
-                    }
-                },
-                evento: {
-                    connect: {
-                        id: (idEvento)
+        if (
+            verificarIdEvento.dataInicio.getDate() > (await result).dataInicio.getDate()
+            &&
+            verificarIdEvento.dataInicio.getDate() >= (await result).dataTermino.getDate()
+            &&
+            verificarIdEvento.dataInicio.getDate() !== (await result).dataInicio.getDate()
+            && (await result).dataTermino > (await result).dataInicio
+            && (await result).dataInicio.getMonth() <= verificarIdEvento.dataInicio.getMonth()
+            && (await result).dataTermino.getMonth() <= verificarIdEvento.dataTermino.getMonth()
+        ) {
+
+            const criarBilhete = await prisma.bilhete.create({
+                data: {
+                    nome: (await result).nome,
+                    preco: (await result).preco,
+                    horaInicio: (await result).horaInicio,
+                    horaTermino: (await result).horaTermino,
+                    dataInicio: (await result).dataInicio,
+                    dataTermino: (await result).dataTermino,
+                    quantidade: (await result).quantidade,
+                    tipoEvento: {
+                        connect: {
+                            id: (await result).tipoEvento
+                        }
+                    },
+                    evento: {
+                        connect: {
+                            id: (idEvento)
+                        }
                     }
                 }
-            }
-        }).then((sucesso) => {
-            res.status(201).json({ "Bilhete criado com sucesso": sucesso })
-        }).catch((error) => {
-            res.status(400).json({ "Bilhete erro": error, "Resultado": result })
-        })
+            }).then((sucesso) => {
+                res.status(201).json({ "Bilhete criado com sucesso": sucesso })
+            }).catch((error) => {
+                res.status(400).json({ "Bilhete erro": error, "Resultado": result, valores_Req_Body })
+            })
+
+
+
+        } else {
+            res.json({
+                "Possiveis erros": {
+                    "Valores vindo do body": valores_Req_Body,
+                    "Data inicio evento": `${verificarIdEvento.dataInicio.getDate()}/${verificarIdEvento.dataInicio.getMonth()}/${verificarIdEvento.dataInicio.getFullYear()}`,
+                    "Data termino evento": `${verificarIdEvento.dataTermino.getDate()}/${verificarIdEvento.dataTermino.getMonth()}/${verificarIdEvento.dataTermino.getFullYear()}`,
+                    "Data inicio bilhete": (await result).dataInicio.getDate(),
+                    "Data termino bilhete": (await result).dataTermino.getDate(),
+
+                    "Teste de validação": verificarIdEvento.dataInicio.getDate() > (await result).dataInicio.getDate()
+                        &&
+                        verificarIdEvento.dataInicio.getDate() >= (await result).dataTermino.getDate()
+                        &&
+                        verificarIdEvento.dataInicio.getDate() !== (await result).dataInicio.getDate()
+                        && (await result).dataTermino > (await result).dataInicio
+                }
+
+            })
+
+        }
+
 
 
     } else {
-        res.json({ "Id não existe ou evento não existe": idEvento })
+        if (!verificarIdEvento) {
+            res.json({ "Evento nulo kk": verificarIdEvento })
+        } else {
+            res.json({
+                "Id não existe ou evento não existe": idEvento,
+            })
+
+        }
     }
 
 }

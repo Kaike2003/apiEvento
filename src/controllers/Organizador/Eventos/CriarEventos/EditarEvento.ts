@@ -2,7 +2,7 @@ import { Evento, Utilizador } from "@prisma/client"
 import { Request, Response } from "express"
 import { get } from "http"
 import { prisma } from "../../../../prisma"
-import { EventoType, EventoOmit, VerificaoExiste_Evento, } from "../../../../validation";
+import { EventoType, EventoOmit, VerificaoExiste_Evento, QueryParams, } from "../../../../validation";
 
 
 
@@ -33,9 +33,8 @@ export const EditarEvento = async (req: Request, res: Response) => {
 
 
 
-    const { id, idEvento } = req.params
-    const idUtilizador: string = String(id)
-    const idevento: string = String(idEvento)
+    const { idUtilizador, idEvento }: QueryParams = req.params
+    
 
     const {
         nome,
@@ -68,7 +67,7 @@ export const EditarEvento = async (req: Request, res: Response) => {
 
     const verificarIdEventoExiste: Evento | null = await prisma.evento.findFirst({
         where: {
-            id: idevento,
+            id: idEvento,
         }
     })
 
@@ -94,7 +93,7 @@ export const EditarEvento = async (req: Request, res: Response) => {
 
 
                 if (
-                    verificarIdEventoExiste?.id === idevento &&
+                    verificarIdEventoExiste?.id === idEvento &&
                     verificarIdUtilizadorExiste?.utilizador === "ORGANIZADOR" && verificarIdEventoExiste.banido === false
                 ) {
 
@@ -105,7 +104,7 @@ export const EditarEvento = async (req: Request, res: Response) => {
                         include: {
                             evento: {
                                 where: {
-                                    id: idevento
+                                    id: idEvento
                                 }
                             }
                         }
@@ -121,7 +120,7 @@ export const EditarEvento = async (req: Request, res: Response) => {
 
                             const atualizarBilhete = prisma.evento.update({
                                 where: {
-                                    id: idevento
+                                    id: idEvento
                                 },
                                 data: {
                                     nome: result.nome,
@@ -155,7 +154,7 @@ export const EditarEvento = async (req: Request, res: Response) => {
 
                 } else {
                     res.status(400).json({
-                        "Verifique o id do evento ou seu evento foi banido da aplicação.": idevento,
+                        "Verifique o id do evento ou seu evento foi banido da aplicação.": idEvento,
                         "Verifique o Id do utilizador": idUtilizador
                     })
                 }

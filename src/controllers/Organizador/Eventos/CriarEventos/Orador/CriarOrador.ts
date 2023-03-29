@@ -1,13 +1,15 @@
 import { Request, Response } from "express"
 import { prisma } from "../../../../../prisma"
+import { OradorType, QueryParams } from "../../../../../validation"
 
 
 export const CriarOrador = async (req: Request, res: Response) => {
 
 
-    const { id } = req.params
-    const idEvento: string = String(id)
-    const { nome } = req.body
+    const { idEvento }: QueryParams = req.params
+    const { nome }: OradorType = req.body
+
+    
     const verificarIdEvento = await prisma.evento.findFirst({
         where: {
             id: idEvento

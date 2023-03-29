@@ -22,7 +22,7 @@ export const Create = async (req: Request, res: Response) => {
             palavraPasse: await Password(palavraPasse),
             email: email,
             localizacao: localizacao,
-            dataNascimento: dataNascimento,
+            dataNascimento: new Date(dataNascimento),
             telefone: telefone
         })
 

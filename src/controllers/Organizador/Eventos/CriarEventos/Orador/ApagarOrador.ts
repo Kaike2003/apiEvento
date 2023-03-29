@@ -1,12 +1,10 @@
 import { Request, Response } from "express"
 import { prisma } from "../../../../../prisma"
+import { QueryParams } from "../../../../../validation"
 
 export const ApagarOrador = async (req: Request, res: Response) => {
 
-    const { id, idOrador } = req.params
-    const idEvento: string = String(id)
-    const idOradorApagar: string = String(idOrador)
-
+    const { idEvento, idOrador }: QueryParams = req.params
 
     const verificarIdEventoExiste = await prisma.evento.findFirst({
         where: {
@@ -14,28 +12,28 @@ export const ApagarOrador = async (req: Request, res: Response) => {
         }
     })
 
-    const verificarIdOradorExiste = await prisma.palestrante.findFirst({
+    const verificarIdOradorExiste = await prisma.orador.findFirst({
         where: {
-            id: idOradorApagar
+            id: idOrador
         }
     })
 
     try {
-        if (verificarIdEventoExiste?.id === idEvento && verificarIdOradorExiste?.id === idOradorApagar) {
+        if (verificarIdEventoExiste?.id === idEvento && verificarIdOradorExiste?.id === idOrador) {
 
             const apagarRelacaoOradorID = await prisma.orador_Evento.delete({
                 where: {
                     oradorId_eventoId: {
-                        oradorId: idOradorApagar,
+                        oradorId: idOrador,
                         eventoId: idEvento
                     }
                 }
             }).then((sucesso) => {
 
                 try {
-                    const apagarPalestrante = prisma.orador.delete({
+                    const apagarOrador = prisma.orador.delete({
                         where: {
-                            id: idOradorApagar,
+                            id: idOrador,
                         }
                     }).then((sucesso) => {
                         res.status(201).json({ "Orador apagado com sucesso": sucesso })
@@ -61,7 +59,7 @@ export const ApagarOrador = async (req: Request, res: Response) => {
         } else {
             res.status(400).json({
                 "Verifique o id do evento": idEvento,
-                "Verifique o Id do orador": idOradorApagar
+                "Verifique o Id do orador": idOrador
             })
         }
 

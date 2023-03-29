@@ -9,7 +9,8 @@ export const EventosTodos = async (req: Request, res: Response) => {
     const listarTodosEventos = await prisma.evento.findMany({
         where: {
             publicado: true,
-            banido: false
+            banido: false,
+            aprovado: true,
         }
     }).then((sucesso) => {
         res.json({ "Todos eventos": sucesso })

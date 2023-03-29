@@ -24,7 +24,8 @@ import * as bilheteHistorico from "./MeusEventos/BilheteHistorico"
 // * Eventos
 
 import * as eventosTodos from "./TodosEventoVermais/EventosTodos"
-import * as eventosTopMes from "./EventosTopMesVermais/EventosTopMes"
+import * as visualizarEvento from "./Visualizar/VisualizarEvento"
+import * as visualizarPalestrante from "./Visualizar/VisualizarPalestrante"
 import * as eventosNovos from "./NovosEventosVermais/EventosNovos"
 
 // * Tipo evento
@@ -33,7 +34,7 @@ import * as tipoEventoDetalhe from "./TipoEvento/TipoEventoDetalhe"
 
 // * Bilhete e Compra
 import * as bilhete from "./TipoEvento/Bilhete/Bilhete"
-import * as compra  from "./TipoEvento/Bilhete/Compra/Compra"
+import * as compra from "./TipoEvento/Bilhete/Compra/Compra"
 
 
 export const ControllerParticipante = {
@@ -55,7 +56,8 @@ export const ControllerParticipante = {
     ...bilheteHistorico,
     // * Eventos
     ...eventosTodos,
-    ...eventosTopMes,
+    ...visualizarEvento,
+    ...visualizarPalestrante,
     ...eventosNovos,
     // * Tipo Evento
     ...tipoEvento,

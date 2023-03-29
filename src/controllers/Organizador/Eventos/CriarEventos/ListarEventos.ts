@@ -1,15 +1,14 @@
 import { Utilizador } from "@prisma/client";
 import { Request, Response } from "express";
 import { prisma } from "../../../../prisma";
+import { QueryParams } from "../../../../validation";
 
 
 export const ListarEventos = async (req: Request, res: Response) => {
 
 
 
-    const { id } = req.params
-    const idUtilizador: string = String(id)
-
+    const { idUtilizador }: QueryParams = req.params
 
     const verificarIdUtilizadorExiste: Utilizador | null = await prisma.utilizador.findFirst({
         where: {
