@@ -2,13 +2,22 @@ export const enum RoutesAdmin {
     loginAdmin = "/loginAdmin",
     post = "/create",
     listaAdministradores = "/administradores/listaAdministradores",
-    eventosPublicados = "/eventos/eventosPublicados",
+    eventosPublicados = "/eventos/publicados",
     participante = "/usuarios/participante",
     organizador = "/usuarios/organizador",
     informacaoBasica = "/perfil/informacao/",
     atualizarPalavraPasse = "/perfil/atualizarPalavraPasse",
     atualizarInformacaoBasica = "/perfil/atualizarInformacaoBasica",
     sair = "/perfil/sair",
+
+    // * Banir evento
+    banirEvento = "/eventos/banido/:id",
+
+    // * Aprovar evento
+    aprovarEvento = "/eventos/aprovarEventos/:id",
+
+    // * Eventos a espera
+    eventosAespera = "/eventos/eventosEspera",
 
     // * Categoria
     criarCategoria = "/categoria",
@@ -44,7 +53,7 @@ export const enum RoutesParticipante {
 
     // * Filtro
 
-    categoriaEvento = "/filtro/categoriaEvento",
+    categoriaEvento = "/filtro/categoriaEvento/:idCategoria",
     mes = "/filtro/mes",
 
     // * Meus eventos
@@ -84,7 +93,7 @@ export const enum RoutesOrganizador {
     // * Evento
 
     // * Criar evento
-    criarEvento = "/evento/criarEvento",
+    criarEvento = "/evento/criarEvento/:id",
 
 
     // * Publicar evento
@@ -96,10 +105,10 @@ export const enum RoutesOrganizador {
     historicoEvento = "/evento/historico",
 
     // * Listar evento
-    listarEvento = "/evento/lista",
+    listarEvento = "/evento/lista/:id",
 
     // * Editar evento
-    editarEvento = "/evento/detalhe/editar/:id",
+    editarEvento = "/evento/detalhe/editarEvento/:id/:idEvento",
 
     // * Adicionar foto evento
     adicionarFotoEvento = "/evento/detalhe/editar/:id/foto",

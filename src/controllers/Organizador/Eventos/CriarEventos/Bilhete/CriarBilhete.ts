@@ -5,8 +5,18 @@ import { prisma } from "../../../../../prisma"
 export const CriarBilhete = async (req: Request, res: Response) => {
 
     const { id } = req.params
-    const idEvento: number = Number(id)
-    const { nome, quantidade, preco, dataInicio, dataTermino, tipoEvento } = req.body
+    const idEvento: string = String(id)
+
+    const {
+        nome,
+        preco,
+        horaInicio,
+        horaTermino,
+        dataInicio,
+        dataTermino,
+        quantidade,
+        tipoEvento
+    } = req.body
 
 
     const result: (String | Number)[] = [nome, quantidade, preco, dataInicio, dataTermino, tipoEvento, idEvento]
@@ -23,12 +33,14 @@ export const CriarBilhete = async (req: Request, res: Response) => {
             data: {
                 nome: nome,
                 preco: preco,
+                horaInicio: new Date(`${dataInicio} ${horaInicio}`),
+                horaTermino: new Date(`${dataTermino} ${horaTermino}`),
                 dataInicio: new Date(dataInicio),
                 dataTermino: new Date(dataTermino),
                 quantidade: quantidade,
                 tipoEvento: {
                     connect: {
-                        id: Number(tipoEvento)
+                        id: tipoEvento
                     }
                 },
                 evento: {

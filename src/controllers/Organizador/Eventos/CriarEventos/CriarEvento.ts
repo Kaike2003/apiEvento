@@ -1,175 +1,128 @@
 import { Request, Response } from "express";
+import { string } from "zod";
 import { prisma } from "../../../../prisma";
-import { EventoType, EventoOmit, Hora_Data_Validacao, Validacao, VerificaoExiste_Evento } from "../../../../validation";
-
+import { EventoType, EventoOmit, Hora_Data_Validacao, Validacao, VerificaoExiste_Evento, } from "../../../../validation";
 
 export const CriarEvento = async (req: Request, res: Response) => {
 
-    const { nome, descricao, localizacao, hora, foto, dataTermino, dataInicio }: EventoType = req.body
+    const { id } = req.params
+    const idUtilizador: string = String(id)
 
-    const { estado, utilizadorId, categoriaId }: Validacao = req.body
+    const {
+        nome,
+        descricao,
+        dataInicio,
+        dataTermino,
+        horaInicio,
+        horaTermino,
+        foto,
+        provincia,
+        municipio,
+        bairro,
+        categoriaId
+    }: EventoType = req.body
 
-    const valor_Req_Body = [nome, categoriaId, utilizadorId, descricao, localizacao, hora, dataInicio, dataTermino]
+    const result = EventoOmit.parse({
+        nome: nome,
+        descricao: descricao,
+        dataInicio: new Date(dataInicio),
+        dataTermino: new Date(dataTermino),
+        horaInicio: new Date(`${dataInicio} ${horaInicio}`),
+        horaTermino: new Date(`${dataTermino} ${horaTermino}`),
+        foto: "image.png",
+        provincia: provincia,
+        municipio: municipio,
+        bairro: bairro,
+        categoriaId: categoriaId
+    })
 
-    const hora_Data_Validacao: Hora_Data_Validacao = {
-        horaInicio: "00:00:00",
-        horaTermino: "23:59:59",
-        dataValidaAnual: "2023/12/31",
-        horaEvento: new Date(`${dataInicio} ${hora}`)
+    const hora_Validacao: Hora_Data_Validacao = {
+        horaInicio: new Date(`${dataInicio} ${"00:00:00"}`).getHours(),
+        horaTermino: new Date(`${dataInicio} ${"23:00:00"}`).getHours()
     }
-
-    const verificaoExiste_evento: VerificaoExiste_Evento = {
-        ExisteCategoria: await prisma.categoria.count(),
-        ExisteTipoBilhete: await prisma.tipoBilhete.count(),
-        ExisteUtilizador: await prisma.utilizador.count(),
-        ExisteUtilizadorId: await prisma.utilizador.findFirst({
-            where: {
-                id: utilizadorId
-            }
-        }),
-        ExistEvento: await prisma.evento.findFirst({
-            where: {
-                nome: nome
-            }
-        })
-    }
-
-
-
-    // * Validação da data e hora, antes mesmo da valicação do zod. kk
 
     try {
 
-        if (new Date(dataInicio) >= new Date() && new Date(dataInicio) <= new Date(hora_Data_Validacao.dataValidaAnual) && new Date(dataInicio) <= new Date(dataTermino)) {
+        const verificarUtilizadorExiste = await prisma.utilizador.findFirst({
+            where: {
+                id: idUtilizador
+            }
+        })
 
-            console.log({
-                "Informação": "A data de inicio está certa.",
-                "Data": new Date(dataInicio)
+        if (
+            verificarUtilizadorExiste?.id === idUtilizador
+            &&
+            verificarUtilizadorExiste?.utilizador === "ORGANIZADOR"
+            &&
+            result.dataInicio.getDate() === result.dataTermino.getDate()
+            &&
+            result.dataInicio.getMonth() === result.dataTermino.getMonth()
+            &&
+            hora_Validacao.horaInicio <= result.horaInicio.getHours()
+            &&
+            hora_Validacao.horaTermino >= result.horaTermino.getHours()
+            && hora_Validacao.horaInicio <= result.horaTermino.getHours()
+            &&
+            result.horaInicio.getHours() <= result.horaTermino.getHours()
+        ) {
+
+            const criarEvento: void = await prisma.evento.create({
+                data: {
+                    nome: result.nome,
+                    descricao: result.descricao,
+                    dataInicio: result.dataInicio,
+                    dataTermino: result.dataTermino,
+                    estado: "DESPONIVEL",
+                    horaInicio: result.horaInicio,
+                    horaTermino: result.horaTermino,
+                    provincia: result.provincia,
+                    municipio: result.municipio,
+                    bairro: bairro,
+                    banido: false,
+                    publicado: false,
+                    aprovado: false,
+                    foto: "imagem",
+                    utilizadorId: idUtilizador,
+                    categoriaId: categoriaId
+                }
+            }).then((sucesso) => {
+                res.json(sucesso)
+            }).catch((error) => {
+                res.json(error)
             })
 
-            if (new Date(dataTermino) >= new Date() &&
-                new Date(dataTermino) <= new Date(hora_Data_Validacao.dataValidaAnual)) {
+        } else {
+            res.json({
+                "Possiveis erros": {
+                    "UtilizadorId": "Verifique o id do utilizador para saber se é um administrador, organizador ou participante.",
+                    "Organizador": "Essa conta não é de organizador. Não pode criar evento",
+                    "Data de inicio e termino": "A Data de inicio e termino de um evento não devem ser iguais",
+                    "Data de inicio": result.dataInicio,
+                    "Data de termino": result.dataTermino,
+                    "Hora de crição de evento errada. Pode conferir aqui as horas válidas para criação de um evento":
+                    {
 
-                if (hora_Data_Validacao.horaEvento >= new Date(`${dataInicio} ${hora_Data_Validacao.horaInicio}`) && hora_Data_Validacao.horaEvento <= new Date(`${dataInicio} 
-                ${hora_Data_Validacao.horaTermino}`)) {
+                        "hora validação": {
+                            "hora validação inicio": new Date(`${dataInicio} ${"00:00:00"}`).getHours(),
+                            "hora valicação termino": new Date(`${dataInicio} ${"23:00:00"}`).getHours()
+                        },
 
-                    try {
-
-                        if (verificaoExiste_evento.ExisteCategoria === 0) {
-                            res.status(400).json("[Aviso!], Não existe uma categoria cadastrada")
-                        } else if (verificaoExiste_evento.ExisteTipoBilhete === 0) {
-                            res.status(400).json("[Aviso!], Não existe uma tipo de bilhete cadastrado")
-                        } else if (verificaoExiste_evento.ExisteUtilizador === 0) {
-                            res.status(400).json("[Aviso!], Não existe um Organizador de evento cadastrado")
-                        } else {
-
-                            if (verificaoExiste_evento.ExisteUtilizadorId?.id === Number(utilizadorId)) {
-                                if (verificaoExiste_evento.ExistEvento?.nome === nome) {
-                                    res.status(400).json("Aviso! Já existe um evento com esse nome")
-                                } else {
-
-                                    const result = EventoOmit.parse({
-                                        nome: nome,
-                                        descricao: descricao,
-                                        localizacao: localizacao,
-                                        dataInicio: new Date(dataInicio),
-                                        dataTermino: new Date(dataTermino),
-                                        hora: hora,
-                                        foto: foto
-                                    })
-
-                                    const criarEvento = await prisma.evento.create({
-                                        data: {
-                                            nome: result.nome,
-                                            estado: estado,
-                                            foto: String(result.foto),
-                                            descricao: result.descricao,
-                                            localizacao: result.localizacao,
-                                            hora: (new Date(`${dataInicio} ${hora}`)),
-                                            dataInicio: new Date(`${dataInicio}`),
-                                            dataTermino: new Date(`${dataTermino}`),
-                                            categoriaId: categoriaId,
-                                            utilizadorId: utilizadorId,
-                                            publicado: false
-                                        }
-                                    }).then((sucesso) => {
-
-                                        res.json({
-                                            "Sucesso": sucesso,
-                                            "Body": req.body, valor_Req_Body
-                                        })
-
-                                        console.log({
-                                            "Sucesso": sucesso,
-                                            "Body": req.body, valor_Req_Body
-                                        })
-
-                                    }).catch((error) => {
-
-                                        res.status(400).json({
-                                            "mensagem": error,
-                                        })
-
-                                        console.log({
-                                            "mensagem": error,
-                                        })
-
-                                    })
-
-                                }
-
-                            } else {
-
-                                res.status(400).json(`[Aviso!], Não existe um utilizador com esse id ${utilizadorId}`)
-
-                                console.log(`[Aviso!], Não existe um utilizador com esse id ${utilizadorId}`)
-
-                            }
-
+                        "hora do evento": {
+                            "hora inicio": result.horaInicio.getHours(),
+                            "hora termino ": result.horaTermino.getHours()
                         }
-
-                    } catch (error) {
-
-                        res.json(error)
-                        console.log(error)
 
                     }
 
-                } else {
-
-                    res.json({
-                        "Hora_inválida": "Hora inválida",
-                        "Hora do evento": hora_Data_Validacao.horaEvento
-                    })
-
-                    console.log({
-                        "Hora_inválida": "Hora inválida",
-                        "Hora do evento": hora_Data_Validacao.horaEvento
-                    })
-
                 }
-
-                console.log("Essa data é valida para ser de termino de um evento")
-
-            } else {
-
-                console.log("[Aviso!] Essa data é inválida")
-
-            }
-
-        } else {
-
-            console.log("[Aviso!] Você não pode marcar um evento com a data de inicio no dia atual ou de dia, mês e ano que já se passaram.")
-
+            })
         }
 
     } catch (error) {
-
-        res.json(error)
-        console.log(error)
-
+        res.json({ "Erro criar evento": error })
     }
 
-    // res.json({ Body: req.body, File: req.file }) 
+
+
 
 }

@@ -11,15 +11,15 @@ datasource db {
 }
 
 model Utilizador {
-  id           Int            @id @default(autoincrement())
-  nome         String
-  email        String         @unique
-  palavraPasse String
-  // dataNascimento DateTime       @db.Date
-  localizacao  String
-  utilizador   TipoUtilizador @default(PARTICIPANTE)
-  telefone     String
-  evento       Evento[]
+  id             String         @id @default(uuid())
+  nome           String
+  email          String         @unique
+  palavraPasse   String
+  dataNascimento DateTime       @db.Date
+  localizacao    String
+  utilizador     TipoUtilizador @default(PARTICIPANTE)
+  telefone       String
+  evento         Evento[]
 
   at_create DateTime @default(now())
   at_update DateTime @updatedAt
@@ -30,13 +30,13 @@ model Utilizador {
 enum TipoUtilizador {
   PARTICIPANTE
   ADMIN
-  ORGINZADOR
+  ORGANIZADOR
 
   @@map("tipoUtilizador")
 }
 
 model Categoria {
-  id     Int      @id @default(autoincrement())
+  id     String   @id @default(uuid())
   nome   String
   evento Evento[]
 
@@ -47,10 +47,10 @@ model Categoria {
 }
 
 model Palestrante {
-  id   Int     @id @default(autoincrement())
+  id   String  @id @default(uuid())
   nome String
   foto String?
-  blog String
+  blog String?
 
   evento Palestrante_Evento[]
 
@@ -61,7 +61,7 @@ model Palestrante {
 }
 
 model Orador {
-  id   Int    @id @default(autoincrement())
+  id   String @id @default(uuid())
   nome String
 
   evento Orador_Evento[]
@@ -73,26 +73,31 @@ model Orador {
 }
 
 model Evento {
-  id          Int      @id @default(autoincrement())
+  id          String           @id @default(uuid())
   nome        String
-  foto        String
-  estado      String
+  foto        String?
+  estado      TipoEstadoEvento @default(DESPONIVEL)
   descricao   String
-  localizacao String
-  hora        DateTime @db.Time()
-  dataInicio  DateTime @db.Date()
-  dataTermino DateTime @db.Date()
-  publicado   Boolean  @default(false)
+  provincia   String
+  municipio   String
+  bairro      String
+  horaInicio  DateTime         @db.Time()
+  horaTermino DateTime         @db.Time()
+  dataInicio  DateTime         @db.Date()
+  dataTermino DateTime         @db.Date()
+  publicado   Boolean          @default(false)
+  aprovado    Boolean          @default(false)
+  banido      Boolean          @default(false)
 
   bilhete     Bilhete[]
   palestrante Palestrante_Evento[]
   orador      Orador_Evento[]
 
   utilizador   Utilizador @relation(fields: [utilizadorId], references: [id])
-  utilizadorId Int
+  utilizadorId String
 
   categoria   Categoria @relation(fields: [categoriaId], references: [id])
-  categoriaId Int
+  categoriaId String
 
   at_create DateTime @default(now())
   at_update DateTime @updatedAt
@@ -100,21 +105,32 @@ model Evento {
   @@map("evento")
 }
 
+enum TipoEstadoEvento {
+  CANCELADO
+  DESPONIVEL
+  ADECORRER
+  FINALIZADO
+
+  @@map("tipoEstadoEvento")
+}
+
 model Bilhete {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(uuid())
   nome        String
   preco       Int
   quantidade  Int
+  horaInicio  DateTime @db.Time()
+  horaTermino DateTime @db.Time()
   dataInicio  DateTime
   dataTermino DateTime
 
   evento   Evento @relation(fields: [eventoId], references: [id])
-  eventoId Int
+  eventoId String
 
   item_bilhete Item_Bilhete[]
 
   tipoEvento   TipoBilhete @relation(fields: [tipoEventoId], references: [id])
-  tipoEventoId Int
+  tipoEventoId String
 
   at_create DateTime @default(now())
   at_update DateTime @updatedAt
@@ -123,21 +139,21 @@ model Bilhete {
 }
 
 model Item_Bilhete {
-  id   Int    @id @default(autoincrement())
+  id   String @id @default(uuid())
   nome String
 
   bilhete   Bilhete @relation(fields: [bilheteId], references: [id])
-  bilheteId Int
+  bilheteId String
 
   compra   Compra @relation(fields: [compraId], references: [id])
-  compraId Int
+  compraId String
 
   at_create DateTime @default(now())
   at_update DateTime @updatedAt
 }
 
 model Compra {
-  id              Int    @id @default(autoincrement())
+  id              String @id @default(uuid())
   quantidade      Int
   total           Int
   metodoPagamento String
@@ -150,9 +166,9 @@ model Compra {
 
 model Palestrante_Evento {
   palestrante   Palestrante @relation(fields: [palestranteId], references: [id])
-  palestranteId Int
+  palestranteId String
   evento        Evento      @relation(fields: [eventoId], references: [id])
-  eventoId      Int
+  eventoId      String
 
   at_create DateTime @default(now())
   at_update DateTime @updatedAt
@@ -162,9 +178,9 @@ model Palestrante_Evento {
 
 model Orador_Evento {
   orador   Orador @relation(fields: [oradorId], references: [id])
-  oradorId Int
+  oradorId String
   evento   Evento @relation(fields: [eventoId], references: [id])
-  eventoId Int
+  eventoId String
 
   at_create DateTime @default(now())
   at_update DateTime @updatedAt
@@ -173,7 +189,7 @@ model Orador_Evento {
 }
 
 model TipoBilhete {
-  id   Int    @id @default(autoincrement())
+  id   String @id @default(uuid())
   nome String
 
   bilhete Bilhete[]

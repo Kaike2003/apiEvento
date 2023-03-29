@@ -6,7 +6,7 @@ export const CriarOrador = async (req: Request, res: Response) => {
 
 
     const { id } = req.params
-    const idEvento: number = Number(id)
+    const idEvento: string = String(id)
     const { nome } = req.body
     const verificarIdEvento = await prisma.evento.findFirst({
         where: {

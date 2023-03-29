@@ -4,8 +4,8 @@ import { prisma } from "../../../../../prisma"
 export const ApagarOrador = async (req: Request, res: Response) => {
 
     const { id, idOrador } = req.params
-    const idEvento: number = Number(id)
-    const idOradorApagar: number = Number(idOrador)
+    const idEvento: string = String(id)
+    const idOradorApagar: string = String(idOrador)
 
 
     const verificarIdEventoExiste = await prisma.evento.findFirst({
@@ -14,7 +14,7 @@ export const ApagarOrador = async (req: Request, res: Response) => {
         }
     })
 
-    const verificarIdOradorExiste = await prisma.orador.findFirst({
+    const verificarIdOradorExiste = await prisma.palestrante.findFirst({
         where: {
             id: idOradorApagar
         }
@@ -23,32 +23,40 @@ export const ApagarOrador = async (req: Request, res: Response) => {
     try {
         if (verificarIdEventoExiste?.id === idEvento && verificarIdOradorExiste?.id === idOradorApagar) {
 
-
-            const apagarRelacaoPalestranteID = await prisma.orador_Evento.delete({
+            const apagarRelacaoOradorID = await prisma.orador_Evento.delete({
                 where: {
                     oradorId_eventoId: {
-                        eventoId: idEvento,
-                        oradorId: idOradorApagar
+                        oradorId: idOradorApagar,
+                        eventoId: idEvento
                     }
                 }
             }).then((sucesso) => {
 
-                const apagarPalestrante = prisma.orador.delete({
-                    where: {
-                        id: idOradorApagar,
-                    }
-                }).then((sucesso) => {
-                    res.status(201).json({ "Orador id": idOradorApagar })
-                }).catch((error) => {
-                    res.status(400).json({ "Erro orador": error })
-                })
+                try {
+                    const apagarPalestrante = prisma.orador.delete({
+                        where: {
+                            id: idOradorApagar,
+                        }
+                    }).then((sucesso) => {
+                        res.status(201).json({ "Orador apagado com sucesso": sucesso })
+                    }).catch((error) => {
+                        res.status(400).json({ "Erro ao tentar apagar o palestrante": error })
+                    })
+                } catch (error) {
+                    res.json(error)
+                }
 
             }).catch((error) => {
-                res.json({ "Erro oradoriD e eventoId": error })
+                res.json({
+                    error: {
+                        "code": "P2025",
+                        "clientVersion": "4.8.0",
+                        "meta": {
+                            "cause": "O registro a ser excluído não existe."
+                        }
+                    }
+                })
             })
-
-
-
 
         } else {
             res.status(400).json({
@@ -60,5 +68,6 @@ export const ApagarOrador = async (req: Request, res: Response) => {
     } catch (error) {
         res.status(400).json(error)
     }
+
 
 }

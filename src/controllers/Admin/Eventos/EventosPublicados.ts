@@ -1,11 +1,17 @@
 import { Request, Response } from "express";
+import { prisma } from "../../../prisma";
 
 
 export const EventosPublicados = async (req: Request, res: Response) => {
 
-    res.jsonp({
-        "Informação": "Os eventos marcados que estarão na aplicação. Serão todos listados aqui.",
-        "E os campos para os eventos marcados serão:": "nome, hora,localização, data inicio data termino ,descrição, tipo, nome, preço, quantidade, data de validade, estado do evento"
+    const eventosPublicados = await prisma.evento.findMany({
+        where: {
+            publicado: true
+        }
+    }).then((sucesso)=>{
+        res.status(200).json ({"Eventos publicados": sucesso})
+    }).catch((error)=>{
+        res.status(400).json({"Erro eventos publicados": error})
     })
 
 }

@@ -8,9 +8,9 @@ export const Create = async (req: Request, res: Response) => {
 
     try {
 
-        const { nome, palavraPasse, email, localizacao, telefone }: ParticipanteType = req.body
+        const { nome, palavraPasse, email, localizacao, telefone, dataNascimento }: ParticipanteType = req.body
 
-        const verificaoExiste_Participante : VerificarcaoExiste_Participante = {
+        const verificaoExiste_Participante: VerificarcaoExiste_Participante = {
             ExisteEmail: await prisma.utilizador.findUnique({
                 where: {
                     email: email
@@ -22,12 +22,13 @@ export const Create = async (req: Request, res: Response) => {
             palavraPasse: await Password(palavraPasse),
             email: email,
             localizacao: localizacao,
+            dataNascimento: dataNascimento,
             telefone: telefone
         })
 
         // const emailExiste = 
 
-        if(verificaoExiste_Participante.ExisteEmail?.email === email) {
+        if (verificaoExiste_Participante.ExisteEmail?.email === email) {
             res.json("Aviso! Já existe um email cadastrado com esse nome")
         } else {
             const CreateParticpante = await prisma.utilizador.create({
@@ -35,6 +36,7 @@ export const Create = async (req: Request, res: Response) => {
                     nome: result.nome,
                     palavraPasse: result.palavraPasse,
                     email: result.email,
+                    dataNascimento: result.dataNascimento,
                     localizacao: result.localizacao,
                     telefone: result.telefone,
                     utilizador: "PARTICIPANTE",

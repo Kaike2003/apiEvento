@@ -7,12 +7,10 @@ export const AtualizarOrador = async (req: Request, res: Response) => {
 
 
     const { id, idOrador } = req.params
-    const idEvento: number = Number(id)
-    const idOradorAtualizar: number = Number(idOrador)
+    const idEvento: string = String(id)
+    const idOradorAtualizar: string = String(idOrador)
 
-    const { nome, blog } = req.body
-
-
+    const { nome } = req.body
 
     const verificarIdEventoExiste = await prisma.evento.findFirst({
         where: {
@@ -20,41 +18,113 @@ export const AtualizarOrador = async (req: Request, res: Response) => {
         }
     })
 
-    const verificarIdPalestranteExiste = await prisma.palestrante.findFirst({
+    const verificarIdOradorExiste = await prisma.orador.findFirst({
         where: {
             id: idOradorAtualizar
         }
     })
 
+
     try {
-        if (verificarIdEventoExiste?.id === idEvento && verificarIdPalestranteExiste?.id === idOradorAtualizar) {
+        if (verificarIdEventoExiste?.id === idEvento && verificarIdOradorExiste?.id === idOradorAtualizar) {
 
-
-            const atualizarPalestrante = await prisma.orador.update({
+            const atualizarOradorID = await prisma.orador_Evento.update({
                 where: {
-                    id: idOradorAtualizar
-                },
-                data: {
-                    nome: nome
+                    oradorId_eventoId: {
+                        eventoId: verificarIdEventoExiste.id,
+                        oradorId: verificarIdOradorExiste.id
+                    }
+                }, data: {
+                    orador: {
+                        update: {
+                            nome: nome,
+                        }
+                    }
                 }
             }).then((sucesso) => {
-                res.json({ "Sucesso": sucesso })
+                res.status(200).json({ "Atualização feita com sucesso": sucesso })
             }).catch((error) => {
-                res.json({ "Erro atualizar orador": error })
+                res.status(400).json(error)
             })
-
 
 
         } else {
-            res.status(400).json({
+
+            res.json({
                 "Verifique o id do evento": idEvento,
-                "Verifique o Id do orador": idOradorAtualizar
+                "Verifique o id do palestrante.": idOradorAtualizar
             })
+
         }
 
+
     } catch (error) {
-        res.status(400).json(error)
+        res.status(400).json({
+            error: {
+                "code": "P2025",
+                "clientVersion": "4.8.0",
+                "meta": {
+                    "cause": "Nenhum registro 'Orador' foi encontrado para uma atualização aninhada na relação 'OradorToOrador_Evento'."
+                }
+            }
+        })
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // const verificarIdEventoExiste = await prisma.evento.findFirst({
+    //     where: {
+    //         id: idEvento
+    //     }
+    // })
+
+    // const verificarIdPalestranteExiste = await prisma.orador.findFirst({
+    //     where: {
+    //         id: idOradorAtualizar
+    //     }
+    // })
+
+    // try {
+    //     if (verificarIdEventoExiste?.id === idEvento && verificarIdPalestranteExiste?.id === idOradorAtualizar) {
+
+
+    //         const atualizarPalestrante = await prisma.orador.update({
+    //             where: {
+    //                 id: idOradorAtualizar
+    //             },
+    //             data: {
+    //                 nome: nome
+    //             }
+    //         }).then((sucesso) => {
+    //             res.json({ "Sucesso": sucesso })
+    //         }).catch((error) => {
+    //             res.json({ "Erro atualizar orador": error })
+    //         })
+
+
+
+    //     } else {
+    //         res.status(400).json({
+    //             "Verifique o id do evento": idEvento,
+    //             "Verifique o Id do orador": idOradorAtualizar
+    //         })
+    //     }
+
+    // } catch (error) {
+    //     res.status(400).json(error)
+    // }
 
 
 

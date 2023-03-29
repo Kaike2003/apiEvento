@@ -7,7 +7,7 @@ import { AdminTypeOmit, AdminType, VerificarcaoExiste_Admin } from "../../valida
 
 export const Create = async (req: Request, res: Response) => {
 
-    const { nome, palavraPasse, email }: AdminType = req.body
+    const { nome, palavraPasse, email, dataNascimento }: AdminType = req.body
 
     const verificaoExiste_Admin: VerificarcaoExiste_Admin = {
         ExisteEmail: await prisma.utilizador.findUnique({
@@ -23,6 +23,7 @@ export const Create = async (req: Request, res: Response) => {
             nome: nome,
             palavraPasse: await Password(palavraPasse),
             email: email,
+            dataNascimento: new Date(dataNascimento)
         })
 
         if (verificaoExiste_Admin.ExisteEmail?.email === email) {
@@ -34,6 +35,7 @@ export const Create = async (req: Request, res: Response) => {
                     palavraPasse: result.palavraPasse,
                     email: result.email,
                     localizacao: "",
+                    dataNascimento: result.dataNascimento,
                     telefone: "",
                     utilizador: "ADMIN"
                 }

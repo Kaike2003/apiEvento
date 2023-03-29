@@ -1,5 +1,9 @@
+import { Evento, Utilizador } from "@prisma/client"
 import { Request, Response } from "express"
+import { get } from "http"
 import { prisma } from "../../../../prisma"
+import { EventoType, EventoOmit, VerificaoExiste_Evento, } from "../../../../validation";
+
 
 
 
@@ -18,44 +22,366 @@ export const EditarEvento = async (req: Request, res: Response) => {
     //     "categoriaId": 1
     // }
 
-    const { id } = req.params
-    const { nome, descricao, localizacao, hora, foto, dataTermino, dataInicio, estado, utilizadorId, categoriaId } = req.body
-    const idNumber: number = Number(id)
-
-    const result: (String | Number)[] = [nome, descricao, localizacao, hora, dataTermino, dataInicio, estado, categoriaId, id]
-    try {
+    // const { id, idEvento } = req.params
+    // const idUtilizador = Number(id)
+    // const idUEvento = Number(id)
 
 
+    // const { nome, descricao, localizacao, hora, dataTermino, dataInicio, categoriaId, estado } = req.body
 
-        if (idNumber >= 1) {
-            const atualizarTipoBilhete = await prisma.evento.update({
-                where: {
-                    id: idNumber
-                }, data: {
-                    nome: nome,
-                    descricao: descricao,
-                    localizacao: localizacao,
-                    hora: hora,
-                    dataTermino: dataTermino,
-                    dataInicio: dataInicio,
-                    estado: estado,
-                    categoriaId: categoriaId
+    // const result: (Number | String)[] = [nome, descricao, localizacao, hora, dataTermino, dataInicio, categoriaId, estado]
+
+
+
+    const { id, idEvento } = req.params
+    const idUtilizador: string = String(id)
+    const idevento: string = String(idEvento)
+
+    const {
+        nome,
+        descricao,
+        dataInicio,
+        dataTermino,
+        horaInicio,
+        horaTermino,
+        foto,
+        provincia,
+        municipio,
+        bairro,
+        categoriaId
+    }: EventoType = req.body
+
+    const result = EventoOmit.parse({
+        nome: nome,
+        descricao: descricao,
+        dataInicio: new Date(dataInicio),
+        dataTermino: new Date(dataTermino),
+        horaInicio: new Date(`${dataInicio} ${horaInicio}`),
+        horaTermino: new Date(`${dataTermino} ${horaTermino}`),
+        foto: "image.png",
+        provincia: provincia,
+        municipio: municipio,
+        bairro: bairro,
+        categoriaId: categoriaId
+    })
+
+
+    const verificarIdEventoExiste: Evento | null = await prisma.evento.findFirst({
+        where: {
+            id: idevento,
+        }
+    })
+
+    const verificarIdUtilizadorExiste: Utilizador | null = await prisma.utilizador.findFirst({
+        where: {
+            id: idUtilizador
+        }
+    })
+
+
+
+
+
+    if (!verificarIdEventoExiste) {
+
+        res.json("olá mundo")
+
+    } else {
+
+        if (verificarIdEventoExiste.dataInicio.getDate() !== new Date().getDate()) {
+
+            try {
+
+
+                if (
+                    verificarIdEventoExiste?.id === idevento &&
+                    verificarIdUtilizadorExiste?.utilizador === "ORGANIZADOR" && verificarIdEventoExiste.banido === false
+                ) {
+
+                    const evento = await prisma.utilizador.findFirst({
+                        where: {
+                            id: idUtilizador
+                        },
+                        include: {
+                            evento: {
+                                where: {
+                                    id: idevento
+                                }
+                            }
+                        }
+
+                    }).then((sucesso) => {
+
+                        // res.json({ sucesso, idEvento, idUtilizador })
+
+                        if (null === sucesso) {
+                            res.json("Não pode atualizar um evento. Que não tenha um relacionamento com um utilizador.")
+                            // res.json(sucesso)
+                        } else {
+
+                            const atualizarBilhete = prisma.evento.update({
+                                where: {
+                                    id: idevento
+                                },
+                                data: {
+                                    nome: result.nome,
+                                    descricao: result.descricao,
+                                    dataInicio: result.dataInicio,
+                                    dataTermino: result.dataTermino,
+                                    estado: "DESPONIVEL",
+                                    horaInicio: result.horaInicio,
+                                    horaTermino: result.horaTermino,
+                                    provincia: result.provincia,
+                                    municipio: result.municipio,
+                                    bairro: bairro,
+                                    banido: false,
+                                    publicado: false,
+                                    aprovado: false,
+                                    foto: "imagem",
+                                    categoriaId: categoriaId
+                                }
+                            }).then((sucesso) => {
+                                res.json({ "Bilhete atualizado com sucesso": sucesso })
+                            }).catch((error) => {
+                                res.json(error)
+                            })
+
+                        }
+
+                    }).catch((error) => {
+                        res.json(error)
+                    })
+
+
+                } else {
+                    res.status(400).json({
+                        "Verifique o id do evento ou seu evento foi banido da aplicação.": idevento,
+                        "Verifique o Id do utilizador": idUtilizador
+                    })
                 }
-            }).then((sucesso) => {
-                res.status(200).json(sucesso)
-            }).catch((error: any) => {
+
+
+
+            } catch (error) {
                 res.status(400).json(error)
-            })
+            }
+
+
 
         } else {
-            res.status(400).json(`${idNumber} é inválido`)
-            console.log(`${idNumber} é inválido`)
+            res.json({ "Não pode editar um evento enquanto está decorrendo.": verificarIdEventoExiste.dataInicio.getDate() })
         }
 
-    } catch (error: any) {
-        res.status(400).json(error)
     }
 
+
+
+    // try {
+
+
+    //     if (
+    //         verificarIdEventoExiste?.id === idevento &&
+    //         verificarIdUtilizadorExiste?.utilizador === "ORGANIZADOR" && verificarIdEventoExiste.banido === false
+    //     ) {
+
+    //         const evento = await prisma.utilizador.findFirst({
+    //             where: {
+    //                 id: idUtilizador
+    //             },
+    //             include: {
+    //                 evento: {
+    //                     where: {
+    //                         id: idevento
+    //                     }
+    //                 }
+    //             }
+
+    //         }).then((sucesso) => {
+
+    //             // res.json({ sucesso, idEvento, idUtilizador })
+
+    //             if (null === sucesso) {
+    //                 // res.json("Não pode atualizar um evento. Que não tenha um relacionamento com um utilizador.")
+    //                 res.json(sucesso)
+    //             } else {
+
+    //                 const atualizarBilhete = prisma.evento.update({
+    //                     where: {
+    //                         id: idevento
+    //                     },
+    //                     data: {
+    //                         nome: nome,
+    //                         descricao: descricao,
+    //                         dataInicio: new Date(dataInicio),
+    //                         dataTermino: new Date(dataTermino),
+    //                         estado: estado,
+    //                         hora: new Date(`${dataInicio} ${hora}`),
+    //                         localizacao: localizacao,
+    //                         banido: false,
+    //                         publicado: false,
+    //                         foto: "imagem",
+    //                         utilizadorId: idUtilizador,
+    //                         categoriaId: categoriaId
+    //                     }
+    //                 }).then((sucesso) => {
+    //                     res.json({ "Bilhete atualizado com sucesso": sucesso })
+    //                 }).catch((error) => {
+    //                     res.json(error)
+    //                 })
+
+    //             }
+
+    //         }).catch((error) => {
+    //             res.json(error)
+    //         })
+
+
+    //     } else {
+    //         res.status(400).json({
+    //             "Verifique o id do evento ou seu evento foi banido da aplicação.": idevento,
+    //             "Verifique o Id do utilizador": idUtilizador
+    //         })
+    //     }
+
+
+
+    // } catch (error) {
+    //     res.status(400).json(error)
+    // }
+
+
+
+
+
+
+
+
+
+
+    // try {
+
+
+    //     if (
+    //         verificarIdEventoExiste?.id === idevento &&
+    //         verificarIdUtilizadorExiste?.utilizador === "ORGANIZADOR" && verificarIdEventoExiste.banido === false
+    //     ) {
+
+    //         const evento = await prisma.utilizador.findFirst({
+    //             where: {
+    //                 id: idUtilizador
+    //             },
+    //             include: {
+    //                 evento: {
+    //                     where: {
+    //                         id: idevento
+    //                     }
+    //                 }
+    //             }
+
+    //         }).then((sucesso) => {
+
+    //             // res.json({ sucesso, idEvento, idUtilizador })
+
+    //             if (null === sucesso) {
+    //                 // res.json("Não pode atualizar um evento. Que não tenha um relacionamento com um utilizador.")
+    //                 res.json(sucesso)
+    //             } else {
+
+    //                 const atualizarBilhete = prisma.evento.update({
+    //                     where: {
+    //                         id: idevento
+    //                     },
+    //                     data: {
+    //                         nome: nome,
+    //                         descricao: descricao,
+    //                         dataInicio: new Date(dataInicio),
+    //                         dataTermino: new Date(dataTermino),
+    //                         estado: estado,
+    //                         hora: new Date(`${dataInicio} ${hora}`),
+    //                         localizacao: localizacao,
+    //                         banido: false,
+    //                         publicado: false,
+    //                         foto: "imagem",
+    //                         utilizadorId: idUtilizador,
+    //                         categoriaId: categoriaId
+    //                     }
+    //                 }).then((sucesso) => {
+    //                     res.json({ "Bilhete atualizado com sucesso": sucesso })
+    //                 }).catch((error) => {
+    //                     res.json(error)
+    //                 })
+
+    //             }
+
+    //         }).catch((error) => {
+    //             res.json(error)
+    //         })
+
+
+    //     } else {
+    //         res.status(400).json({
+    //             "Verifique o id do evento ou seu evento foi banido da aplicação.": idevento,
+    //             "Verifique o Id do utilizador": idUtilizador
+    //         })
+    //     }
+
+
+
+    // } catch (error) {
+    //     res.status(400).json(error)
+    // }
+
+
+
+
+
+
+
+
+    // try {
+
+
+
+
+    //     const verificarUtilizadorExiste = await prisma.utilizador.findFirst({
+    //         where: {
+    //             id: idUtilizador
+    //         }
+    //     })
+
+    //     if (
+    //         verificarUtilizadorExiste?.id === idUtilizador && verificarUtilizadorExiste.utilizador === "ORGANIZADOR" && verificarIdEventoExiste?.banido === false) {
+
+    //         const criarEvento = await prisma.evento.update({
+    //             where: {
+    //                 id: idevento
+    //             },
+    //             data: {
+    //                 nome: nome,
+    //                 descricao: descricao,
+    //                 dataInicio: new Date(dataInicio),
+    //                 dataTermino: new Date(dataTermino),
+    //                 estado: estado,
+    //                 hora: new Date(`${dataInicio} ${hora}`),
+    //                 localizacao: localizacao,
+    //                 banido: false,
+    //                 publicado: false,
+    //                 foto: "imagem",
+    //                 categoriaId: categoriaId
+    //             }
+    //         }).then((sucesso) => {
+    //             res.json(sucesso)
+    //         }).catch((error) => {
+    //             res.json(error)
+    //         })
+
+    //     } else {
+    //         res.json("Essa conta não é de organizador. Não pode criar evento ou seu evento foi banido")
+    //     }
+
+    // } catch (error) {
+    //     res.json({ "Erro criar evento": error })
+    // }
 
 
 

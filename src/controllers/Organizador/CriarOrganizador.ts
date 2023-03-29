@@ -5,7 +5,7 @@ import { OrganizadorOmit, OrganizadorType, VerificaoExiste_Organizador } from ".
 
 export const CreateOrg = async (req: Request, res: Response) => {
 
-    const { nome, email, localizacao, palavraPasse, telefone }: OrganizadorType = req.body
+    const { nome, email, localizacao, palavraPasse, telefone, dataNascimento }: OrganizadorType = req.body
 
     const verificaoExiste_Organizador: VerificaoExiste_Organizador = {
         ExisteEmail: await prisma.utilizador.findUnique({
@@ -22,6 +22,7 @@ export const CreateOrg = async (req: Request, res: Response) => {
             palavraPasse: await Password(palavraPasse),
             email: email,
             localizacao: localizacao,
+            dataNascimento: new Date(dataNascimento),
             telefone: telefone
         })
 
@@ -45,8 +46,9 @@ export const CreateOrg = async (req: Request, res: Response) => {
                     palavraPasse: result.palavraPasse,
                     email: result.email,
                     telefone: result.telefone,
+                    dataNascimento: result.dataNascimento,
                     localizacao: result.localizacao,
-                    utilizador: "ORGINZADOR"
+                    utilizador: "ORGANIZADOR"
                 }
             }).then((sucesso) => {
                 res.status(201).json(sucesso)

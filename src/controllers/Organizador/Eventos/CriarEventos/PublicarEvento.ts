@@ -1,15 +1,16 @@
+import { Evento } from "@prisma/client";
 import { Request, Response } from "express";
 import { prisma } from "../../../../prisma";
 
 export const PublicarEvento = async (req: Request, res: Response) => {
 
     const { id } = req.params
-    const idEvento = Number(id)
+    const idEvento: string = String(id)
 
 
 
     try {
-        const verificarIdEventoExiste = await prisma.evento.findFirst({
+        const verificarIdEventoExiste: Evento | null = await prisma.evento.findFirst({
             where: {
                 id: idEvento
             }

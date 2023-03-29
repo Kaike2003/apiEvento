@@ -7,7 +7,7 @@ export const ListarOrador = async (req: Request, res: Response) => {
 
 
     const { id } = req.params
-    const idEvento: number = Number(id)
+    const idEvento: string = String(id)
 
 
     const verificarIdEventoExiste = await prisma.evento.findFirst({

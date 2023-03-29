@@ -1,3 +1,4 @@
+import { Evento } from "@prisma/client";
 import { Request, Response } from "express";
 import { prisma } from "../../../../prisma";
 
@@ -5,12 +6,12 @@ import { prisma } from "../../../../prisma";
 export const AdicionarFotoEvento = async (req: Request, res: Response) => {
 
     const { id } = req.params
-    const idEvento: number = Number(id)
-    const foto = req.file?.filename
+    const idEvento: string = String(id)
+    const foto: string | undefined = req.file?.filename
 
 
     try {
-        const verificarIdEventoExiste = await prisma.evento.findFirst({
+        const verificarIdEventoExiste: Evento | null = await prisma.evento.findUnique({
             where: {
                 id: idEvento
             }

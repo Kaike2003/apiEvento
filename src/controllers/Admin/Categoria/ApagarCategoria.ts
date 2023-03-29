@@ -5,27 +5,24 @@ import { prisma } from "../../../prisma";
 export const ApagarCategoria = async (req: Request, res: Response) => {
 
     const { id } = req.params
-    const idNumber = Number(id)
+    const idNumber = String(id)
     try {
 
-        if (idNumber >= 1) {
-            const ApagarCategoria = await prisma.categoria.delete({
-                where: {
-                    id: idNumber
+        const ApagarCategoria = await prisma.categoria.delete({
+            where: {
+                id: idNumber
+            }
+        }).then((sucesso) => {
+            res.status(200).json(sucesso)
+        }).catch((error) => {
+            res.status(400).json({
+                error: {
+                    "cause": "O registro a ser excluído não existe."
                 }
-            }).then((sucesso) => {
-                res.status(200).json(sucesso)
-            }).catch((error) => {
-                res.status(400).json({
-                    error: {
-                        "cause": "O registro a ser excluído não existe."
-                    }
-                })
             })
+        })
 
-        } else {
-            res.status(400).json(`${idNumber} é inválido`)
-        }
+
 
     } catch (error: any) {
         res.status(200).json(error)

@@ -4,13 +4,13 @@ import { prisma } from "../../../../../prisma"
 export const ApagarBilhete = async (req: Request, res: Response) => {
 
     const { id, idBilhete } = req.params
-    const idEvento: number = Number(id)
-    const idBilheteApagar: number = Number(idBilhete)
+    const idEvento: string = String(id)
+    const idBilheteApagar: string = String(idBilhete)
 
 
     const verificarIdEventoExiste = await prisma.evento.findFirst({
         where: {
-            id: idEvento
+            id: idEvento,
         }
     })
 
@@ -20,40 +20,55 @@ export const ApagarBilhete = async (req: Request, res: Response) => {
         }
     })
 
+
     try {
         if (verificarIdEventoExiste?.id === idEvento && verificarIdBilheteExiste?.id === idBilheteApagar) {
 
 
-            // const apagarRelacaoPalestranteID = await prisma..delete({
-            //     where: {
-            //         oradorId_eventoId: {
-            //             eventoId: idEvento,
-            //             oradorId: idBilheteApagar
-            //         }
-            //     }
-            // }).then((sucesso) => {
-
-            const apagarBilhete = prisma.bilhete.delete({
+            const evento = await prisma.evento.findFirst({
                 where: {
-                    id: idBilheteApagar,
+                    id: idEvento,
+                    bilhete: {
+                        every: {
+                            id: idBilheteApagar
+                        }
+                    }
+                },
+                include: {
+                    bilhete: {
+                        where: {
+                            id: idBilheteApagar
+                        }
+                    }
                 }
+
             }).then((sucesso) => {
-                res.status(201).json({ "Bilhete id": idBilheteApagar })
+
+                if (null === sucesso) {
+                    res.json("Não pode excluir um bilhete. Que não tenha um relacionamento com um evento.")
+                } else {
+
+                    const apagarBilhete = prisma.bilhete.delete({
+                        where: {
+                            id: idBilheteApagar
+                        }
+                    }).then((sucesso) => {
+                        res.json({ "Bilhete apagado com sucesso": sucesso })
+                    }).catch((error) => {
+                        res.json(error)
+                    })
+
+                }
+
             }).catch((error) => {
-                res.status(400).json({ "Erro orador": error })
+                res.json(error)
             })
-
-            // }).catch((error) => {
-            //     res.json({ "Erro oradoriD e eventoId": error })
-            // })
-
-
 
 
         } else {
             res.status(400).json({
                 "Verifique o id do evento": idEvento,
-                "Verifique o Id do orador": idBilheteApagar
+                "Verifique o Id do bilhete": idBilheteApagar
             })
         }
 

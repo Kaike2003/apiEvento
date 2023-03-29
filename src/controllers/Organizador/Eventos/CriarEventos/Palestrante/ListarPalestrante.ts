@@ -7,7 +7,7 @@ export const ListarPalestrante = async (req: Request, res: Response) => {
 
 
     const { id } = req.params
-    const idEvento: number = Number(id)
+    const idEvento: string = String(id)
 
 
     const verificarIdEventoExiste = await prisma.evento.findFirst({
@@ -28,6 +28,7 @@ export const ListarPalestrante = async (req: Request, res: Response) => {
                         select: {
                             palestrante: {
                                 select: {
+                                    id: true,
                                     nome: true,
                                     foto: true,
                                     blog: true

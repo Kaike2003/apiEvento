@@ -1,11 +1,12 @@
 -- CreateTable
 CREATE TABLE `utilizador` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `nome` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `palavraPasse` VARCHAR(191) NOT NULL,
+    `dataNascimento` DATE NOT NULL,
     `localizacao` VARCHAR(191) NOT NULL,
-    `utilizador` ENUM('PARTICIPANTE', 'ADMIN', 'ORGINZADOR') NOT NULL DEFAULT 'PARTICIPANTE',
+    `utilizador` ENUM('PARTICIPANTE', 'ADMIN', 'ORGANIZADOR') NOT NULL DEFAULT 'PARTICIPANTE',
     `telefone` VARCHAR(191) NOT NULL,
     `at_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `at_update` DATETIME(3) NOT NULL,
@@ -16,7 +17,7 @@ CREATE TABLE `utilizador` (
 
 -- CreateTable
 CREATE TABLE `categoria` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `nome` VARCHAR(191) NOT NULL,
     `at_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `at_update` DATETIME(3) NOT NULL,
@@ -26,10 +27,10 @@ CREATE TABLE `categoria` (
 
 -- CreateTable
 CREATE TABLE `palestrante` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `nome` VARCHAR(191) NOT NULL,
     `foto` VARCHAR(191) NULL,
-    `blog` VARCHAR(191) NOT NULL,
+    `blog` VARCHAR(191) NULL,
     `at_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `at_update` DATETIME(3) NOT NULL,
 
@@ -38,7 +39,7 @@ CREATE TABLE `palestrante` (
 
 -- CreateTable
 CREATE TABLE `orador` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `nome` VARCHAR(191) NOT NULL,
     `at_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `at_update` DATETIME(3) NOT NULL,
@@ -48,18 +49,23 @@ CREATE TABLE `orador` (
 
 -- CreateTable
 CREATE TABLE `evento` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `nome` VARCHAR(191) NOT NULL,
-    `foto` VARCHAR(191) NOT NULL,
-    `estado` VARCHAR(191) NOT NULL,
+    `foto` VARCHAR(191) NULL,
+    `estado` ENUM('CANCELADO', 'DESPONIVEL', 'ADECORRER', 'FINALIZADO') NOT NULL DEFAULT 'DESPONIVEL',
     `descricao` VARCHAR(191) NOT NULL,
-    `localizacao` VARCHAR(191) NOT NULL,
-    `hora` TIME NOT NULL,
+    `provincia` VARCHAR(191) NOT NULL,
+    `municipio` VARCHAR(191) NOT NULL,
+    `bairro` VARCHAR(191) NOT NULL,
+    `horaInicio` TIME NOT NULL,
+    `horaTermino` TIME NOT NULL,
     `dataInicio` DATE NOT NULL,
     `dataTermino` DATE NOT NULL,
     `publicado` BOOLEAN NOT NULL DEFAULT false,
-    `utilizadorId` INTEGER NOT NULL,
-    `categoriaId` INTEGER NOT NULL,
+    `aprovado` BOOLEAN NOT NULL DEFAULT false,
+    `banido` BOOLEAN NOT NULL DEFAULT false,
+    `utilizadorId` VARCHAR(191) NOT NULL,
+    `categoriaId` VARCHAR(191) NOT NULL,
     `at_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `at_update` DATETIME(3) NOT NULL,
 
@@ -68,14 +74,16 @@ CREATE TABLE `evento` (
 
 -- CreateTable
 CREATE TABLE `bilhete` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `nome` VARCHAR(191) NOT NULL,
     `preco` INTEGER NOT NULL,
     `quantidade` INTEGER NOT NULL,
+    `horaInicio` TIME NOT NULL,
+    `horaTermino` TIME NOT NULL,
     `dataInicio` DATETIME(3) NOT NULL,
     `dataTermino` DATETIME(3) NOT NULL,
-    `eventoId` INTEGER NOT NULL,
-    `tipoEventoId` INTEGER NOT NULL,
+    `eventoId` VARCHAR(191) NOT NULL,
+    `tipoEventoId` VARCHAR(191) NOT NULL,
     `at_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `at_update` DATETIME(3) NOT NULL,
 
@@ -84,10 +92,10 @@ CREATE TABLE `bilhete` (
 
 -- CreateTable
 CREATE TABLE `Item_Bilhete` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `nome` VARCHAR(191) NOT NULL,
-    `bilheteId` INTEGER NOT NULL,
-    `compraId` INTEGER NOT NULL,
+    `bilheteId` VARCHAR(191) NOT NULL,
+    `compraId` VARCHAR(191) NOT NULL,
     `at_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `at_update` DATETIME(3) NOT NULL,
 
@@ -96,7 +104,7 @@ CREATE TABLE `Item_Bilhete` (
 
 -- CreateTable
 CREATE TABLE `Compra` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `quantidade` INTEGER NOT NULL,
     `total` INTEGER NOT NULL,
     `metodoPagamento` VARCHAR(191) NOT NULL,
@@ -108,8 +116,8 @@ CREATE TABLE `Compra` (
 
 -- CreateTable
 CREATE TABLE `Palestrante_Evento` (
-    `palestranteId` INTEGER NOT NULL,
-    `eventoId` INTEGER NOT NULL,
+    `palestranteId` VARCHAR(191) NOT NULL,
+    `eventoId` VARCHAR(191) NOT NULL,
     `at_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `at_update` DATETIME(3) NOT NULL,
 
@@ -118,8 +126,8 @@ CREATE TABLE `Palestrante_Evento` (
 
 -- CreateTable
 CREATE TABLE `Orador_Evento` (
-    `oradorId` INTEGER NOT NULL,
-    `eventoId` INTEGER NOT NULL,
+    `oradorId` VARCHAR(191) NOT NULL,
+    `eventoId` VARCHAR(191) NOT NULL,
     `at_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `at_update` DATETIME(3) NOT NULL,
 
@@ -128,7 +136,7 @@ CREATE TABLE `Orador_Evento` (
 
 -- CreateTable
 CREATE TABLE `TipoBilhete` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `nome` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)

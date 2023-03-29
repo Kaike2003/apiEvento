@@ -7,8 +7,8 @@ export const AtualizarPalestrante = async (req: Request, res: Response) => {
 
 
     const { id, idPalestrante } = req.params
-    const idEvento: number = Number(id)
-    const idPalestranteAtualizar: number = Number(idPalestrante)
+    const idEvento: string = String(id)
+    const idPalestranteAtualizar: string = String(idPalestrante)
 
     const { nome, blog } = req.body
 
@@ -29,32 +29,47 @@ export const AtualizarPalestrante = async (req: Request, res: Response) => {
     try {
         if (verificarIdEventoExiste?.id === idEvento && verificarIdPalestranteExiste?.id === idPalestranteAtualizar) {
 
-
-            const atualizarPalestrante = await prisma.palestrante.update({
+            const adicionarFotoPalestrante = await prisma.palestrante_Evento.update({
                 where: {
-                    id: Number(idPalestrante)
-                },
-                data: {
-                    nome: nome,
-                    blog: blog
+                    palestranteId_eventoId: {
+                        eventoId: verificarIdEventoExiste.id,
+                        palestranteId: verificarIdPalestranteExiste.id
+                    }
+                }, data: {
+                    palestrante: {
+                        update: {
+                            nome: nome,
+                            blog: blog
+                        }
+                    }
                 }
             }).then((sucesso) => {
-                res.json({ "Sucesso": sucesso })
+                res.status(200).json({ "Atualização feita com sucesso": sucesso })
             }).catch((error) => {
-                res.json({ "Erro atualizar palestrante": error })
+                res.status(400).json(error)
             })
-
 
 
         } else {
-            res.status(400).json({
+
+            res.json({
                 "Verifique o id do evento": idEvento,
-                "Verifique o Id do palestrante": idPalestranteAtualizar
+                "Verifique o id do palestrante.": idPalestranteAtualizar
             })
+
         }
 
+
     } catch (error) {
-        res.status(400).json(error)
+        res.status(400).json({
+            error: {
+                "code": "P2025",
+                "clientVersion": "4.8.0",
+                "meta": {
+                    "cause": "Nenhum registro 'Palestrante' foi encontrado para uma atualização aninhada na relação 'PalestranteToPalestrante_Evento'."
+                }
+            }
+        })
     }
 
 

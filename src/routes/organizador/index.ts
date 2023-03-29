@@ -37,13 +37,13 @@ routerOrganizador.get(
     ControllerRoutesOrganizador.ListarEventos)
 
 // *Adicionar Foto
-routerOrganizador.get(
+routerOrganizador.put(
     RoutesOrganizador.adicionarFotoEvento,
     upload.single("foto"),
     ControllerRoutesOrganizador.AdicionarFotoEvento)
 
 // * Editar Evento
-routerOrganizador.get(
+routerOrganizador.put(
     RoutesOrganizador.editarEvento,
     ControllerRoutesOrganizador.EditarEvento)
 
@@ -51,7 +51,7 @@ routerOrganizador.get(
 
 
 // * Adicionar foto palestrante
-routerOrganizador.get(
+routerOrganizador.put(
     RoutesOrganizador.adicionarFotoPalestrante,
     upload.single("foto"),
     ControllerRoutesOrganizador.AdicionarFotoPalestrante)
@@ -67,7 +67,7 @@ routerOrganizador.delete(
     ControllerRoutesOrganizador.ApagarPalestrante)
 
 // * Atualizar palestrante
-routerOrganizador.get(
+routerOrganizador.put(
     RoutesOrganizador.atualizarPalestrante,
     ControllerRoutesOrganizador.AtualizarPalestrante)
 
@@ -89,7 +89,7 @@ routerOrganizador.delete(
     ControllerRoutesOrganizador.ApagarOrador)
 
 // * Atualizar orador
-routerOrganizador.get(
+routerOrganizador.put(
     RoutesOrganizador.atualizarOrador,
     ControllerRoutesOrganizador.AtualizarOrador)
 
@@ -111,7 +111,7 @@ routerOrganizador.delete(
     ControllerRoutesOrganizador.ApagarBilhete)
 
 // * Atualizar bilhete
-routerOrganizador.get(
+routerOrganizador.put(
     RoutesOrganizador.atualizarBilhete,
     ControllerRoutesOrganizador.AtualizarBilhete)
 

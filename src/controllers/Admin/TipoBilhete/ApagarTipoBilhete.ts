@@ -5,10 +5,9 @@ import { prisma } from "../../../prisma";
 export const ApagarTipoBilhete  = async (req: Request, res: Response) => {
 
     const { id } = req.params
-    const idNumber = Number(id)
+    const idNumber = String(id)
     try {
 
-        if (idNumber >= 1) {
             const ApagarTipoBilhete  = await prisma.tipoBilhete.delete({
                 where: {
                     id: idNumber
@@ -23,9 +22,7 @@ export const ApagarTipoBilhete  = async (req: Request, res: Response) => {
                 })
             })
 
-        } else {
-            res.status(400).json(`${idNumber} é inválido`)
-        }
+       
 
     } catch (error: any) {
         res.status(200).json(error)

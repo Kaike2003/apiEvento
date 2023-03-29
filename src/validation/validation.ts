@@ -27,13 +27,12 @@ export const UtilizadorSchema = z.object({
     }).
         min(4, { message: "A palavra passe deve ter 2 ou mais caracteres" }).
         max(100, { message: "A palavra passe deve ter 70 ou menos caracteres" }),
-    /*
-dataNascimento: z.date({
-    required_error: "Selecione uma data",
-    invalid_type_error: "A data deve ser uma Data"
-})
-    .min(new Date("1925-01-01"), { message: "Idade inválida. Velho demais" })
-    .max(new Date("2023-12-31"), { message: "Idade inválida. Muito jovem!" })*/
+    dataNascimento: z.date({
+        required_error: "Selecione uma data",
+        invalid_type_error: "A data deve ser uma Data"
+    })
+        .min(new Date("1925-01-01"), { message: "Idade inválida. Velho demais" })
+        .max(new Date("2023-12-31"), { message: "Idade inválida. Muito jovem!" }),
     localizacao: z.string({
         required_error: "O endereço é obrigatório",
         invalid_type_error: "O endereço deve ser uma string"
@@ -67,16 +66,14 @@ export const EventoSchema = z.object({
     })
         .min(3, { message: "O nome deve conter 2 ou mais caracteres" })
         .max(200, { message: "O nome deve conter 200 ou menos caracteres" }).optional(),
-    hora: z.string({
+    horaInicio: z.date({
         required_error: "A hora é obrigatória",
         invalid_type_error: "A hora deve ser um inteiro"
     }),
-    localizacao: z.string({
-        required_error: "O endereço é obrigatório",
-        invalid_type_error: "O endereço deve ser uma string"
-    })
-        .min(3, { message: "O endereço deve ter 3 ou mais caracteres" })
-        .max(60, { message: "O endereço deve ter 60 ou menos caracteres" }),
+    horaTermino: z.date({
+        required_error: "A hora é obrigatória",
+        invalid_type_error: "A hora deve ser um inteiro"
+    }),
     dataInicio: z.date({
         required_error: "O data de inicio é obrigatório",
         invalid_type_error: "A data deve ser uma data"
@@ -86,12 +83,38 @@ export const EventoSchema = z.object({
         required_error: "O data de termino é obrigatório",
         invalid_type_error: "A data deve ser uma data"
     }),
+
     descricao: z.string({
         required_error: "A descrição é obrigatória",
         invalid_type_error: "A descrição de ser uma string"
     })
         .min(15, { message: "A descrição deve ter 15 ou mais caracteres" })
-        .max(250, { message: "A descrição deve ter 200 ou menos caracteres" })
+        .max(4000, { message: "A descrição deve ter 200 ou menos caracteres" })
+    ,
+    provincia: z.string({
+        required_error: "O nome da provincia é obrigatório",
+        invalid_type_error: "O nome provincia deve ser uma string"
+    })
+        .min(3, { message: "O nome da provincia deve ter 3 ou mais caracteres" })
+        .max(200, { message: "O nome da provincia deve ter 60 ou menos caracteres" }),
+    municipio: z.string({
+        required_error: "O nome municipio é obrigatório",
+        invalid_type_error: "O nome municipio deve ser uma string"
+    })
+        .min(3, { message: "O nome municipio deve ter 3 ou mais caracteres" })
+        .max(80, { message: "O nome municipio deve ter 60 ou menos caracteres" }),
+    bairro: z.string({
+        required_error: "O nome bairro é obrigatório",
+        invalid_type_error: "O nome bairro deve ser uma string"
+    })
+        .min(3, { message: "O nome bairoo deve ter 3 ou mais caracteres" })
+        .max(120, { message: "O nome bairro deve ter 60 ou menos caracteres" }),
+    categoriaId: z.string({
+        required_error: "O id da categoria é obrigatório",
+        invalid_type_error: "O id da categoria deve ser uma string"
+    })
+        .min(3, { message: "O id da categoria deve ter 3 ou mais caracteres" })
+        .max(420, { message: "O id da categoria deve ter 60 ou menos caracteres" })
 })
 
 
@@ -280,10 +303,8 @@ export type OradorType = z.infer<typeof OradorOmit>
 
 // ? Type para a hora e data (validação)
 export type Hora_Data_Validacao = {
-    horaInicio: string,
-    horaTermino: string,
-    dataValidaAnual: string,
-    horaEvento: Date
+    horaInicio: number,
+    horaTermino: number,
 }
 
 // ? Type para as váriaveis que vão receber dados da base de dados peloprisma ( Verificação /validação)
@@ -305,10 +326,11 @@ export type VerificaoExiste_Orador = {
 // ? Type para as váriaveis estado, utilizadorId, categoriaId ( Verificação /validação)
 
 export type Validacao = {
-    estado: string,
-    utilizadorId: number,
-    categoriaId: number
+    estado?: string,
+    idUtilizador?: string,
+    categoriaId?: string
 }
+
 
 // ? Type para as váriaveis do Criar Bilhete
 
@@ -328,17 +350,17 @@ export type VerificaoExiste_Palestrante = {
 
 // ? Type para as váriaveis do Criar Palestrante
 
-export type VerificaoExiste_Organizador ={
+export type VerificaoExiste_Organizador = {
     ExisteEmail: Utilizador | null
 }
 
 // ? Type para as váriaveis do Criar Admin
 
 export type VerificarcaoExiste_Admin = {
-    ExisteEmail : Utilizador | null
+    ExisteEmail: Utilizador | null
 }
 
 export type VerificarcaoExiste_Participante = {
-    ExisteEmail : Utilizador | null
+    ExisteEmail: Utilizador | null
 }
 
