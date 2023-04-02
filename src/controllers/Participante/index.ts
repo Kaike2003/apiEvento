@@ -33,9 +33,15 @@ import * as tipoEvento from "./TipoEvento/TipoEvento"
 import * as tipoEventoDetalhe from "./TipoEvento/TipoEventoDetalhe"
 
 // * Bilhete e Compra
-import * as bilhete from "./TipoEvento/Bilhete/Bilhete"
-import * as compra from "./TipoEvento/Bilhete/Compra/Compra"
+import * as compra from "./Bilhete/Compra/Compra"
 
+
+// * Verificar conta
+
+import * as verificarContaParticipante from "./VerificarConta/VerificarConta"
+
+// * RecuperarSenha
+import * as recuperarSenhaParticipante from "./RecuperarSenhaParticipante"
 
 export const ControllerParticipante = {
     ...create,
@@ -62,7 +68,9 @@ export const ControllerParticipante = {
     // * Tipo Evento
     ...tipoEvento,
     ...tipoEventoDetalhe,
-    // * Bilhete e Compra
-    ...bilhete,
-    ...compra
+    // * Compra
+    ...compra,
+    ...verificarContaParticipante,
+    // * Recuperar senha
+    ...recuperarSenhaParticipante
 }

@@ -1,13 +1,16 @@
 export const enum RoutesAdmin {
     loginAdmin = "/loginAdmin",
     post = "/create",
+    verificarContaAdmin = "/verificarAdmin/:idUtilizador",
+
+
     listaAdministradores = "/administradores/listaAdministradores",
     eventosPublicados = "/eventos/publicados",
     participante = "/usuarios/participante",
     organizador = "/usuarios/organizador",
-    informacaoBasica = "/perfil/informacao/",
-    atualizarPalavraPasse = "/perfil/atualizarPalavraPasse",
-    atualizarInformacaoBasica = "/perfil/atualizarInformacaoBasica",
+    informacaoBasica = "/perfil/:idUtilizador/informacao",
+    atualizarPalavraPasse = "/perfil/:idUtilizador/atualizarPalavraPasse",
+    atualizarInformacaoBasica = "/perfil/:idUtilizador/atualizarInformacaoBasica",
     sair = "/perfil/sair",
 
     // * Banir evento
@@ -29,7 +32,12 @@ export const enum RoutesAdmin {
     criarTipoBilhete = "/tipoBilhete",
     listarTipoBilhete = "/tipoBilhete/todosTipobilhete",
     apagarTipoBilhete = "/tipoBilhete/apagarTipoBilhete/:id",
-    atualizarTipoBilhete = "/tipoBilhete/atualizarTipobilhete/:id"
+    atualizarTipoBilhete = "/tipoBilhete/atualizarTipobilhete/:id",
+
+    
+    // * Recuperar senha Organizador
+    recuperarSenhaAdmin = "/recuperarSenha"
+
 
 
 
@@ -40,12 +48,14 @@ export const enum RoutesAdmin {
 export const enum RoutesParticipante {
     createParticipante = "/create",
     loginParticipante = "/loginParticipante",
+    verificarContaPalestrante = "/verificarContaPalestrante/:idUtilizador",
+
 
     // * Perfil
 
-    informacaoBasica = "/perfil/informacao/",
-    atualizarPalavraPasse = "/perfil/atualizarPalavraPasse",
-    atualizarInformacaoBasica = "/perfil/atualizarInformacaoBasica",
+    informacaoBasica = "/perfil/:idUtilizador/informacao",
+    atualizarPalavraPasse = "/perfil/:idUtilizador/atualizarPalavraPasse",
+    atualizarInformacaoBasica = "/perfil/:idUtilizador/atualizarInformacaoBasica",
     historicoCompra = "/perfil/compra/historicoCompra/",
     detalhaCompra = "/perfil/compra/detalheCompra",
     notificacoes = "/perfil/notificacoes/",
@@ -74,9 +84,11 @@ export const enum RoutesParticipante {
     tipoEvento = "/tipoEvento",
     tipoEventoDetalhe = "/tipoEvento/detalhe",
 
-    // * Bilhete e compra
-    bilhete = "/tipoEvento/detalhete/bilhete",
-    compra = "/tipoEvento/detalhete/bilhete/compra",
+    // * Compra
+    compra = "/eventos/visualizarEvento/:idEvento/compra/:idUtilizador",
+
+    // * Recuperar senha participante
+    recuperarSenhaParticipante = "/recuperarSenha"
 
 
 
@@ -86,12 +98,13 @@ export const enum RoutesParticipante {
 export const enum RoutesOrganizador {
     criarOrganizador = "/create",
     loginOganizador = "/loginOrganizador",
+    verificarContaOrganizador = "/verificarOrganizador/:idUtilizador",
 
     //* Perfil
 
-    informacaoBasica = "/perfil/informacao/",
-    atualizarPalavraPasse = "/perfil/atualizarPalavraPasse",
-    atualizarInformacaoBasica = "/perfil/atualizarInformacaoBasica",
+    informacaoBasica = "/perfil/:idUtilizador/informacao",
+    atualizarPalavraPasse = "/perfil/:idUtilizador/atualizarPalavraPasse",
+    atualizarInformacaoBasica = "/perfil/:idUtilizador/atualizarInformacaoBasica",
     sair = "/perfil/sair",
 
     // * Evento
@@ -106,7 +119,7 @@ export const enum RoutesOrganizador {
     atualizarEvento = "/evento/atualizarEvento",
 
     // * Historico evento
-    historicoEvento = "/evento/historico",
+    historicoEvento = "/evento/historico/:idUtilizador",
 
     // * Listar evento
     listarEvento = "/evento/lista/:idUtilizador",
@@ -153,10 +166,14 @@ export const enum RoutesOrganizador {
     // * Atualizar bilhete
     atualizarBilhete = "/evento/detalhe/editar/:idEvento/bilhete/:idBilhete"
     // * Listar Orador
-    , listaBilhete = "/evento/detalhe/editar/:idEvento/bilhete"
+    , listaBilhete = "/evento/detalhe/editar/:idEvento/bilhete",
 
 
+
+    // * Recuperar senha Organizador
+    recuperarSenhaOrganizador = "/recuperarSenha"
 
 
 
 }
+

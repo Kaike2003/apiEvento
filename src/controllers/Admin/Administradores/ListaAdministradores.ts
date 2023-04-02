@@ -9,10 +9,15 @@ export const ListaAdministradores = async (req: Request, res: Response) => {
 
         const listaAdmin = await prisma.utilizador.findMany({
             where: {
-                utilizador: "ADMIN"
+                utilizador: "ADMIN",
+                
             }
         }).then((sucesso) => {
-            res.status(200).json(sucesso)
+            res.status(200).json({
+                "Id esperado": {
+                    userId: req.userId
+                }
+            })
         }).catch((error: any) => {
             res.status(400).json(error)
         })

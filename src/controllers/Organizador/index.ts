@@ -57,8 +57,11 @@ import * as listarBilhete from "./Eventos/CriarEventos/Bilhete/ListarBilhete"
 import * as apagarBilhete from "./Eventos/CriarEventos/Bilhete/ApagarBilhete"
 import * as atualizarBilhete from "./Eventos/CriarEventos/Bilhete/AtualizarBilhete"
 
+// * Verificar conta
+import * as verificarConta from "./VerificarConta/VerificarConta"
 
-
+// * Verificar conta
+import *  as recuperarSenhaOrganidor from "./RecuperarSenhaOrganizador"
 
 export const ControllerRoutesOrganizador = {
     ...loginOrg,
@@ -118,5 +121,11 @@ export const ControllerRoutesOrganizador = {
     ...atualizarBilhete,
     // * Listar bilhete
     ...listarBilhete,
+    //  * Verificar conta
+    ...verificarConta,
+
+    // * Recuperar senha
+    ...recuperarSenhaOrganidor
+
 
 }

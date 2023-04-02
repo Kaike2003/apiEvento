@@ -27,6 +27,12 @@ export const UtilizadorSchema = z.object({
     }).
         min(4, { message: "A palavra passe deve ter 2 ou mais caracteres" }).
         max(100, { message: "A palavra passe deve ter 70 ou menos caracteres" }),
+    palavraPasseAntiga: z.string({
+        required_error: "A palavra passe é obrigatória",
+        invalid_type_error: "A palavra passe deve ser uma string"
+    }).
+        min(4, { message: "A palavra passe deve ter 2 ou mais caracteres" }).
+        max(100, { message: "A palavra passe deve ter 70 ou menos caracteres" }),
     dataNascimento: z.date({
         required_error: "Selecione uma data",
         invalid_type_error: "A data deve ser uma Data"
@@ -252,21 +258,32 @@ export const CompraSchema = z.object({
 // * Esquemas const com o Omit para cada usuário
 export const AdminTypeOmit = UtilizadorSchema.omit(
     {
-        id: true, /* dataNascimento: true */ localizacao: true, telefone: true,
+        id: true, localizacao: true, telefone: true,
+        palavraPasseAntiga: true
     })
 
 export const AdminTypeAtualizarInfo = UtilizadorSchema.omit(
     { id: true, palavraPasse: true, localizacao: true, telefone: true }
 )
 
-export const AdminTypeAtualizarPalavraPasse = UtilizadorSchema.omit({
-    id: true, localizacao: true, telefone: true, email: true, nome: true,
+export const AdminAtualizarPalavraPasseOmit = UtilizadorSchema.omit({
+    id: true, localizacao: true, telefone: true, email: true,
+    palavraPasse: true, palavraPasseAntiga: true
 })
 
 
-export const ParticipanteOmit = UtilizadorSchema.omit({ id: true, })
+export const ParticipanteOmit = UtilizadorSchema.omit({ id: true, palavraPasseAntiga: true })
 
-export const OrganizadorOmit = UtilizadorSchema.omit({ id: true, })
+
+export const ParticipanteOmitAtualizarInformacao = UtilizadorSchema.omit({ id: true, palavraPasse: true, palavraPasseAntiga: true, email: true })
+
+export const OrganizadorOmitAtualizarInformacao = UtilizadorSchema.omit({ id: true, palavraPasse: true, palavraPasseAntiga: true, email: true })
+
+export const UtilizadorOmitAtualizarPalavaraPasse = UtilizadorSchema.omit({
+    id: true, dataNascimento: true, email: true, localizacao: true, nome: true, telefone: true
+})
+
+export const OrganizadorOmit = UtilizadorSchema.omit({ id: true, palavraPasseAntiga: true })
 
 // * Esquema const com o Omit para evento
 
@@ -301,6 +318,7 @@ export const OradorOmit = OradorSchema.omit({ id: true })
 // * Types 
 export type AdminType = z.infer<typeof AdminTypeOmit>
 export type ParticipanteType = z.infer<typeof ParticipanteOmit>
+export type UtilizadorOmitAtualizarPalavaraPasseType = z.infer<typeof UtilizadorOmitAtualizarPalavaraPasse>
 export type OrganizadorType = z.infer<typeof OrganizadorOmit>
 export type EventoType = z.infer<typeof EventoOmit>
 export type CategoriaType = z.infer<typeof CategoriaOmit>
@@ -309,7 +327,7 @@ export type CompraType = z.infer<typeof CompraOmit>
 export type BilheteType = z.infer<typeof BilheteOmit>
 export type TipoBilheteType = z.infer<typeof TipoBilheteOmit>
 export type OradorType = z.infer<typeof OradorOmit>
-
+export type TypeAdminAtualizarInformacao = z.infer<typeof AdminTypeAtualizarInfo>
 
 // ! Pequenas validações
 

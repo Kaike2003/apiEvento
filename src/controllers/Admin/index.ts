@@ -24,9 +24,15 @@ import * as listarTipoBilhete from "./TipoBilhete/ListarTipoBilhete"
 import * as apagarTipoBilhete from "./TipoBilhete/ApagarTipoBilhete"
 import * as atualizarTipoBilhete from "./TipoBilhete/AtualizarTipoBilhete"
 
+import * as verificarConta from "./verificarConta/VerificarConta"
+
 // * Aprovar evento
 import * as aprovarEvento from "./Eventos/AprovarEvento"
 import * as eventosAespera from "./Eventos/EventosAespera"
+
+// * Recuperar senha
+import * as recuperarsenhaAdmin from "./RecuperarSenhaAdmin"
+
 
 
 export const ControllerRoutesAdmin = {
@@ -63,6 +69,10 @@ export const ControllerRoutesAdmin = {
     ...criarTipoBilhete,
     ...listarTipoBilhete,
     ...apagarTipoBilhete,
-    ...atualizarTipoBilhete
+    ...atualizarTipoBilhete,
+
+
+    ...verificarConta,
+    ...recuperarsenhaAdmin
 
 }

@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\Kaike Bartolomeu\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add bcrypt
+  C:\Program Files\nodejs\node.exe C:\Users\Kaike Bartolomeu\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @stripe/stripe-js
 
 PATH: 
-  C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\AMD\ATI.ACE\Core-Static;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\ProgramData\UNIVALI\Portugol Studio;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\Kaike Bartolomeu\AppData\Local\Microsoft\WindowsApps;C:\Users\Kaike Bartolomeu\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Kaike Bartolomeu\AppData\Roaming\npm;C:\Program Files\nodejs;C:\Program Files\MySQL\MySQL Workbench 8.0;C:\Users\Kaike Bartolomeu\AppData\Local\GitHubDesktop\bin;
+  C:\Users\Kaike Bartolomeu\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Kaike Bartolomeu\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\AMD\ATI.ACE\Core-Static;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\WINDOWS\System32\OpenSSH;C:\Program Files\dotnet;C:\ProgramData\UNIVALI\Portugol Studio;C:\Program Files\MySQL\MySQL Shell 8.0\bin;C:\Users\Kaike Bartolomeu\AppData\Local\Microsoft\WindowsApps;C:\Users\Kaike Bartolomeu\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Kaike Bartolomeu\AppData\Roaming\npm;C:\Program Files\nodejs;C:\Program Files\MySQL\MySQL Workbench 8.0;C:\Users\Kaike Bartolomeu\AppData\Local\GitHubDesktop\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
 
 Yarn version: 
   1.22.19
@@ -14,8 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: getaddrinfo ENOTFOUND registry.yarnpkg.com
-      at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:107:26)
+  Error: EPERM: operation not permitted, unlink 'C:\Users\Kaike Bartolomeu\Desktop\programação\projeto\node_modules\@prisma\.engines-1UChlKmU\query_engine-windows.dll.node'
 
 npm manifest: 
   {
@@ -24,26 +23,48 @@ npm manifest:
     "description": "",
     "main": "index.js",
     "scripts": {
-      "start": "ts-node-dev ./src/index.ts"
+      "start": "ts-node-dev --files ./src/index.ts"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "devDependencies": {
       "@types/express": "^4.17.15",
+      "@types/express-session": "^1.17.7",
+      "@types/jsonwebtoken": "^9.0.1",
+      "@types/morgan": "^1.9.4",
       "@types/node": "^18.11.18",
+      "@types/nodemailer": "^6.4.7",
       "prisma": "^4.8.0",
       "ts-node": "^10.9.1",
       "typescript": "^4.9.4"
     },
     "dependencies": {
       "@prisma/client": "^4.8.0",
+      "@sendgrid/mail": "^7.7.0",
+      "@types/acl": "^0.4.41",
       "@types/bcrypt": "^5.0.0",
+      "@types/formidable": "^2.0.5",
+      "@types/multer": "^1.4.7",
+      "acl": "^0.4.11",
       "bcrypt": "^5.1.0",
+      "emailable": "^3.0.3",
       "express": "^4.18.2",
+      "express-session": "^1.17.3",
+      "faker": "^6.6.6",
+      "formidable": "^2.1.1",
+      "fs": "^0.0.1-security",
       "http-status-codes": "^2.2.0",
       "io-ts": "^2.2.20",
-      "ts-node-dev": "^2.0.0"
+      "jsonwebtoken": "^9.0.0",
+      "mailhog": "^4.16.0",
+      "morgan": "^1.10.0",
+      "multer": "^1.4.5-lts.1",
+      "nodemailer": "^6.9.1",
+      "stripe": "^11.17.0",
+      "ts-node-dev": "^2.0.0",
+      "yup": "^1.0.0",
+      "zod": "^3.20.6"
     }
   }
 

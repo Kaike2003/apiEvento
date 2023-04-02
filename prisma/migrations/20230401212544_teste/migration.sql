@@ -8,6 +8,8 @@ CREATE TABLE `utilizador` (
     `localizacao` VARCHAR(191) NOT NULL,
     `utilizador` ENUM('PARTICIPANTE', 'ADMIN', 'ORGANIZADOR') NOT NULL DEFAULT 'PARTICIPANTE',
     `telefone` VARCHAR(191) NOT NULL,
+    `verificado` BOOLEAN NOT NULL DEFAULT false,
+    `banido` BOOLEAN NOT NULL DEFAULT false,
     `at_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `at_update` DATETIME(3) NOT NULL,
 
@@ -53,7 +55,7 @@ CREATE TABLE `evento` (
     `nome` VARCHAR(191) NOT NULL,
     `foto` VARCHAR(191) NULL,
     `estado` ENUM('CANCELADO', 'DESPONIVEL', 'ADECORRER', 'FINALIZADO') NOT NULL DEFAULT 'DESPONIVEL',
-    `descricao` VARCHAR(191) NOT NULL,
+    `descricao` VARCHAR(8000) NOT NULL,
     `provincia` VARCHAR(191) NOT NULL,
     `municipio` VARCHAR(191) NOT NULL,
     `bairro` VARCHAR(191) NOT NULL,

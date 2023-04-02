@@ -6,17 +6,12 @@ import { routerOrganizador } from "../routes/organizador"
 import { routerParticipante } from "../routes/participante"
 const server = express()
 
+
 server.use("/public", express.static("public"))
 
 
-server.use(session({
-    secret: 'minhaChaveSecreta',
-    resave: false,
-    saveUninitialized: true
-}));
 server.use(morgan("dev"))
 server.use(express.json())
-
 
 server.use("/admin", routerAdmin)
 server.use("/participante", routerParticipante)
@@ -24,7 +19,7 @@ server.use("/organizador", routerOrganizador)
 
 
 server.get("/", (req: Request, res: Response) => {
-    res.send("Olá mundo")
+    res.send("<h1>Página principal funcionando</h1>")
 })
 
 

@@ -20,6 +20,8 @@ model Utilizador {
   utilizador     TipoUtilizador @default(PARTICIPANTE)
   telefone       String
   evento         Evento[]
+  verificado     Boolean        @default(false)
+  banido         Boolean        @default(false)
 
   at_create DateTime @default(now())
   at_update DateTime @updatedAt
@@ -77,7 +79,7 @@ model Evento {
   nome        String
   foto        String?
   estado      TipoEstadoEvento @default(DESPONIVEL)
-  descricao   String
+  descricao   String           @db.VarChar(8000)
   provincia   String
   municipio   String
   bairro      String

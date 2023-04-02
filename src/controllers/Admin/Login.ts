@@ -1,6 +1,9 @@
 import { Request, Response } from "express"
 import { prisma } from "../../prisma"
 import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
+export const SECRET: string = "kaikebartolomeu"
+
 
 export const Login = async (req: Request, res: Response) => {
 
@@ -19,13 +22,16 @@ export const Login = async (req: Request, res: Response) => {
         if (!senhaCorreta) {
             throw new Error('Senha incorreta');
         } else {
-            res.json({
 
-                "Usuario logado:": senhaCorreta,
-                "Usuario encontrado:": usuario,
-                "Sessão": req.session
-            })
-
+            if (
+                usuario.utilizador === "ADMIN" &&
+                usuario.verificado === true
+            ) {
+                const token = jwt.sign({
+                    userId: usuario.id,
+                }, SECRET, { expiresIn: "1d" })
+                res.json({ autenticação: true, token })
+            }
         }
     } catch (error) {
         res.json({ "Error": error, "Palavrapasse incorreta": palavraPasse })
