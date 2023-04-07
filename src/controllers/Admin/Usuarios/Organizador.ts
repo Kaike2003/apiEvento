@@ -20,9 +20,7 @@ export const Organizador = async (req: Request, res: Response) => {
                 at_update: true
             }
         }).then((sucesso) => {
-            res.json({
-                "Lista de todos os organizadores da aplicação": sucesso
-            })
+            res.json(sucesso)
         }).catch((errror) => {
             res.json(errror)
         })

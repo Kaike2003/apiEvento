@@ -8,9 +8,9 @@ export type recuperarSenha = {
     email: string
 }
 
-const tamanhoString = 16
-const bytesAleatorios = crypto.randomBytes(tamanhoString);
-const stringAleatoria = bytesAleatorios.toString('base64');
+const aleatorio: number = Math.floor(Math.random() * 1000000)
+const valor : string = (String(`${"2023" + aleatorio}`))
+
 
 export const RecuperarSenha = async (req: Request, res: Response) => {
 
@@ -39,7 +39,7 @@ export const RecuperarSenha = async (req: Request, res: Response) => {
                             email: email
                         },
                         data: {
-                            palavraPasse: await Password(stringAleatoria)
+                            palavraPasse: await Password(valor)
                         }
                     }).then(async (sucesso) => {
 
@@ -61,10 +61,10 @@ export const RecuperarSenha = async (req: Request, res: Response) => {
                             text: "",
                             html: `
                                     <h2 >Recuperação de senha</h2>
-                                    <p>Sua senha nova é ${stringAleatoria}</>`
+                                    <p>Sua senha nova é ${valor}</>`
                         }).then(message => {
                             console.log({ "Valido": message })
-                            res.status(201).json({ "Sua senha nova é ": stringAleatoria })
+                            res.status(201).json({ "Sua senha nova é ": valor })
                         }).catch(error => {
                             console.log({ "Errado": error })
                             res.json(error)

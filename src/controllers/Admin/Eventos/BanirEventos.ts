@@ -27,7 +27,7 @@ export const BanirEventos = async (req: Request, res: Response) => {
                     estado: "CANCELADO"
                 }
             }).then((sucesso) => {
-                res.json({ "O evento com id Foi banido com sucesso.": sucesso })
+                res.json(sucesso)
             }).catch((error) => {
                 res.json(`Erro banir evento: ${error}`)
             })

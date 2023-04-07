@@ -27,19 +27,19 @@ routerAdmin.put(
 // * Listar todos os administradores da aplicação
 routerAdmin.get(
     RoutesAdmin.listaAdministradores,
-    Autenticacao,
-    PermissaoRotasAdmin(permissaoADMIN),
+    // Autenticacao,
+    // PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.ListaAdministradores)
 
-// * Listar todos os palestrantes da aplicação
+// * Listar todos os participantes da aplicação
 routerAdmin.get(RoutesAdmin.participante,
-    Autenticacao,
-    PermissaoRotasAdmin(permissaoADMIN),
+    // Autenticacao,
+    // PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.Participante)
 // * Listar todos os usuários da aplicação
 routerAdmin.get(RoutesAdmin.organizador,
-    Autenticacao,
-    PermissaoRotasAdmin(permissaoADMIN),
+    // Autenticacao,
+    // PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.Organizador)
 
 // * Informações básicas do administrador
@@ -70,73 +70,83 @@ routerAdmin.get(RoutesAdmin.sair,
 
 // * Eventos publicados
 routerAdmin.get(RoutesAdmin.eventosPublicados,
-    PermissaoRotasAdmin(permissaoADMIN),
+    // Autenticacao,F
+    // PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.EventosPublicados)
 
 // * Banir evento
 routerAdmin.put(
     RoutesAdmin.banirEvento,
-    Autenticacao,
-    PermissaoRotasAdmin(permissaoADMIN),
+    // Autenticacao,
+    // PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.BanirEventos)
+
+// * Eventos banidos
+
+routerAdmin.get(
+    RoutesAdmin.eventosBanidos,
+    // Autenticacao,
+    // PermissaoRotasAdmin(permissaoADMIN),
+    ControllerRoutesAdmin.EventosBanidos)
+
 
 // * Aprovar evento
 routerAdmin.put(
     RoutesAdmin.aprovarEvento,
-    Autenticacao,
-    PermissaoRotasAdmin(permissaoADMIN),
+    // Autenticacao,
+    // PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.AprovarEvento
 )
 
 // * Eventos a espera
 routerAdmin.get(
     RoutesAdmin.eventosAespera,
-    Autenticacao,
-    PermissaoRotasAdmin(permissaoADMIN),
+    // Autenticacao,
+    // PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.EventosAespera
 )
 
 
 // * Categoria
 routerAdmin.post(RoutesAdmin.criarCategoria,
-    Autenticacao,
-    PermissaoRotasAdmin(permissaoADMIN),
+    // Autenticacao,
+    // PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.CriarCategoria)
 
 routerAdmin.get(RoutesAdmin.listarCategoria,
-    Autenticacao,
-    PermissaoRotasAdmin(permissaoADMIN),
+    // Autenticacao,
+    // PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.ListarCategoria)
 
 routerAdmin.delete(RoutesAdmin.apagarCategoria,
-    Autenticacao,
-    PermissaoRotasAdmin(permissaoADMIN),
+    // Autenticacao,
+    // PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.ApagarCategoria)
 
 routerAdmin.put(RoutesAdmin.atualizarCategoria,
-    Autenticacao,
-    PermissaoRotasAdmin(permissaoADMIN),
+    // Autenticacao,
+    // PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.AtualizarCategoria)
 
 // * TipoBilhete
 routerAdmin.post(RoutesAdmin.criarTipoBilhete,
-    Autenticacao,
-    PermissaoRotasAdmin(permissaoADMIN),
+    // Autenticacao,
+    // PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.CriarTipoBilhete)
 
 routerAdmin.get(RoutesAdmin.listarTipoBilhete,
-    Autenticacao,
-    PermissaoRotasAdmin(permissaoADMIN),
+    // Autenticacao,
+    // PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.ListarTipoBilhete)
 
 routerAdmin.delete(RoutesAdmin.apagarTipoBilhete,
-    Autenticacao,
-    PermissaoRotasAdmin(permissaoADMIN),
+    // Autenticacao,
+    // PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.ApagarTipoBilhete)
 
 routerAdmin.put(RoutesAdmin.atualizarTipoBilhete,
-    Autenticacao,
-    PermissaoRotasAdmin(permissaoADMIN),
+    // Autenticacao,
+    // PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.AtualizarTipoBilhete)
 
 // * Recuperar senha

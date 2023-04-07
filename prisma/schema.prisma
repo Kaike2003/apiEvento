@@ -20,8 +20,10 @@ model Utilizador {
   utilizador     TipoUtilizador @default(PARTICIPANTE)
   telefone       String
   evento         Evento[]
+  reserva        Reserva[]
   verificado     Boolean        @default(false)
   banido         Boolean        @default(false)
+  codigo         String
 
   at_create DateTime @default(now())
   at_update DateTime @updatedAt
@@ -75,21 +77,22 @@ model Orador {
 }
 
 model Evento {
-  id          String           @id @default(uuid())
-  nome        String
-  foto        String?
-  estado      TipoEstadoEvento @default(DESPONIVEL)
-  descricao   String           @db.VarChar(8000)
-  provincia   String
-  municipio   String
-  bairro      String
-  horaInicio  DateTime         @db.Time()
-  horaTermino DateTime         @db.Time()
-  dataInicio  DateTime         @db.Date()
-  dataTermino DateTime         @db.Date()
-  publicado   Boolean          @default(false)
-  aprovado    Boolean          @default(false)
-  banido      Boolean          @default(false)
+  id           String           @id @default(uuid())
+  nome         String
+  foto         String?
+  estado       TipoEstadoEvento @default(DESPONIVEL)
+  descricao    String           @db.VarChar(8000)
+  provincia    String
+  municipio    String
+  bairro       String
+  horaInicio   DateTime         @db.Time()
+  horaTermino  DateTime         @db.Time()
+  dataInicio   DateTime         @db.Date()
+  dataTermino  DateTime         @db.Date()
+  publicado    Boolean          @default(false)
+  aprovado     Boolean          @default(false)
+  banido       Boolean          @default(false)
+  visualizacao Int
 
   bilhete     Bilhete[]
   palestrante Palestrante_Evento[]
@@ -147,14 +150,16 @@ model Item_Bilhete {
   bilhete   Bilhete @relation(fields: [bilheteId], references: [id])
   bilheteId String
 
-  compra   Compra @relation(fields: [compraId], references: [id])
-  compraId String
+  reserva   Reserva @relation(fields: [reservaId], references: [id])
+  reservaId String
 
   at_create DateTime @default(now())
   at_update DateTime @updatedAt
+
+  @@map("itemBilhete")
 }
 
-model Compra {
+model Reserva {
   id              String @id @default(uuid())
   quantidade      Int
   total           Int
@@ -162,8 +167,13 @@ model Compra {
 
   item_Bilhte Item_Bilhete[]
 
+  Utilizador   Utilizador @relation(fields: [utilizadorId], references: [id])
+  utilizadorId String
+
   at_create DateTime @default(now())
   at_update DateTime @updatedAt
+
+  @@map("reserva")
 }
 
 model Palestrante_Evento {
@@ -188,6 +198,7 @@ model Orador_Evento {
   at_update DateTime @updatedAt
 
   @@id([oradorId, eventoId])
+  @@map("oradorEvento")
 }
 
 model TipoBilhete {
@@ -195,4 +206,6 @@ model TipoBilhete {
   nome String
 
   bilhete Bilhete[]
+
+  @@map("TipoBilhete")
 }

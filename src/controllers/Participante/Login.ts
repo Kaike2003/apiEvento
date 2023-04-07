@@ -12,7 +12,10 @@ export const LoginParticipante = async (req: Request, res: Response) => {
 
     const { email, palavraPasse } = req.body
 
-    const usuario = await prisma.utilizador.findUnique({ where: { email } });
+    const usuario = await prisma.utilizador.findUnique({
+        where: { email }
+    });
+
 
     try {
         if (!usuario) {
@@ -30,13 +33,13 @@ export const LoginParticipante = async (req: Request, res: Response) => {
                 const token = jwt.sign({
                     userId: usuario.id,
                 }, SECRET, { expiresIn: "1d" })
-                res.json({ autenticação: true, token })
-            } else{
+                res.json({ autenticação: true, token, usuario })
+            } else {
                 res.json("Verifique sua conta para poder fazer login na aplicação.")
             }
         }
     } catch (error) {
-        res.json({ "Error": error, "Palavrapasse incorreta": palavraPasse })
+        res.json({ "Error": error, "Palavra passe incorreta": palavraPasse })
     }
 
 

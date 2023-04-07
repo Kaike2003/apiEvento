@@ -7,6 +7,7 @@ export const ListarCategoria = async (req: Request, res: Response) => {
     try {
         const listarCateogirias = await prisma.categoria.findMany({
             select: {
+                id: true,
                 nome: true
             }
         }).then((sucesso) => {

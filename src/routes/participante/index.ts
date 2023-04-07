@@ -3,6 +3,7 @@ import { ControllerParticipante } from "../../controllers";
 import { EmailAutenticacao } from "../../middlewares/EmailAutenticacao";
 import { PermissaoRotasParticipante } from "../../middlewares/PermissaoRotas";
 import { RoutesParticipante } from "../enumRoutes";
+import { Autenticacao } from "../../middlewares/AutenticacaoMiddlewares";
 
 const permissaoPARTICIPANTE: string = "PARTICIPANTE"
 
@@ -22,67 +23,68 @@ routerParticipante.post(
 )
 
 routerParticipante.put(
-    RoutesParticipante.verificarContaPalestrante,
+    RoutesParticipante.verificarContaParticipante,
     ControllerParticipante.VerificarContaParticipante
 )
 
 
 routerParticipante.put(
     RoutesParticipante.atualizarInformacaoBasica,
-    PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.AtualizarInformacaoBasica)
 
 routerParticipante.put(
     RoutesParticipante.atualizarPalavraPasse,
-    PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.AtualizarPalavraPasse)
 
 routerParticipante.get(
     RoutesParticipante.informacaoBasica,
-    PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    Autenticacao,
+    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.InformacaoBasica)
 
 routerParticipante.get(
     RoutesParticipante.sair,
-    PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.Sair)
 
 routerParticipante.get(
     RoutesParticipante.historicoCompra,
-    PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.HistoricoCompra)
 
 routerParticipante.get(
     RoutesParticipante.notificacoes,
-    PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.Notificacoes)
 
 routerParticipante.get(
     RoutesParticipante.detalhaCompra,
-    PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.DetalheCompra)
 
 // * Filtro
 
 routerParticipante.get(
     RoutesParticipante.categoriaEvento,
-    PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.CategoriaEvento)
 
 routerParticipante.get(
     RoutesParticipante.mes,
-    PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.Mes)
 // * Meus eventos
 
 routerParticipante.get(
     RoutesParticipante.historico,
-    PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.Historico)
 
 routerParticipante.get(
-    RoutesParticipante.historico,
-    PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    RoutesParticipante.bilhetehistorico,
+    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.
         BilheteHistorico)
 
@@ -90,47 +92,53 @@ routerParticipante.get(
 
 routerParticipante.get(
     RoutesParticipante.eventosNovos,
-    PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.EventosNovos)
 
 routerParticipante.get(
     RoutesParticipante.eventosTodos,
-    PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.EventosTodos)
 
 routerParticipante.get(
     RoutesParticipante.visualizarEvento,
-    PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.VisualizarEvento)
 
 routerParticipante.get(
     RoutesParticipante.visualiarPalestrante,
-    PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.VisualiarPalestrante)
 
 // * Tipo Evento
 
 routerParticipante.get(
     RoutesParticipante.tipoEvento,
-    PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.TipoEvento)
 
 routerParticipante.get(
     RoutesParticipante.tipoEventoDetalhe,
-    PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.TipoEventoDetalhe)
 
 // *  Compra
 
 routerParticipante.post(
-    RoutesParticipante.compra,
+    RoutesParticipante.reserva,
     // PermissaoRotasParticipante(permissaoPARTICIPANTE),
-    ControllerParticipante.Compra)
+    ControllerParticipante.Reserva)
 
 // * Recuperar Senha
 routerParticipante.put(
     RoutesParticipante.recuperarSenhaParticipante,
     ControllerParticipante.RecuperarSenha
+)
+
+// * Listar participante
+routerParticipante.get(
+    RoutesParticipante.listarparticipante,
+    ControllerParticipante.ListarParticipante
 )
 
 

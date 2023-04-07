@@ -33,6 +33,9 @@ import * as eventosAespera from "./Eventos/EventosAespera"
 // * Recuperar senha
 import * as recuperarsenhaAdmin from "./RecuperarSenhaAdmin"
 
+// * Eventos banidos
+import * as eventosbanidos from "./Eventos/EventosBanidos"
+
 
 
 export const ControllerRoutesAdmin = {
@@ -71,6 +74,8 @@ export const ControllerRoutesAdmin = {
     ...apagarTipoBilhete,
     ...atualizarTipoBilhete,
 
+    // * Eventos banidos
+    ...eventosbanidos,
 
     ...verificarConta,
     ...recuperarsenhaAdmin

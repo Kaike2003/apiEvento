@@ -2,7 +2,14 @@ import { Request, Response } from "express";
 import { Password } from "../../password/password";
 import { prisma } from "../../prisma";
 import { OrganizadorOmit, OrganizadorType, VerificaoExiste_Organizador } from "../../validation";
+import crypto from "crypto"
+
 import nodemailer from "nodemailer"
+
+
+const tamanhoString = 10
+const bytesAleatorios = crypto.randomBytes(tamanhoString);
+const stringAleatoria = bytesAleatorios.toString('base64');
 
 export const CreateOrg = async (req: Request, res: Response) => {
 
@@ -49,59 +56,64 @@ export const CreateOrg = async (req: Request, res: Response) => {
                     telefone: result.telefone,
                     dataNascimento: result.dataNascimento,
                     localizacao: result.localizacao,
-                    utilizador: "ORGANIZADOR"
+                    utilizador: "ORGANIZADOR",
+                    codigo: stringAleatoria
                 }
-            }).then(async(sucesso) => {          
-            
+            }).then(async (sucesso) => {
+
 
                 const verificarConta = await prisma.utilizador.findFirst({
                     where: {
                         email: result.email
                     }
-                }).then((sucesso)=>{
+                }).then((sucesso) => {
 
-                    if(!sucesso){
+                    if (!sucesso) {
                         res.json("Valor nulo kkk")
-                    } else{
+                    } else {
 
-          
+
                         let transporter = nodemailer.createTransport({
                             host: "smtp.gmail.com",
                             port: 587,
                             secure: false,
-                            auth:{
+                            auth: {
                                 user: "kaikebartolomeu2003@gmail.com",
                                 pass: "ubgpkcctmxmpvlav"
                             }
                         })
-                    
-                     transporter.sendMail({
-                            from: "Rosinaldo Bartolomeu <kaikebartolomeu2003@gmail.com>",
+
+                        transporter.sendMail({
+                            from: `${result.nome}
+                            <kaikebartolomeu2003@gmail.com>` ,
                             to: `${result.email}`,
-                            subject: "Confirme seu e-mail para começar a usar a KaikeEventos",
+                            subject: "Confirme seu e-mail para começar a usar a Reserva online",
                             text: "",
                             html: `
-                            <h2 >KaikeEventos</h2>
-                            <p>Confirme seu e-mail para termos certeza de que a solicitação partiu de você. A confirmação do seu e-mail é importante para enviarmos informações sobre sua conta da KaikeEventos.</>
-
-                            <a href="localhost:3456/organizador/verificarOrganizador/${sucesso.id}">localhost:3456/organizador/verificarOrganizador/${sucesso.id} </a>`
-                        }).then(message=>{
-                            console.log({"Valido":message})
+                            <h2 >Reserva online</h2>
+                            <p>Confirme seu e-mail para termos certeza de que a solicitação partiu de você.</p> 
+                            <p>A confirmação do seu e-mail é importante para enviarmos informações sobre sua conta da reserva online.</p>
+                            <span
+                            style={{color: "red"}}
+                            >Código</span>:<h3>  ${sucesso.codigo} </h3>
+                         `
+                        }).then(message => {
+                            console.log({ "Valido": message })
                             res.status(201).json(sucesso)
-                        }).catch(error=>{
-                            console.log({"Errado": error})
+                        }).catch(error => {
+                            console.log({ "Errado": error })
                         })
-            
-        
-                        
-                    }
-   
 
-                }).catch((error)=>{
-                res.status(400).json(error)
+
+
+                    }
+
+
+                }).catch((error) => {
+                    res.status(400).json(error)
                 })
 
-      
+
             }).catch((error: any) => {
                 res.status(400).json(error)
             })

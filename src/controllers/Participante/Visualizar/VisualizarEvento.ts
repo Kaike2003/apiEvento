@@ -3,7 +3,11 @@ import { prisma } from "../../../prisma";
 import { QueryParams } from "../../../validation";
 
 
+
+
 export const VisualizarEvento = async (req: Request, res: Response) => {
+
+
 
     const { idEvento }: QueryParams = req.params
 
@@ -56,7 +60,35 @@ export const VisualizarEvento = async (req: Request, res: Response) => {
                     }
                 }
 
-            }).then((sucesso) => {
+            }).then(async (sucesso) => {
+
+
+                const eventoVisualizacao = await prisma.evento.findUnique({
+                    where: {
+                        id: idEvento
+                    }
+                }).then(async (sucesso) => {
+
+                    if (!sucesso) {
+                        res.json("Valor nulo")
+                    } else {
+
+                        const atualizarVisualizacao = await prisma.evento.update({
+                            where: {
+                                id: idEvento
+                            },
+                            data: {
+                                visualizacao: sucesso.visualizacao + 1
+                            }
+                        })
+
+
+
+
+                    }
+
+                })
+
                 res.json({ "Informações do evento": sucesso })
             }).catch((error) => {
                 res.json(error)

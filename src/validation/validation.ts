@@ -236,7 +236,7 @@ export const BilheteSchema = z.object({
 
 // * Esquema compra
 
-export const CompraSchema = z.object({
+export const ReservaSchema = z.object({
     id: z.number({
         required_error: "O id é obrigátorio",
         invalid_type_error: "O id deve ser um inteiro"
@@ -250,7 +250,13 @@ export const CompraSchema = z.object({
         invalid_type_error: "O metodo de pagamento deve ser uma string"
     })
         .min(3, { message: "O nome metodo de pagamento deve conter 2 ou mais caracteres" })
-        .max(60, { message: "O nome metodo de pagamento deve conter 30 ou menos caracteres" })
+        .max(60, { message: "O nome metodo de pagamento deve conter 30 ou menos caracteres" }),
+    bilheteId: z.string({
+        required_error: "O id do bilhete é obrigatório",
+        invalid_type_error: "O id do bilhete deve ser uma string"
+    })
+        .min(3, { message: "O id do bilhete deve conter 2 ou mais caracteres" })
+        .max(400, { message: "O id do bilhete deve conter 400 ou menos caracteres" })
 
 })
 
@@ -307,7 +313,7 @@ export const BilheteOmit = BilheteSchema.omit({ id: true })
 
 // * Esquema const Omit para Compra
 
-export const CompraOmit = CompraSchema.omit({ id: true })
+export const ReservaOmit = ReservaSchema.omit({ id: true })
 
 // * Esquema const Omit para Orador
 
@@ -323,7 +329,7 @@ export type OrganizadorType = z.infer<typeof OrganizadorOmit>
 export type EventoType = z.infer<typeof EventoOmit>
 export type CategoriaType = z.infer<typeof CategoriaOmit>
 export type PalestranteType = z.infer<typeof PalestranteOmit>
-export type CompraType = z.infer<typeof CompraOmit>
+export type ReservaType = z.infer<typeof ReservaOmit>
 export type BilheteType = z.infer<typeof BilheteOmit>
 export type TipoBilheteType = z.infer<typeof TipoBilheteOmit>
 export type OradorType = z.infer<typeof OradorOmit>

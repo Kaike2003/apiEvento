@@ -1,11 +1,43 @@
 import { Request, Response } from "express";
+import { QueryParams } from "../../../validation";
+import { prisma } from "../../../prisma";
 
 
 export const Historico = async (req: Request, res: Response) => {
 
-    res.json({
-        "Informações": "sobre o historico dos eventos",
-        "Os campos serão": "Foto, nome do evento ,categoria do evento, preço, data de inicio e termino do evento, localização, estado do evento"
-    })
+    const { idUtilizador }: QueryParams = req.params
 
+
+    const verificarUtilizador = await prisma.bilhete.findMany({
+        where: {
+            item_bilhete: {
+                every: {
+                    reserva: {
+                        utilizadorId: idUtilizador
+                    }
+                }
+            }
+        },
+        include:{
+            evento:{
+                include:{
+                    bilhete:{
+                        where:{
+                            item_bilhete:{
+                                every:{
+                                    reserva:{
+                                        utilizadorId: idUtilizador
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }).then(async (sucesso) => {
+        res.json(sucesso)
+    }).catch((error)=>{
+        res.json(error)
+    })
 }

@@ -27,7 +27,7 @@ export const AprovarEvento = async (req: Request, res: Response) => {
                     estado: "DESPONIVEL"
                 }
             }).then((sucesso) => {
-                res.json({ "O evento com id Foi aprovado com sucesso.": sucesso })
+                res.json(sucesso)
             }).catch((error) => {
                 res.json(`Erro banir evento: ${error}`)
             })

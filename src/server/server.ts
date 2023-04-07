@@ -1,15 +1,15 @@
 import express, { Response, Request } from "express"
-import session from "express-session"
 import morgan from "morgan"
 import { routerAdmin } from "../routes/admin"
 import { routerOrganizador } from "../routes/organizador"
 import { routerParticipante } from "../routes/participante"
+import cors from "cors"
 const server = express()
 
 
 server.use("/public", express.static("public"))
 
-
+server.use(cors())
 server.use(morgan("dev"))
 server.use(express.json())
 

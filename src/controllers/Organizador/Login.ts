@@ -30,9 +30,10 @@ export const LoginOrganizador = async (req: Request, res: Response) => {
                 const token = jwt.sign({
                     userId: usuario.id,
                 }, SECRET, { expiresIn: "1d" })
-                res.json({ autenticação: true, token })
+                res.json({ autenticação: true, token, usuario })
             } else {
                 res.json("Verifique sua conta para poder fazer login na aplicação.")
+                console.log("Verifique sua conta para poder fazer login na aplicação.")
             }
         }
     } catch (error) {

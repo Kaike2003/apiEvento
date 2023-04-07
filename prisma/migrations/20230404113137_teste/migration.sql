@@ -10,6 +10,7 @@ CREATE TABLE `utilizador` (
     `telefone` VARCHAR(191) NOT NULL,
     `verificado` BOOLEAN NOT NULL DEFAULT false,
     `banido` BOOLEAN NOT NULL DEFAULT false,
+    `codigo` VARCHAR(191) NOT NULL,
     `at_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `at_update` DATETIME(3) NOT NULL,
 
@@ -66,6 +67,7 @@ CREATE TABLE `evento` (
     `publicado` BOOLEAN NOT NULL DEFAULT false,
     `aprovado` BOOLEAN NOT NULL DEFAULT false,
     `banido` BOOLEAN NOT NULL DEFAULT false,
+    `visualizacao` INTEGER NOT NULL,
     `utilizadorId` VARCHAR(191) NOT NULL,
     `categoriaId` VARCHAR(191) NOT NULL,
     `at_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -93,11 +95,11 @@ CREATE TABLE `bilhete` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Item_Bilhete` (
+CREATE TABLE `itemBilhete` (
     `id` VARCHAR(191) NOT NULL,
     `nome` VARCHAR(191) NOT NULL,
     `bilheteId` VARCHAR(191) NOT NULL,
-    `compraId` VARCHAR(191) NOT NULL,
+    `reservaId` VARCHAR(191) NOT NULL,
     `at_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `at_update` DATETIME(3) NOT NULL,
 
@@ -105,11 +107,12 @@ CREATE TABLE `Item_Bilhete` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Compra` (
+CREATE TABLE `reserva` (
     `id` VARCHAR(191) NOT NULL,
     `quantidade` INTEGER NOT NULL,
     `total` INTEGER NOT NULL,
     `metodoPagamento` VARCHAR(191) NOT NULL,
+    `utilizadorId` VARCHAR(191) NOT NULL,
     `at_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `at_update` DATETIME(3) NOT NULL,
 
@@ -127,7 +130,7 @@ CREATE TABLE `Palestrante_Evento` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Orador_Evento` (
+CREATE TABLE `oradorEvento` (
     `oradorId` VARCHAR(191) NOT NULL,
     `eventoId` VARCHAR(191) NOT NULL,
     `at_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -157,10 +160,13 @@ ALTER TABLE `bilhete` ADD CONSTRAINT `bilhete_eventoId_fkey` FOREIGN KEY (`event
 ALTER TABLE `bilhete` ADD CONSTRAINT `bilhete_tipoEventoId_fkey` FOREIGN KEY (`tipoEventoId`) REFERENCES `TipoBilhete`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Item_Bilhete` ADD CONSTRAINT `Item_Bilhete_bilheteId_fkey` FOREIGN KEY (`bilheteId`) REFERENCES `bilhete`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `itemBilhete` ADD CONSTRAINT `itemBilhete_bilheteId_fkey` FOREIGN KEY (`bilheteId`) REFERENCES `bilhete`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Item_Bilhete` ADD CONSTRAINT `Item_Bilhete_compraId_fkey` FOREIGN KEY (`compraId`) REFERENCES `Compra`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `itemBilhete` ADD CONSTRAINT `itemBilhete_reservaId_fkey` FOREIGN KEY (`reservaId`) REFERENCES `reserva`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `reserva` ADD CONSTRAINT `reserva_utilizadorId_fkey` FOREIGN KEY (`utilizadorId`) REFERENCES `utilizador`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Palestrante_Evento` ADD CONSTRAINT `Palestrante_Evento_palestranteId_fkey` FOREIGN KEY (`palestranteId`) REFERENCES `palestrante`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -169,7 +175,7 @@ ALTER TABLE `Palestrante_Evento` ADD CONSTRAINT `Palestrante_Evento_palestranteI
 ALTER TABLE `Palestrante_Evento` ADD CONSTRAINT `Palestrante_Evento_eventoId_fkey` FOREIGN KEY (`eventoId`) REFERENCES `evento`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Orador_Evento` ADD CONSTRAINT `Orador_Evento_oradorId_fkey` FOREIGN KEY (`oradorId`) REFERENCES `orador`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `oradorEvento` ADD CONSTRAINT `oradorEvento_oradorId_fkey` FOREIGN KEY (`oradorId`) REFERENCES `orador`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Orador_Evento` ADD CONSTRAINT `Orador_Evento_eventoId_fkey` FOREIGN KEY (`eventoId`) REFERENCES `evento`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `oradorEvento` ADD CONSTRAINT `oradorEvento_eventoId_fkey` FOREIGN KEY (`eventoId`) REFERENCES `evento`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

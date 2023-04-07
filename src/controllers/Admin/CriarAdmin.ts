@@ -2,9 +2,13 @@ import { Request, Response } from "express";
 import { prisma } from "../../prisma";
 import { Password } from "../../password/password";
 import { AdminTypeOmit, AdminType, VerificarcaoExiste_Admin } from "../../validation";
-
+import crypto from "crypto"
 import nodemailer from "nodemailer"
 
+
+const tamanhoString = 8
+const bytesAleatorios = crypto.randomBytes(tamanhoString);
+const stringAleatoria = bytesAleatorios.toString('base64');
 
 export const Create = async (req: Request, res: Response) => {
 
@@ -38,7 +42,8 @@ export const Create = async (req: Request, res: Response) => {
                     localizacao: "",
                     dataNascimento: result.dataNascimento,
                     telefone: "",
-                    utilizador: "ADMIN"
+                    utilizador: "ADMIN",
+                    codigo: stringAleatoria
                 }
             }).then(async(sucesso) => {          
             
@@ -64,23 +69,26 @@ export const Create = async (req: Request, res: Response) => {
                             }
                         })
                     
-                     transporter.sendMail({
-                            from: "Rosinaldo Bartolomeu <kaikebartolomeu2003@gmail.com>",
+                        transporter.sendMail({
+                            from: `${result.nome}
+                            <kaikebartolomeu2003@gmail.com>` ,
                             to: `${result.email}`,
-                            subject: "Confirme seu e-mail para começar a usar a KaikeEventos",
+                            subject: "Confirme seu e-mail para começar a usar a Reserva online",
                             text: "",
                             html: `
-                            <h2 >KaikeEventos</h2>
-                            <p>Confirme seu e-mail para termos certeza de que a solicitação partiu de você. A confirmação do seu e-mail é importante para enviarmos informações sobre sua conta da KaikeEventos.</>
-
-                            <a href="localhost:3456/admin/verificarAdmin/:${sucesso.id}">localhost:3456/admin/verificarAdmin/:${sucesso.id} </a>`
-                        }).then(message=>{
-                            console.log({"Valido":message})
+                            <h2 >Reserva online</h2>
+                            <p>Confirme seu e-mail para termos certeza de que a solicitação partiu de você.</p> 
+                            <p>A confirmação do seu e-mail é importante para enviarmos informações sobre sua conta da reserva online.</p>
+                            <span
+                            style={{color: "red"}}
+                            >Código</span>:<h3>  ${sucesso.codigo} </h3>
+                         `
+                        }).then(message => {
+                            console.log({ "Valido": message })
                             res.status(201).json(sucesso)
-                        }).catch(error=>{
-                            console.log({"Errado": error})
+                        }).catch(error => {
+                            console.log({ "Errado": error })
                         })
-            
         
                         
                     }

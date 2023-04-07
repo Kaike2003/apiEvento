@@ -22,6 +22,11 @@ export const enum RoutesAdmin {
     // * Eventos a espera
     eventosAespera = "/eventos/eventosEspera",
 
+
+    // * Eventos banidos
+    eventosBanidos = "/eventos/banidos",
+
+
     // * Categoria
     criarCategoria = "/categoria",
     listarCategoria = "/categoria/todasCategoria",
@@ -48,7 +53,9 @@ export const enum RoutesAdmin {
 export const enum RoutesParticipante {
     createParticipante = "/create",
     loginParticipante = "/loginParticipante",
-    verificarContaPalestrante = "/verificarContaPalestrante/:idUtilizador",
+    // verificarContaPalestrante = "/verificarContaPalestrante/:idUtilizador",
+
+    verificarContaParticipante = "/verificarContaParticipante",
 
 
     // * Perfil
@@ -68,8 +75,8 @@ export const enum RoutesParticipante {
 
     // * Meus eventos
 
-    historico = "/meusEventos/historico",
-    bilhetehistorico = "/meusEventos/historico/bilhete",
+    historico = "/meusEventos/historico/:idUtilizador",
+    bilhetehistorico = "/meusEventos/historico/bilhete/:idUtilizador",
 
     // * Eventos
     eventosTodos = "/todosEventos",
@@ -84,12 +91,14 @@ export const enum RoutesParticipante {
     tipoEvento = "/tipoEvento",
     tipoEventoDetalhe = "/tipoEvento/detalhe",
 
-    // * Compra
-    compra = "/eventos/visualizarEvento/:idEvento/compra/:idUtilizador",
+    // * Reserva
+    reserva = "/eventos/visualizarEvento/:idEvento/reserva/:idUtilizador",
 
     // * Recuperar senha participante
-    recuperarSenhaParticipante = "/recuperarSenha"
+    recuperarSenhaParticipante = "/recuperarSenha",
 
+    // * Listar participante
+    listarparticipante = "/listarParticipante"
 
 
 }
@@ -98,7 +107,11 @@ export const enum RoutesParticipante {
 export const enum RoutesOrganizador {
     criarOrganizador = "/create",
     loginOganizador = "/loginOrganizador",
-    verificarContaOrganizador = "/verificarOrganizador/:idUtilizador",
+    // verificarContaOrganizador = "/verificarOrganizador/:idUtilizador",
+
+    
+    verificarContaOrganizador = "/verificarContaOrganizador",
+    
 
     //* Perfil
 

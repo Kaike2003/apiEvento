@@ -9,9 +9,15 @@ export const EventosAespera = async (req: Request, res: Response) => {
             aprovado: false,
             publicado: true,
             banido: false
+        },
+        select:{
+            nome: true,
+            id: true,
+            dataInicio: true,
+            dataTermino: true
         }
     }).then((sucesso) => {
-        res.status(200).json({ "Eventos a espera de serem aprovados": sucesso })
+        res.status(200).json(sucesso)
     }).catch((error) => {
         res.status(400).json({ "Erro eventos aprovados": error })
     })

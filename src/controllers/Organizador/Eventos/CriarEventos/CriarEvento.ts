@@ -82,7 +82,8 @@ export const CriarEvento = async (req: Request, res: Response) => {
                     aprovado: false,
                     foto: "imagem",
                     utilizadorId: idUtilizador,
-                    categoriaId: categoriaId
+                    categoriaId: categoriaId,
+                    visualizacao: 0
                 }
             }).then((sucesso) => {
                 res.json(sucesso)

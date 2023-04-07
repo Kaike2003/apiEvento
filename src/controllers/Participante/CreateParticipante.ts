@@ -3,12 +3,16 @@ import { Password } from "../../password/password";
 import { prisma } from "../../prisma";
 import { ParticipanteOmit, ParticipanteType, VerificarcaoExiste_Participante } from "../../validation";
 import nodemailer from "nodemailer"
+import crypto from "crypto"
+
 import mailhog from "mailhog"
 
 
-const rotaVerificacao = Router()
+const tamanhoString = 6
+const bytesAleatorios = crypto.randomBytes(tamanhoString);
+const stringAleatoria = bytesAleatorios.toString('base64');
 
-
+const aleatorio: number = Math.floor(Math.random() * 1000000)
 
 export const Create = async (req: Request, res: Response) => {
 
@@ -17,17 +21,9 @@ export const Create = async (req: Request, res: Response) => {
 
 
     const { nome, palavraPasse, email, localizacao, telefone, dataNascimento }: ParticipanteType = req.body
-
-    console.log(mailhog)
-    try {
-
-        const verificaoExiste_Participante: VerificarcaoExiste_Participante = {
-            ExisteEmail: await prisma.utilizador.findUnique({
-                where: {
-                    email: email
-                }
-            })
-        }
+    
+    console.log(palavraPasse)
+    
         const result = ParticipanteOmit.parse({
             nome: nome,
             palavraPasse: await Password(palavraPasse),
@@ -37,11 +33,23 @@ export const Create = async (req: Request, res: Response) => {
             telefone: telefone
         })
 
-        // const emailExiste = 
+
+
+        const verificaoExiste_Participante: VerificarcaoExiste_Participante = {
+            ExisteEmail: await prisma.utilizador.findUnique({
+                where: {
+                    email: result.email
+                }
+            })
+        }
+        
 
         if (verificaoExiste_Participante.ExisteEmail?.email === email) {
             res.json("Aviso! Já existe um email cadastrado com esse nome")
         } else {
+
+          const aleatorio: string = Math.random().toString(36).substring(2)
+          
             const CreateParticpante = await prisma.utilizador.create({
                 data: {
                     nome: result.nome,
@@ -51,10 +59,11 @@ export const Create = async (req: Request, res: Response) => {
                     localizacao: result.localizacao,
                     telefone: result.telefone,
                     utilizador: "PARTICIPANTE",
+                    codigo: aleatorio
                 }
             }).then(async(sucesso) => {          
             
-
+                console.log("dados", sucesso)
                 const verificarConta = await prisma.utilizador.findFirst({
                     where: {
                         email: result.email
@@ -77,30 +86,22 @@ export const Create = async (req: Request, res: Response) => {
                         })
                     
                      transporter.sendMail({
-                            from: "Rosinaldo Bartolomeu <kaikebartolomeu2003@gmail.com>",
+                            from: `${result.nome}
+                            <kaikebartolomeu2003@gmail.com>` ,
                             to: `${result.email}`,
                             subject: "Confirme seu e-mail para começar a usar a KaikeEventos",
                             text: "",
                             html: `
                             <h2 >KaikeEventos</h2>
                             <p>Confirme seu e-mail para termos certeza de que a solicitação partiu de você. A confirmação do seu e-mail é importante para enviarmos informações sobre sua conta da KaikeEventos.</>
-
-                            <a href="localhost:3456/participante/verificarContaPalestrante/${sucesso.id}">localhost:3456/participante/verificarContaPalestrante/${sucesso.id} </a>`
+                            <h3>Código : ${sucesso.codigo} </h3>
+                         `
                         }).then(message=>{
                             console.log({"Valido":message})
                             res.status(201).json(sucesso)
                         }).catch(error=>{
                             console.log({"Errado": error})
-                        })
-            
-            
-
-
-
-
-
-
-                        
+                        })                
                     }
    
 
@@ -116,10 +117,7 @@ export const Create = async (req: Request, res: Response) => {
         }
 
 
-    } catch (error: any) {
-        res.json(error)
-    }
-
+    
 
 }
 

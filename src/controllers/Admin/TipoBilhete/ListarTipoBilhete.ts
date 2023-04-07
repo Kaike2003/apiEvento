@@ -7,6 +7,7 @@ export const ListarTipoBilhete  = async (req: Request, res: Response) => {
     try {
         const listarTipoBilhete = await prisma.tipoBilhete.findMany({
             select: {
+                id: true,
                 nome: true
             }
         }).then((sucesso) => {
