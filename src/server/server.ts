@@ -13,6 +13,8 @@ server.use(cors())
 server.use(morgan("dev"))
 server.use(express.json())
 
+
+
 server.use("/admin", routerAdmin)
 server.use("/participante", routerParticipante)
 server.use("/organizador", routerOrganizador)

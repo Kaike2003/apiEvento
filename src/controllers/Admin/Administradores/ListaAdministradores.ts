@@ -13,7 +13,8 @@ export const ListaAdministradores = async (req: Request, res: Response) => {
             },
             select:{
                 id: true,
-                nome: true
+                nome: true,
+                email: true
             }
         }).then((sucesso) => {
             res.status(200).json(sucesso)

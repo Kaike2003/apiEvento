@@ -12,13 +12,13 @@ datasource db {
 
 model Utilizador {
   id             String         @id @default(uuid())
-  nome           String
+  nome           String?
   email          String         @unique
   palavraPasse   String
-  dataNascimento DateTime       @db.Date
-  localizacao    String
+  dataNascimento DateTime?       @db.Date
+  localizacao    String?
   utilizador     TipoUtilizador @default(PARTICIPANTE)
-  telefone       String
+  telefone       String?
   evento         Evento[]
   reserva        Reserva[]
   verificado     Boolean        @default(false)

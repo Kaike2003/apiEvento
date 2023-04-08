@@ -12,7 +12,7 @@ const stringAleatoria = bytesAleatorios.toString('base64');
 
 export const Create = async (req: Request, res: Response) => {
 
-    const { nome, palavraPasse, email, dataNascimento }: AdminType = req.body
+    const { palavraPasse, email }: AdminType = req.body
 
     const verificaoExiste_Admin: VerificarcaoExiste_Admin = {
         ExisteEmail: await prisma.utilizador.findUnique({
@@ -25,10 +25,8 @@ export const Create = async (req: Request, res: Response) => {
     try {
 
         const result = AdminTypeOmit.parse({
-            nome: nome,
             palavraPasse: await Password(palavraPasse),
             email: email,
-            dataNascimento: new Date(dataNascimento)
         })
 
         if (verificaoExiste_Admin.ExisteEmail?.email === email) {
@@ -36,41 +34,37 @@ export const Create = async (req: Request, res: Response) => {
         } else {
             const Create = await prisma.utilizador.create({
                 data: {
-                    nome: result.nome,
                     palavraPasse: result.palavraPasse,
                     email: result.email,
-                    localizacao: "",
-                    dataNascimento: result.dataNascimento,
-                    telefone: "",
                     utilizador: "ADMIN",
                     codigo: stringAleatoria
                 }
-            }).then(async(sucesso) => {          
-            
+            }).then(async (sucesso) => {
+
 
                 const verificarConta = await prisma.utilizador.findFirst({
                     where: {
                         email: result.email
                     }
-                }).then((sucesso)=>{
+                }).then((sucesso) => {
 
-                    if(!sucesso){
+                    if (!sucesso) {
                         res.json("Valor nulo kkk")
-                    } else{
+                    } else {
 
-          
+
                         let transporter = nodemailer.createTransport({
                             host: "smtp.gmail.com",
                             port: 587,
                             secure: false,
-                            auth:{
+                            auth: {
                                 user: "kaikebartolomeu2003@gmail.com",
                                 pass: "ubgpkcctmxmpvlav"
                             }
                         })
-                    
+
                         transporter.sendMail({
-                            from: `${result.nome}
+                            from: `${result.email}
                             <kaikebartolomeu2003@gmail.com>` ,
                             to: `${result.email}`,
                             subject: "Confirme seu e-mail para começar a usar a Reserva online",
@@ -89,16 +83,15 @@ export const Create = async (req: Request, res: Response) => {
                         }).catch(error => {
                             console.log({ "Errado": error })
                         })
-        
-                        
-                    }
-   
 
-                }).catch((error)=>{
-                res.status(400).json(error)
+                    }
+
+
+                }).catch((error) => {
+                    res.status(400).json(error)
                 })
 
-      
+
             }).catch((error: any) => {
                 res.status(400).json(error)
             })

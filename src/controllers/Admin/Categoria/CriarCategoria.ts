@@ -17,12 +17,13 @@ export const CriarCategoria = async (req: Request, res: Response) => {
             where: {
                 nome: nome
             }, select: {
-                nome: true
+                nome: true,
+                evento: true
             }
         })
 
         if (existe?.nome === result.nome) {
-            res.json("Esse valor já existe")
+            res.status(400).json("Esse valor já existe")
         } else {
             const criarCategoria = await prisma.categoria.create({
                 data: {

@@ -49,8 +49,6 @@ export const UtilizadorSchema = z.object({
         required_error: "O número de telefone é obrigatório",
         invalid_type_error: "O nome deve ser uma string"
     })
-        .min(9, { message: "O número de telefone deve ter 9 ou mais caracteres" })
-        .max(9, { message: "O número de telefone deve ter 60 ou menos caracteres" })
 })
 
 // * Esquema Evento
@@ -65,7 +63,7 @@ export const EventoSchema = z.object({
         invalid_type_error: "O nome deve ser uma string"
     })
         .min(3, { message: "O nome deve conter 2 ou mais caracteres" })
-        .max(100, { message: "O nome deve conter 30 ou menos caracteres" }),
+        .max(100, { message: "O nome deve conter 100 ou menos caracteres" }),
     foto: z.string({
         required_error: "O nome da foto é obrigatório",
         invalid_type_error: "O nome da foto deve ser uma string"
@@ -264,8 +262,12 @@ export const ReservaSchema = z.object({
 // * Esquemas const com o Omit para cada usuário
 export const AdminTypeOmit = UtilizadorSchema.omit(
     {
-        id: true, localizacao: true, telefone: true,
-        palavraPasseAntiga: true
+        id: true,
+        localizacao: true,
+        telefone: true,
+        palavraPasseAntiga: true,
+        dataNascimento: true,
+        nome: true
     })
 
 export const AdminTypeAtualizarInfo = UtilizadorSchema.omit(

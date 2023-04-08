@@ -26,23 +26,23 @@ routerOrganizador.put(
 
 routerOrganizador.put(
     RoutesOrganizador.atualizarInformacaoBasica,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.AtualizarInformacaoBasica)
 
 routerOrganizador.put(RoutesOrganizador.atualizarPalavraPasse,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.AtualizarPalavraPasse)
 
 routerOrganizador.get(RoutesOrganizador.informacaoBasica,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.InformacaoBasica)
 
 routerOrganizador.get(RoutesOrganizador.sair,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.Sair)
 
 // * Evento
@@ -51,38 +51,38 @@ routerOrganizador.get(RoutesOrganizador.sair,
 // * Criar Evento
 routerOrganizador.post(
     RoutesOrganizador.criarEvento,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.CriarEvento)
 
 // * Publicar Evento
 routerOrganizador.get(
     RoutesOrganizador.publicarEvento,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.PublicarEvento
 )
 
 // * Listar Evento
 routerOrganizador.get(
     RoutesOrganizador.listarEvento,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.ListarEventos)
 
 // *Adicionar Foto
 routerOrganizador.put(
     RoutesOrganizador.adicionarFotoEvento,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     upload.single("foto"),
     ControllerRoutesOrganizador.AdicionarFotoEvento)
 
 // * Editar Evento
 routerOrganizador.put(
     RoutesOrganizador.editarEvento,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.EditarEvento)
 
 // * Palestrante
@@ -91,37 +91,38 @@ routerOrganizador.put(
 // * Adicionar foto palestrante
 routerOrganizador.put(
     RoutesOrganizador.adicionarFotoPalestrante,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     upload.single("foto"),
     ControllerRoutesOrganizador.AdicionarFotoPalestrante)
 
 // * Criar palestrante
 routerOrganizador.post(
     RoutesOrganizador.criarPalestrante,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.CriarPalestrante)
 
 // * Apagar palestrante
 routerOrganizador.delete(
     RoutesOrganizador.apagarPalestrante,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.ApagarPalestrante)
 
 // * Atualizar palestrante
 routerOrganizador.put(
     RoutesOrganizador.atualizarPalestrante,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.AtualizarPalestrante)
 
 // * Listar palestrante
 routerOrganizador.get(
     RoutesOrganizador.listaPalestrante,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador), ControllerRoutesOrganizador.ListarPalestrante)
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
+     ControllerRoutesOrganizador.ListarPalestrante)
 
 
 // * Orador
@@ -129,37 +130,37 @@ routerOrganizador.get(
 // * Criar orador
 routerOrganizador.post(
     RoutesOrganizador.criarOrador,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.CriarOrador)
 
 // * Apagar orador
 routerOrganizador.delete(
     RoutesOrganizador.apagarOrador,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.ApagarOrador)
 
 // * Atualizar orador
 routerOrganizador.put(
     RoutesOrganizador.atualizarOrador,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.AtualizarOrador)
 
 // * Listar orador
 routerOrganizador.get(
     RoutesOrganizador.listaOrador,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.ListarOrador)
 
 
 // * Historico
 routerOrganizador.get(
     RoutesOrganizador.historicoEvento,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.HistoricoEvento
 )
 
@@ -168,29 +169,29 @@ routerOrganizador.get(
 // * Criar bilhete
 routerOrganizador.post(
     RoutesOrganizador.criarBilhete,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.CriarBilhete)
 
 // * Apagar bilhete
 routerOrganizador.delete(
     RoutesOrganizador.apagarBilhete,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.ApagarBilhete)
 
 // * Atualizar bilhete
 routerOrganizador.put(
     RoutesOrganizador.atualizarBilhete,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.AtualizarBilhete)
 
 // * Listar bilhete
 routerOrganizador.get(
     RoutesOrganizador.listaBilhete,
-    Autenticacao,
-    PermissaoRotasOrganizador(permissaoOrganizador),
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.ListarBilhete)
 
 // * Recuperar senha

@@ -4,11 +4,12 @@ import { Password } from "../../password/password";
 import nodemailer from "nodemailer"
 import crypto from "crypto"
 
+
 export type recuperarSenha = {
     email: string
 }
 
-const tamanhoString = 16
+const tamanhoString = 6
 const bytesAleatorios = crypto.randomBytes(tamanhoString);
 const stringAleatoria = bytesAleatorios.toString('base64');
 
@@ -55,16 +56,19 @@ export const RecuperarSenha = async (req: Request, res: Response) => {
                         })
 
                         transporter.sendMail({
-                            from: "Rosinaldo Bartolomeu <kaikebartolomeu2003@gmail.com>",
-                            to: `${email}`,
-                            subject: "Confirme seu e-mail para começar a usar a KaikeEventos",
+                            from: `${sucesso.email}
+                            <kaikebartolomeu2003@gmail.com>` ,
+                            to: `${sucesso.email}`,
+                            subject: "Recuperação de senha",
                             text: "",
                             html: `
-                                    <h2 >Recuperação de senha</h2>
-                                    <p>Sua senha nova é ${stringAleatoria}</>`
+                            <h2 >Reserva online</h2>
+                            <p>Aqui está a sua senha nova para poder fazer login</p> 
+                            <span>Código</span>:<h3>  ${stringAleatoria} </h3>
+                         `
                         }).then(message => {
                             console.log({ "Valido": message })
-                            res.status(201).json({ "Sua senha nova é ": stringAleatoria })
+                            res.status(201).json(stringAleatoria)
                         }).catch(error => {
                             console.log({ "Errado": error })
                         })

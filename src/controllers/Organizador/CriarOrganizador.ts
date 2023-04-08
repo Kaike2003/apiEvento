@@ -15,6 +15,8 @@ export const CreateOrg = async (req: Request, res: Response) => {
 
     const { nome, email, localizacao, palavraPasse, telefone, dataNascimento }: OrganizadorType = req.body
 
+
+
     const verificaoExiste_Organizador: VerificaoExiste_Organizador = {
         ExisteEmail: await prisma.utilizador.findUnique({
             where: {
@@ -111,17 +113,22 @@ export const CreateOrg = async (req: Request, res: Response) => {
 
                 }).catch((error) => {
                     res.status(400).json(error)
+                    console.log(error)
+
                 })
 
 
             }).catch((error: any) => {
                 res.status(400).json(error)
+                console.log(error)
+
             })
 
         }
 
     } catch (error) {
         res.status(400).json(error)
+        console.log(error)
 
     }
 

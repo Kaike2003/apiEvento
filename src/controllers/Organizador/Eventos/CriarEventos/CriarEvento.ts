@@ -21,6 +21,18 @@ export const CriarEvento = async (req: Request, res: Response) => {
         categoriaId
     }: EventoType = req.body
 
+    console.log(nome,
+        descricao,
+        dataInicio,
+        dataTermino,
+        horaInicio,
+        horaTermino,
+        foto,
+        provincia,
+        municipio,
+        bairro,
+        categoriaId)
+
     const result = EventoOmit.parse({
         nome: nome,
         descricao: descricao,

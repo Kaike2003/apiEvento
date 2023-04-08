@@ -45,27 +45,27 @@ routerAdmin.get(RoutesAdmin.organizador,
 // * Informações básicas do administrador
 routerAdmin.get(
     RoutesAdmin.informacaoBasica,
-    Autenticacao,
-    PermissaoRotasAdmin(permissaoADMIN),
+    // Autenticacao,
+    // PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.
         InformacaoBasica)
 
 //* Atualizar palavra passe
 routerAdmin.put(RoutesAdmin.atualizarPalavraPasse,
-    Autenticacao,
-    PermissaoRotasAdmin(permissaoADMIN),
+    // Autenticacao,
+    // PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.AtualizarPalavraPasse)
 
 //* Atualizar informações básicas
 routerAdmin.put(RoutesAdmin.atualizarInformacaoBasica,
-    Autenticacao,
-    PermissaoRotasAdmin(permissaoADMIN),
+    // Autenticacao,
+    // PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.AtualizarInformacaoBasica)
 
 //* Sair da aplicação
 routerAdmin.get(RoutesAdmin.sair,
-    Autenticacao,
-    PermissaoRotasAdmin(permissaoADMIN),
+    // Autenticacao,
+    // PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.Sair)
 
 // * Eventos publicados

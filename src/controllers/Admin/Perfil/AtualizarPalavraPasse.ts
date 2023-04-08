@@ -42,7 +42,7 @@ export const AtualizarPalavraPasse = async (req: Request, res: Response) => {
                 const senhaCorreta = await bcrypt.compare(palavraPasseAntiga, verificarUtilizadorExiste.palavraPasse)
 
                 if (!senhaCorreta) {
-                    res.json("Senha incorreta. Verifique sua senha")
+                    res.status(400).json("Senha incorreta. Verifique sua senha")
                 } else {
 
                     if (

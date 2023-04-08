@@ -34,6 +34,6 @@ export const Login = async (req: Request, res: Response) => {
             }
         }
     } catch (error) {
-        res.json({ "Error": error, "Palavrapasse incorreta": palavraPasse })
+        res.status(400).json({ "Error": error, "Palavrapasse incorreta": palavraPasse })
     }
 } 

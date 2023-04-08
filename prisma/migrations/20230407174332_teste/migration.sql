@@ -1,13 +1,13 @@
 -- CreateTable
 CREATE TABLE `utilizador` (
     `id` VARCHAR(191) NOT NULL,
-    `nome` VARCHAR(191) NOT NULL,
+    `nome` VARCHAR(191) NULL,
     `email` VARCHAR(191) NOT NULL,
     `palavraPasse` VARCHAR(191) NOT NULL,
-    `dataNascimento` DATE NOT NULL,
-    `localizacao` VARCHAR(191) NOT NULL,
+    `dataNascimento` DATE NULL,
+    `localizacao` VARCHAR(191) NULL,
     `utilizador` ENUM('PARTICIPANTE', 'ADMIN', 'ORGANIZADOR') NOT NULL DEFAULT 'PARTICIPANTE',
-    `telefone` VARCHAR(191) NOT NULL,
+    `telefone` VARCHAR(191) NULL,
     `verificado` BOOLEAN NOT NULL DEFAULT false,
     `banido` BOOLEAN NOT NULL DEFAULT false,
     `codigo` VARCHAR(191) NOT NULL,
