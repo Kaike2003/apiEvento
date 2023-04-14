@@ -2,8 +2,7 @@ import { Request, Response } from "express";
 import { prisma } from "../../../prisma";
 
 
-export const EventosTodos = async (req: Request, res: Response) => {
-
+export const EventosTodosVermais = async (req: Request, res: Response) => {
 
 
     const listarTodosEventos = await prisma.evento.findMany({
@@ -12,8 +11,9 @@ export const EventosTodos = async (req: Request, res: Response) => {
             banido: false,
             aprovado: true,
         }
+
     }).then((sucesso) => {
-        res.json({ "Todos eventos": sucesso })
+        res.json(sucesso)
     }).catch((error) => {
         res.json({ "Erro listar todos participantes": error })
     })

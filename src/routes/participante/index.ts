@@ -90,15 +90,15 @@ routerParticipante.get(
 
 // * Eventos
 
-routerParticipante.get(
-    RoutesParticipante.eventosNovos,
-    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
-    ControllerParticipante.EventosNovos)
+// routerParticipante.get(
+//     RoutesParticipante.eventosNovos,
+//     // PermissaoRotasParticipante(permissaoPARTICIPANTE),
+//     ControllerParticipante.EventosNovos)
 
-routerParticipante.get(
-    RoutesParticipante.eventosTodos,
-    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
-    ControllerParticipante.EventosTodos)
+// routerParticipante.get(
+//     RoutesParticipante.eventosTodos,
+//     // PermissaoRotasParticipante(permissaoPARTICIPANTE),
+//     ControllerParticipante.EventosTodos)
 
 routerParticipante.get(
     RoutesParticipante.visualizarEvento,
@@ -140,6 +140,55 @@ routerParticipante.get(
     RoutesParticipante.listarparticipante,
     ControllerParticipante.ListarParticipante
 )
+
+// * Eventos da página principal
+routerParticipante.get(
+    RoutesParticipante.eventosPaginaPrincipal,
+    ControllerParticipante.PaginaPrincipalEventos
+)
+
+// * Eventos novos página principal
+routerParticipante.get(
+    RoutesParticipante.novosEventos,
+    ControllerParticipante.NovosEventos
+)
+
+
+// * Informacão evento participante
+routerParticipante.get(
+    RoutesParticipante.informacaoEventoParticipante,
+    ControllerParticipante.InformacaoEventoParticipante
+)
+
+
+// * Eventos todos limite
+routerParticipante.get(
+    RoutesParticipante.eventosTodosLimite,
+    ControllerParticipante.EventosTodosLimiteVermais
+)
+
+
+// * Eventos todos 
+routerParticipante.get(
+    RoutesParticipante.eventosTodos,
+    ControllerParticipante.EventosTodosVermais
+)
+
+// * Eventos novos 
+routerParticipante.get(
+    RoutesParticipante.eventosNovos,
+    ControllerParticipante.EventosNovosVermais
+)
+
+
+// * Eventos novos limite
+routerParticipante.get(
+    RoutesParticipante.eventosNovosLimite,
+    ControllerParticipante.EventosNovosLimiteVermais
+)
+
+
+
 
 
 export { routerParticipante }

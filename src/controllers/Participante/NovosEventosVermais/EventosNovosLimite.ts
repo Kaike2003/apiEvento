@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
 import { prisma } from "../../../prisma";
 
-export const EventosNovosVermais = async (req: Request, res: Response) => {
+export const EventosNovosLimiteVermais = async (req: Request, res: Response) => {
+
+    const { limite } = req.query
+    const limitedeEvento: number = Number(limite)
+    console.log(limite)
 
     const listarEventosNovos = await prisma.evento.findMany({
         where: {
@@ -11,7 +15,8 @@ export const EventosNovosVermais = async (req: Request, res: Response) => {
         },
         orderBy: {
             at_create: "desc"
-        }
+        },
+        take: limitedeEvento
 
     }).then((sucesso) => {
         res.json(sucesso)

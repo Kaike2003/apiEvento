@@ -56,7 +56,7 @@ routerOrganizador.post(
     ControllerRoutesOrganizador.CriarEvento)
 
 // * Publicar Evento
-routerOrganizador.get(
+routerOrganizador.put(
     RoutesOrganizador.publicarEvento,
     // Autenticacao,
     // PermissaoRotasOrganizador(permissaoOrganizador),
@@ -70,7 +70,7 @@ routerOrganizador.get(
     // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.ListarEventos)
 
-// *Adicionar Foto
+// * Adicionar Foto
 routerOrganizador.put(
     RoutesOrganizador.adicionarFotoEvento,
     // Autenticacao,

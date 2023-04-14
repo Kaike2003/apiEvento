@@ -14,7 +14,9 @@ export const EventosAespera = async (req: Request, res: Response) => {
             nome: true,
             id: true,
             dataInicio: true,
-            dataTermino: true
+            dataTermino: true,
+            utilizadorId: true,
+            
         }
     }).then((sucesso) => {
         res.status(200).json(sucesso)

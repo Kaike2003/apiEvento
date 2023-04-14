@@ -259,6 +259,63 @@ export const ReservaSchema = z.object({
 })
 
 
+// * Esquema opcional informação perfil
+export const UtilizadorSchemaInformaçãoPerfil = z.object({
+    nome: z.string({
+        required_error: "O nome é obrigatório",
+        invalid_type_error: "O nome deve ser uma string"
+    })
+        .min(3, { message: "O nome deve ter 2 ou mais caracteres" })
+        .max(40, { message: "O nome deve ter 40 ou menos caracteres" })
+        .optional()
+    ,
+    email: z.string({
+        required_error: "O email é obrigatório",
+        invalid_type_error: "O email deve ser uma string"
+    }).email({ message: "Endereço de email invalido" })
+        .optional()
+    ,
+    palavraPasse: z.string({
+        required_error: "A palavra passe é obrigatória",
+        invalid_type_error: "A palavra passe deve ser uma string"
+    }).
+        min(4, { message: "A palavra passe deve ter 2 ou mais caracteres" }).
+        max(100, { message: "A palavra passe deve ter 70 ou menos caracteres" })
+        .optional()
+    ,
+    palavraPasseAntiga: z.string({
+        required_error: "A palavra passe é obrigatória",
+        invalid_type_error: "A palavra passe deve ser uma string"
+    }).
+        min(4, { message: "A palavra passe deve ter 2 ou mais caracteres" }).
+        max(100, { message: "A palavra passe deve ter 70 ou menos caracteres" })
+        .optional()
+    ,
+    dataNascimento: z.date({
+        required_error: "Selecione uma data",
+        invalid_type_error: "A data deve ser uma Data"
+    })
+        .min(new Date("1925-01-01"), { message: "Idade inválida. Velho demais" })
+        .max(new Date("2023-12-31"), { message: "Idade inválida. Muito jovem!" })
+        .optional()
+    ,
+    localizacao: z.string({
+        required_error: "O endereço é obrigatório",
+        invalid_type_error: "O endereço deve ser uma string"
+    })
+        .min(3, { message: "O endereço deve ter 15 ou mais caracteres" })
+        .max(60, { message: "O endereço deve ter 60 ou menos caracteres" })
+        .optional()
+    ,
+    telefone: z.number({
+        required_error: "O número de telefone é obrigatório",
+        invalid_type_error: "O nome deve ser uma string"
+    }).min(0).max(999999999)
+        .optional()
+
+})
+
+
 // * Esquemas const com o Omit para cada usuário
 export const AdminTypeOmit = UtilizadorSchema.omit(
     {
@@ -291,7 +348,11 @@ export const UtilizadorOmitAtualizarPalavaraPasse = UtilizadorSchema.omit({
     id: true, dataNascimento: true, email: true, localizacao: true, nome: true, telefone: true
 })
 
+
+
 export const OrganizadorOmit = UtilizadorSchema.omit({ id: true, palavraPasseAntiga: true })
+
+
 
 // * Esquema const com o Omit para evento
 
@@ -336,6 +397,7 @@ export type BilheteType = z.infer<typeof BilheteOmit>
 export type TipoBilheteType = z.infer<typeof TipoBilheteOmit>
 export type OradorType = z.infer<typeof OradorOmit>
 export type TypeAdminAtualizarInformacao = z.infer<typeof AdminTypeAtualizarInfo>
+
 
 // ! Pequenas validações
 

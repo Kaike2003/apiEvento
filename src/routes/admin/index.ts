@@ -153,5 +153,39 @@ routerAdmin.put(RoutesAdmin.atualizarTipoBilhete,
 routerAdmin.put(RoutesAdmin.recuperarSenhaAdmin,
     ControllerRoutesAdmin.RecuperarSenha)
 
+// * Listar todos bilhetes
+routerAdmin.get(RoutesAdmin.listarTodosBilhete,
+    ControllerRoutesAdmin.ListarTodosBilhete)
+
+// * Listar todas categorias
+routerAdmin.get(RoutesAdmin.listarTodasCategoria,
+    ControllerRoutesAdmin.ListarTodasCategoria
+)
+
+// * Listar todos eventos
+routerAdmin.get(RoutesAdmin.listarTodosEventos,
+    ControllerRoutesAdmin.ListarTodosEventos)
+
+// * Listar todos palestrante
+routerAdmin.get(RoutesAdmin.listarTodosPalestrantes,
+    ControllerRoutesAdmin.ListarTodosPalestrante)
+
+
+// * Listar todos oradores
+routerAdmin.get(RoutesAdmin.listarTodosOradores,
+    ControllerRoutesAdmin.ListarTodosOrador)
+
+// * Listar todos palestrante com relacionamento com evento
+routerAdmin.get(RoutesAdmin.listarTodosPalestrantesId,
+    ControllerRoutesAdmin.ListarTodosPalestranteId)
+
+
+// * Listar todos oradores com relacionamento com evento
+routerAdmin.get(RoutesAdmin.listarTodosOradoresId,
+    ControllerRoutesAdmin.ListarTodosOradorId)
+
+
+
+
 
 export { routerAdmin }

@@ -23,10 +23,8 @@ import * as bilheteHistorico from "./MeusEventos/BilheteHistorico"
 
 // * Eventos
 
-import * as eventosTodos from "./TodosEventoVermais/EventosTodos"
 import * as visualizarEvento from "./Visualizar/VisualizarEvento"
 import * as visualizarPalestrante from "./Visualizar/VisualizarPalestrante"
-import * as eventosNovos from "./NovosEventosVermais/EventosNovos"
 
 // * Tipo evento
 import * as tipoEvento from "./TipoEvento/TipoEvento"
@@ -46,6 +44,21 @@ import * as recuperarSenhaParticipante from "./RecuperarSenhaParticipante"
 // * Listarparticipante
 import * as listarparticipante from "./ListarParticipante"
 
+// * EventosPáginaPrincipal
+import * as eventosPaginaPrincipal from "./PaginaPrincipal/PaginaPrincipal"
+
+// * EventosNovos
+import * as novosEventos from "./NovosEventos/NovosEventos"
+
+import * as eventosTodosLimiteVermais from "./TodosEventoVermais/EventosTodosLimite"
+import * as eventosTodosVermais from "./TodosEventoVermais/EventosTodos"
+import * as eventosNovosLimiteVermais from "./NovosEventosVermais/EventosNovosLimite"
+import * as eventosNovosVermais from "./NovosEventosVermais/EventosNovos"
+
+
+// * Informação evento participante
+import * as informacaoEventoParticipante from "./MeusEventos/InformacaoEventoParticipante"
+
 export const ControllerParticipante = {
     ...create,
     ...login,
@@ -64,10 +77,8 @@ export const ControllerParticipante = {
     ...historico,
     ...bilheteHistorico,
     // * Eventos
-    ...eventosTodos,
     ...visualizarEvento,
     ...visualizarPalestrante,
-    ...eventosNovos,
     // * Tipo Evento
     ...tipoEvento,
     ...tipoEventoDetalhe,
@@ -77,5 +88,18 @@ export const ControllerParticipante = {
     // * Recuperar senha
     ...recuperarSenhaParticipante,
     // * Listar participante
-    ...listarparticipante
+    ...listarparticipante,
+    // * Eventos página principal listados
+    ...eventosPaginaPrincipal,
+    // * Novos eventos página principal listados
+    ...novosEventos,
+    // * informacaoEventoParticipante
+    ...informacaoEventoParticipante,
+
+    ...eventosTodosLimiteVermais,
+    ...eventosTodosVermais,
+    ...eventosNovosLimiteVermais,
+    ...eventosNovosVermais
+
+
 }

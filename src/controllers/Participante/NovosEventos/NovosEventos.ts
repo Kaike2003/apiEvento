@@ -1,10 +1,11 @@
-import { Request, Response } from "express";
-import { prisma } from "../../../prisma";
+import { Request, Response } from "express"
+import { prisma } from "../../../prisma"
 
 
-export const EventosPublicados = async (req: Request, res: Response) => {
+export const NovosEventos = async (req: Request, res: Response) => {
 
-    const eventosPublicados = await prisma.evento.findMany({
+
+    const novosEventos = await prisma.evento.findMany({
         where: {
             publicado: true,
             aprovado: true,
@@ -21,11 +22,18 @@ export const EventosPublicados = async (req: Request, res: Response) => {
                 },
                 take: 1
             }
-        }
+        },
+        orderBy: {
+            at_create: "desc",
+        },
+        take: 8
+
     }).then((sucesso) => {
-        res.status(200).json(sucesso)
+        res.json(sucesso)
+        // console.log(sucesso)
     }).catch((error) => {
-        res.status(400).json({ "Erro eventos publicados": error })
+        res.json(error)
+        console.log(error)
     })
 
 }

@@ -28,7 +28,10 @@ export const VisualizarEvento = async (req: Request, res: Response) => {
 
             const exibirTodasInformacoesEvento = await prisma.evento.findFirst({
                 where: {
-                    id: idEvento
+                    id: idEvento,
+                    publicado: true,
+                    aprovado: true,
+                    banido: false,
                 },
                 include: {
                     bilhete: {
@@ -89,7 +92,8 @@ export const VisualizarEvento = async (req: Request, res: Response) => {
 
                 })
 
-                res.json({ "Informações do evento": sucesso })
+                res.json(sucesso)
+                console.log("Informações do evento", sucesso)
             }).catch((error) => {
                 res.json(error)
             })

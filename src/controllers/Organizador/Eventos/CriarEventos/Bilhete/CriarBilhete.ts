@@ -53,16 +53,16 @@ export const CriarBilhete = async (req: Request, res: Response) => {
         verificarIdEvento.banido === false
     ) {
 
-        if (
-            verificarIdEvento.dataInicio.getDate() > (await result).dataInicio.getDate()
-            &&
-            verificarIdEvento.dataInicio.getDate() >= (await result).dataTermino.getDate()
-            &&
-            verificarIdEvento.dataInicio.getDate() !== (await result).dataInicio.getDate()
-            && (await result).dataTermino > (await result).dataInicio
-            && (await result).dataInicio.getMonth() <= verificarIdEvento.dataInicio.getMonth()
-            && (await result).dataTermino.getMonth() <= verificarIdEvento.dataTermino.getMonth()
-        ) {
+        // if (
+        //     verificarIdEvento.dataInicio.getDate() > (await result).dataInicio.getDate()
+        //     &&
+        //     verificarIdEvento.dataInicio.getDate() >= (await result).dataTermino.getDate()
+        //     &&
+        //     verificarIdEvento.dataInicio.getDate() !== (await result).dataInicio.getDate()
+        //     && (await result).dataTermino > (await result).dataInicio
+        //     && (await result).dataInicio.getMonth() <= verificarIdEvento.dataInicio.getMonth()
+        //     && (await result).dataTermino.getMonth() <= verificarIdEvento.dataTermino.getMonth()
+        // ) {
 
             const criarBilhete = await prisma.bilhete.create({
                 data: {
@@ -85,33 +85,36 @@ export const CriarBilhete = async (req: Request, res: Response) => {
                     }
                 }
             }).then((sucesso) => {
-                res.status(201).json({ "Bilhete criado com sucesso": sucesso })
+                res.status(201).json(sucesso)
+                console.log("Bilhete criado com sucesso", sucesso)
             }).catch((error) => {
-                res.status(400).json({ "Bilhete erro": error, "Resultado": result, valores_Req_Body })
+                res.status(400).json(error)
+                console.log("Bilhete erro", error)
+                console.log("Resultado", { result, valores_Req_Body })
             })
 
 
 
-        } else {
-            res.json({
-                "Possiveis erros": {
-                    "Valores vindo do body": valores_Req_Body,
-                    "Data inicio evento": `${verificarIdEvento.dataInicio.getDate()}/${verificarIdEvento.dataInicio.getMonth()}/${verificarIdEvento.dataInicio.getFullYear()}`,
-                    "Data termino evento": `${verificarIdEvento.dataTermino.getDate()}/${verificarIdEvento.dataTermino.getMonth()}/${verificarIdEvento.dataTermino.getFullYear()}`,
-                    "Data inicio bilhete": (await result).dataInicio.getDate(),
-                    "Data termino bilhete": (await result).dataTermino.getDate(),
+        // } else {
+        //     res.json({
+        //         "Possiveis erros": {
+        //             "Valores vindo do body": valores_Req_Body,
+        //             "Data inicio evento": `${verificarIdEvento.dataInicio.getDate()}/${verificarIdEvento.dataInicio.getMonth()}/${verificarIdEvento.dataInicio.getFullYear()}`,
+        //             "Data termino evento": `${verificarIdEvento.dataTermino.getDate()}/${verificarIdEvento.dataTermino.getMonth()}/${verificarIdEvento.dataTermino.getFullYear()}`,
+        //             "Data inicio bilhete": (await result).dataInicio.getDate(),
+        //             "Data termino bilhete": (await result).dataTermino.getDate(),
 
-                    "Teste de validação": verificarIdEvento.dataInicio.getDate() > (await result).dataInicio.getDate()
-                        &&
-                        verificarIdEvento.dataInicio.getDate() >= (await result).dataTermino.getDate()
-                        &&
-                        verificarIdEvento.dataInicio.getDate() !== (await result).dataInicio.getDate()
-                        && (await result).dataTermino > (await result).dataInicio
-                }
+        //             "Teste de validação": verificarIdEvento.dataInicio.getDate() > (await result).dataInicio.getDate()
+        //                 &&
+        //                 verificarIdEvento.dataInicio.getDate() >= (await result).dataTermino.getDate()
+        //                 &&
+        //                 verificarIdEvento.dataInicio.getDate() !== (await result).dataInicio.getDate()
+        //                 && (await result).dataTermino > (await result).dataInicio
+        //         }
 
-            })
+        //     })
 
-        }
+        // }
 
 
 

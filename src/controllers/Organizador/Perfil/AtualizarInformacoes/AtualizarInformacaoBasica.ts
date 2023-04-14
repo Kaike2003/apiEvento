@@ -1,14 +1,19 @@
 import { Utilizador } from "@prisma/client";
 import { Request, Response } from "express";
 import { prisma } from "../../../../prisma";
-import { OrganizadorType, QueryParams, OrganizadorOmitAtualizarInformacao } from "../../../../validation";
+import {
+    OrganizadorType,
+    QueryParams,
+    OrganizadorOmitAtualizarInformacao,
+    UtilizadorSchemaInformaçãoPerfil
+} from "../../../../validation";
 
 export const AtualizarInformacaoBasica = async (req: Request, res: Response) => {
 
     const { idUtilizador }: QueryParams = req.params
     const { nome, dataNascimento, localizacao, telefone }: OrganizadorType = req.body
 
-    const result = OrganizadorOmitAtualizarInformacao.parseAsync({
+    const result = UtilizadorSchemaInformaçãoPerfil.parseAsync({
         nome: nome,
         dataNascimento: new Date(dataNascimento),
         localizacao: localizacao,
@@ -40,7 +45,8 @@ export const AtualizarInformacaoBasica = async (req: Request, res: Response) => 
                     data: {
                         nome: (await result).nome,
                         dataNascimento: (await result).dataNascimento,
-                        telefone: (await result).telefone
+                        telefone: String((await result).telefone),
+                        localizacao: (await result).localizacao
                     }
                 }).then((sucesso) => {
                     res.json({ "Atualizações das informações feita com sucesso.": sucesso })

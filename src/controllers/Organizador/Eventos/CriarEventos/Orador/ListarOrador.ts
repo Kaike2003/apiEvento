@@ -21,28 +21,35 @@ export const ListarOrador = async (req: Request, res: Response) => {
         if (verificarIdEventoExiste?.id === idEvento) {
 
 
-            const listarPalestrante = await prisma.evento.findMany({
-
-                select: {
-                    orador: {
-                        where: {
-                            evento: {
-                                id: idEvento
-                            }
-                        },
-                        select: {
-                            orador: {
-                                select: {
-                                    nome: true
-                                }
-                            }
+            const listarPalestrante = await prisma.orador.findMany({
+                where: {
+                    evento: {
+                        every: {
+                            eventoId: idEvento
                         }
                     }
                 }
 
+                // select: {
+                //     orador: {
+                //         where: {
+                //             evento: {
+                //                 id: idEvento
+                //             }
+                //         },
+                //         select: {
+                //             orador: {
+                //                 select: {
+                //                     nome: true
+                //                 }
+                //             }
+                //         }
+                //     }
+                // }
+
 
             }).then((sucesso) => {
-                res.status(200).json({ "Oradores": sucesso })
+                res.status(200).json(sucesso)
             }).catch((error: any) => {
                 res.status(400).json(error)
             })

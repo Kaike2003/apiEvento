@@ -44,16 +44,20 @@ export const PublicarEvento = async (req: Request, res: Response) => {
                     }, data: {
                         publicado: true
                     }
+                }).then(() => {
+                    res.status(201).json(`Evento ${idEvento} publicado com sucesso do evento`)
+                }).catch((error) => {
+                    res.status(400).json(error)
                 })
 
-                res.json(`Evento ${idEvento} publicado com sucesso do evento`)
+                // res.json(`Evento ${idEvento} publicado com sucesso do evento`)
             } else {
-                res.json({ "[Aviso!] Esse evento já foi publico": idEvento })
+                res.status(400).json(idEvento)
+                console.log("Aviso Esse evento já foi publicado", idEvento)
             }
-
         } else {
 
-            res.json({
+            res.status(400).json({
                 "Verifique o id do evento": idEvento,
                 "Verifique o id do utilizador": idUtilizador
             })

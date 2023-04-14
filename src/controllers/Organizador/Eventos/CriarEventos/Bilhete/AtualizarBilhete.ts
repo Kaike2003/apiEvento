@@ -11,6 +11,9 @@ export const AtualizarBilhete = async (req: Request, res: Response) => {
 
     const { idEvento, idBilhete }: QueryParams = req.params
 
+
+    console.log(idEvento, idBilhete)
+
     const {
         nome,
         preco,
@@ -94,16 +97,16 @@ export const AtualizarBilhete = async (req: Request, res: Response) => {
                 } else {
 
 
-                    if (
-                        verificarIdEventoExiste.dataInicio.getDate() > (result).dataInicio.getDate()
-                        &&
-                        verificarIdEventoExiste.dataInicio.getDate() >= (result).dataTermino.getDate()
-                        &&
-                        verificarIdEventoExiste.dataInicio.getDate() !== (result).dataInicio.getDate()
-                        && (result).dataTermino > (result).dataInicio
-                        && (result).dataInicio.getMonth() <= verificarIdEventoExiste.dataInicio.getMonth()
-                        && (result).dataTermino.getMonth() <= verificarIdEventoExiste.dataTermino.getMonth()
-                    ) {
+                    // if (
+                    //     verificarIdEventoExiste.dataInicio.getDate() > (result).dataInicio.getDate()
+                    //     &&
+                    //     verificarIdEventoExiste.dataInicio.getDate() >= (result).dataTermino.getDate()
+                    //     &&
+                    //     verificarIdEventoExiste.dataInicio.getDate() !== (result).dataInicio.getDate()
+                    //     && (result).dataTermino > (result).dataInicio
+                    //     && (result).dataInicio.getMonth() <= verificarIdEventoExiste.dataInicio.getMonth()
+                    //     && (result).dataTermino.getMonth() <= verificarIdEventoExiste.dataTermino.getMonth()
+                    // ) {
 
 
                         const atualizarBilhete = prisma.bilhete.update({
@@ -136,56 +139,28 @@ export const AtualizarBilhete = async (req: Request, res: Response) => {
                             res.json(error)
                         })
 
-                    } else {
-                        res.json({
-                            "Possiveis erros": {
-                                "Valores vindo do body": valores_Req_Body,
-                                "Data inicio evento": `${verificarIdEventoExiste.dataInicio.getDate()}/${verificarIdEventoExiste.dataInicio.getMonth()}/${verificarIdEventoExiste.dataInicio.getFullYear()}`,
-                                "Data termino evento": `${verificarIdEventoExiste.dataTermino.getDate()}/${verificarIdEventoExiste.dataTermino.getMonth()}/${verificarIdEventoExiste.dataTermino.getFullYear()}`,
-                                "Data inicio bilhete": (result).dataInicio.getDate(),
-                                "Data termino bilhete": (result).dataTermino.getDate(),
+                    // } else {
+                    //     res.json({
+                    //         "Possiveis erros": {
+                    //             "Valores vindo do body": valores_Req_Body,
+                    //             "Data inicio evento": `${verificarIdEventoExiste.dataInicio.getDate()}/${verificarIdEventoExiste.dataInicio.getMonth()}/${verificarIdEventoExiste.dataInicio.getFullYear()}`,
+                    //             "Data termino evento": `${verificarIdEventoExiste.dataTermino.getDate()}/${verificarIdEventoExiste.dataTermino.getMonth()}/${verificarIdEventoExiste.dataTermino.getFullYear()}`,
+                    //             "Data inicio bilhete": (result).dataInicio.getDate(),
+                    //             "Data termino bilhete": (result).dataTermino.getDate(),
 
-                                "Teste de validação": verificarIdEventoExiste.dataInicio.getDate() > (result).dataInicio.getDate()
-                                    &&
-                                    verificarIdEventoExiste.dataInicio.getDate() >= (result).dataTermino.getDate()
-                                    &&
-                                    verificarIdEventoExiste.dataInicio.getDate() !== (result).dataInicio.getDate()
-                                    && (result).dataTermino > (result).dataInicio
-                            }
-
-                        })
-
-                    }
-
-                    // const atualizarBilhete = prisma.bilhete.update({
-                    //     where: {
-                    //         id: idBilheteAtualizar
-                    //     },
-                    //     data: {
-                    //         nome: nome,
-                    //         preco: preco,
-                    //         horaInicio: new Date(`${dataInicio} ${horaInicio}`),
-                    //         horaTermino: new Date(`${dataTermino} ${horaTermino}`),
-                    //         dataInicio: new Date(dataInicio),
-                    //         dataTermino: new Date(dataTermino),
-                    //         quantidade: quantidade,
-                    //         tipoEvento: {
-                    //             connect: {
-                    //                 id: tipoEvento
-                    //             }
-                    //         },
-                    //         evento: {
-                    //             connect: {
-                    //                 id: (idEvento)
-                    //             }
+                    //             "Teste de validação": verificarIdEventoExiste.dataInicio.getDate() > (result).dataInicio.getDate()
+                    //                 &&
+                    //                 verificarIdEventoExiste.dataInicio.getDate() >= (result).dataTermino.getDate()
+                    //                 &&
+                    //                 verificarIdEventoExiste.dataInicio.getDate() !== (result).dataInicio.getDate()
+                    //                 && (result).dataTermino > (result).dataInicio
                     //         }
-                    //     }
-                    // }).then((sucesso) => {
-                    //     res.json({ "Bilhete atualizado com sucesso": sucesso })
-                    // }).catch((error) => {
-                    //     res.json(error)
-                    // })
 
+                    //     })
+
+                    // }
+
+                  
                 }
 
             }).catch((error) => {

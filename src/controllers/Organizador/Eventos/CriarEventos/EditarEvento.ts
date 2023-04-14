@@ -29,12 +29,10 @@ export const EditarEvento = async (req: Request, res: Response) => {
 
     // const { nome, descricao, localizacao, hora, dataTermino, dataInicio, categoriaId, estado } = req.body
 
-    // const result: (Number | String)[] = [nome, descricao, localizacao, hora, dataTermino, dataInicio, categoriaId, estado]
-
 
 
     const { idUtilizador, idEvento }: QueryParams = req.params
-    
+
 
     const {
         nome,
@@ -49,6 +47,12 @@ export const EditarEvento = async (req: Request, res: Response) => {
         bairro,
         categoriaId
     }: EventoType = req.body
+
+    const result2: (any)[] = [
+        idUtilizador
+    ]
+
+    console.log(idUtilizador, idEvento)
 
     const result = EventoOmit.parse({
         nome: nome,
@@ -81,14 +85,13 @@ export const EditarEvento = async (req: Request, res: Response) => {
 
 
 
-    if (!verificarIdEventoExiste) {
+    if (verificarIdEventoExiste === null) {
 
-        res.json("olá mundo")
+        res.json({ "valor nulo": verificarIdEventoExiste, })
 
     } else {
-
+       
         if (verificarIdEventoExiste.dataInicio.getDate() !== new Date().getDate()) {
-
             try {
 
 
@@ -134,13 +137,14 @@ export const EditarEvento = async (req: Request, res: Response) => {
                                     municipio: result.municipio,
                                     bairro: bairro,
                                     banido: false,
-                                    publicado: false,
-                                    aprovado: false,
+                                    publicado: true,
+                                    aprovado: true,
                                     foto: "imagem",
                                     categoriaId: categoriaId
                                 }
                             }).then((sucesso) => {
-                                res.json({ "Bilhete atualizado com sucesso": sucesso })
+                                res.json({ "Evento atualizado com sucesso": sucesso })
+                                console.log(sucesso)
                             }).catch((error) => {
                                 res.json(error)
                             })
@@ -149,6 +153,8 @@ export const EditarEvento = async (req: Request, res: Response) => {
 
                     }).catch((error) => {
                         res.json(error)
+                        console.log(error)
+
                     })
 
 
@@ -163,6 +169,8 @@ export const EditarEvento = async (req: Request, res: Response) => {
 
             } catch (error) {
                 res.status(400).json(error)
+                        console.log(error)
+
             }
 
 

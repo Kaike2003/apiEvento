@@ -19,26 +19,32 @@ export const ListarBilhete = async (req: Request, res: Response) => {
         if (verificarIdEventoExiste?.id === idEvento) {
 
 
-            const listarBilhete = await prisma.evento.findMany({
-                select: {
-                    bilhete: {
-                        where: {
-                            evento: {
-                                id: idEvento
-                            }
-                        },
-                        select: {
-                            nome: true,
-                            preco: true,
-                            dataInicio: true,
-                            dataTermino: true,
-                            quantidade: true,
-                            tipoEvento: true,
-                        }
-                    }
+            const listarBilhete = await prisma.bilhete.findMany({
+                where: {
+                    eventoId: idEvento
                 }
+
+
+                // select: {
+                //     bilhete: {
+                //         where: {
+                //             evento: {
+                //                 id: idEvento
+                //             }
+                //         },
+                //         select: {
+                //             nome: true,
+                //             preco: true,
+                //             dataInicio: true,
+                //             dataTermino: true,
+                //             quantidade: true,
+                //             tipoEvento: true,
+                //         }
+                //     }
+                // }
             }).then((sucesso) => {
-                res.status(200).json({ "Bilhetes": sucesso })
+                res.status(200).json(sucesso)
+                console.log("Bilhetes", sucesso)
             }).catch((error: any) => {
                 res.status(400).json(error)
             })

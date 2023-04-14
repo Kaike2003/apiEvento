@@ -3,6 +3,7 @@ import { QueryParams, ReservaOmit, ReservaType } from "../../../../validation";
 import { prisma } from "../../../../prisma";
 import crypto from "crypto"
 import fs from 'fs';
+import { Console } from "console";
 
 let views: number = 0;
 
@@ -28,6 +29,11 @@ export const Reserva = async (req: Request, res: Response) => {
     const { idUtilizador, idEvento }: QueryParams = req.params
 
     const { quantidade, bilheteId }: ReservaType = req.body
+    
+    console.log(quantidade, bilheteId)
+    console.log(typeof(quantidade))
+    console.log(typeof(bilheteId))
+
 
     const result = ReservaOmit.parseAsync({
         quantidade: quantidade,
@@ -60,11 +66,11 @@ export const Reserva = async (req: Request, res: Response) => {
                     }).then(async (sucessoBilhete) => {
 
                         if (!sucessoBilhete) {
-                            res.json("bilhete não pode ser nulo")
+                            res.status(400).json("bilhete não pode ser nulo")
                         } else {
 
                             if (sucessoBilhete.quantidade === 0) {
-                                res.json("Bilhete para este evento estão esgotados")
+                                res.status(400).json("Bilhete para este evento estão esgotados.")
                             } else {
 
                                 if (quantidade <= sucessoBilhete.quantidade) {
@@ -105,22 +111,22 @@ export const Reserva = async (req: Request, res: Response) => {
                                                     console.log(`Número anterior de visualizações: ${views}`);
                                                   })
 
-                                                res.json({
+                                                res.status(201).json({
                                                     "Codigo da sua reserva": stringAleatoria,
                                                     "Quantidade de bilhetes reservados": quantidade
                                                 })
                                             }).catch((error) => {
-                                                res.json(error)
+                                                res.status(400).json(error)
                                             })
 
                                         }).catch((error) => {
-                                            res.json(error)
+                                            res.status(400).json(error)
                                         })
 
 
 
                                     } else {
-                                        res.json("A quantidade bilhete não pode ser negativa.")
+                                        res.status(400).json("A quantidade bilhete não pode ser negativa.")
                                     }
 
 
@@ -131,7 +137,7 @@ export const Reserva = async (req: Request, res: Response) => {
 
 
                                 } else {
-                                    res.json("A quantidade de bilhete que quer é menor doque a quantidade de bilhetes desponiveis")
+                                    res.status(400).json(`A quantidade de bilhete desponivel para esse evento é ${sucessoBilhete.quantidade}. Então reserve bilhetes menores que ${sucessoBilhete.quantidade}. `)
                                 }
 
 
@@ -144,14 +150,14 @@ export const Reserva = async (req: Request, res: Response) => {
                         }
 
                     }).catch((error) => {
-                        res.json(error)
+                        res.status(400).json(error)
                     })
 
 
 
                 } else {
 
-                    res.json("Só os participantes podem reservar bilhetes")
+                    res.status(400).json("Só os participantes podem reservar bilhetes")
 
                 }
 
@@ -170,11 +176,11 @@ export const Reserva = async (req: Request, res: Response) => {
 
 
         }).catch((error) => {
-            res.json(error)
+            res.status(400).json(error)
         })
 
     }).catch((error) => {
-        res.json(error)
+        res.status(400).json(error)
     })
 
 

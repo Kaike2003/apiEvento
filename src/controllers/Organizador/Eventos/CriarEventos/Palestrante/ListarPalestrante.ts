@@ -7,7 +7,7 @@ export const ListarPalestrante = async (req: Request, res: Response) => {
 
 
 
-    const { idEvento } : QueryParams = req.params
+    const { idEvento }: QueryParams = req.params
 
     const verificarIdEventoExiste = await prisma.evento.findFirst({
         where: {
@@ -20,29 +20,19 @@ export const ListarPalestrante = async (req: Request, res: Response) => {
         if (verificarIdEventoExiste?.id === idEvento) {
 
 
-            const listarPalestrante = await prisma.evento.findMany({
-
-                select: {
-                    palestrante: {
-                        select: {
-                            palestrante: {
-                                select: {
-                                    id: true,
-                                    nome: true,
-                                    foto: true,
-                                    blog: true
-                                }
-                            }
-                        },
-                        where: {
-                            evento: {
-                                id: idEvento
-                            }
+            const listarPalestrante = await prisma.palestrante.findMany({
+                where: {
+                    evento: {
+                        every: {
+                            eventoId: idEvento
                         }
                     }
                 }
+
+
+
             }).then((sucesso) => {
-                res.status(200).json({ "Palestrantes": sucesso })
+                res.status(200).json(sucesso)
             }).catch((error: any) => {
                 res.status(400).json(error)
             })

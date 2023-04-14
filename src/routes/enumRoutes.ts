@@ -3,6 +3,16 @@ export const enum RoutesAdmin {
     post = "/create",
     verificarContaAdmin = "/verificarAdmin/:idUtilizador",
 
+    listarTodosBilhete = "/listarTodosBilhetes",
+    listarTodasCategoria = "/listarTodasCategorias",
+    listarTodosEventos = "/listarTodosEventos",
+    listarTodosOradores = "/listarTodosOradores",
+    listarTodosPalestrantes = "/listarTodosPalestrantes",
+    listarTodosOradoresId = "/listarTodosOradoresId",
+    listarTodosPalestrantesId = "/listarTodosPalestrantesId",
+
+
+
 
     listaAdministradores = "/administradores/listaAdministradores",
     eventosPublicados = "/eventos/publicados",
@@ -39,7 +49,7 @@ export const enum RoutesAdmin {
     apagarTipoBilhete = "/tipoBilhete/apagarTipoBilhete/:id",
     atualizarTipoBilhete = "/tipoBilhete/atualizarTipobilhete/:id",
 
-    
+
     // * Recuperar senha Organizador
     recuperarSenhaAdmin = "/recuperarSenha"
 
@@ -56,6 +66,10 @@ export const enum RoutesParticipante {
     // verificarContaPalestrante = "/verificarContaPalestrante/:idUtilizador",
 
     verificarContaParticipante = "/verificarContaParticipante",
+
+    eventosPaginaPrincipal = "/paginaPrincipal",
+    novosEventos = "/novosEventosPaginaPrincipal",
+
 
 
     // * Perfil
@@ -77,14 +91,17 @@ export const enum RoutesParticipante {
 
     historico = "/meusEventos/historico/:idUtilizador",
     bilhetehistorico = "/meusEventos/historico/bilhete/:idUtilizador",
+    informacaoEventoParticipante = "/meusEventos/historico/:idUtilizador/:idBilhete/evento",
 
     // * Eventos
+    eventosTodosLimite = "/todosEventos?limite",
     eventosTodos = "/todosEventos",
+    eventosNovosLimite = "/novosEventos?limite",
+    eventosNovos = "/novosEventos",
 
     // * Visualizar
     visualizarEvento = "/eventos/visualizarEvento/:idEvento",
     visualiarPalestrante = "/eventos/visualizarPalestrante/:idEvento",
-    eventosNovos = "/novosEventos",
 
 
     // * Tipo Evento
@@ -109,9 +126,9 @@ export const enum RoutesOrganizador {
     loginOganizador = "/loginOrganizador",
     // verificarContaOrganizador = "/verificarOrganizador/:idUtilizador",
 
-    
+
     verificarContaOrganizador = "/verificarContaOrganizador",
-    
+
 
     //* Perfil
 
