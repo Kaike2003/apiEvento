@@ -64,68 +64,66 @@ export const CriarEvento = async (req: Request, res: Response) => {
             verificarUtilizadorExiste?.id === idUtilizador
             &&
             verificarUtilizadorExiste?.utilizador === "ORGANIZADOR"
-            &&
-            result.dataInicio.getDate() === result.dataTermino.getDate()
-            &&
-            result.dataInicio.getMonth() === result.dataTermino.getMonth()
-            &&
-            hora_Validacao.horaInicio <= result.horaInicio.getHours()
-            &&
-            hora_Validacao.horaTermino >= result.horaTermino.getHours()
-            && hora_Validacao.horaInicio <= result.horaTermino.getHours()
-            &&
-            result.horaInicio.getHours() <= result.horaTermino.getHours()
+        
         ) {
 
-            const criarEvento: void = await prisma.evento.create({
-                data: {
-                    nome: result.nome,
-                    descricao: result.descricao,
-                    dataInicio: result.dataInicio,
-                    dataTermino: result.dataTermino,
-                    estado: "DESPONIVEL",
-                    horaInicio: result.horaInicio,
-                    horaTermino: result.horaTermino,
-                    provincia: result.provincia,
-                    municipio: result.municipio,
-                    bairro: bairro,
-                    banido: false,
-                    publicado: false,
-                    aprovado: false,
-                    foto: "imagem",
-                    utilizadorId: idUtilizador,
-                    categoriaId: categoriaId,
-                    visualizacao: 0
+            if (result.dataInicio.getDate() === result.dataTermino.getDate()
+                &&
+                result.dataInicio.getMonth() === result.dataTermino.getMonth()
+            ) {
+
+                if (
+                    hora_Validacao.horaInicio <= result.horaInicio.getHours()
+                    &&
+                    hora_Validacao.horaTermino >= result.horaTermino.getHours()
+                    && hora_Validacao.horaInicio <= result.horaTermino.getHours()
+                    &&
+                    result.horaInicio.getHours() <= result.horaTermino.getHours()
+                ) {
+                    console.log("Pode criar evento")
+                    const criarEvento: void = await prisma.evento.create({
+                        data: {
+                            nome: result.nome,
+                            descricao: result.descricao,
+                            dataInicio: result.dataInicio,
+                            dataTermino: result.dataTermino,
+                            estado: "DESPONIVEL",
+                            horaInicio: result.horaInicio,
+                            horaTermino: result.horaTermino,
+                            provincia: result.provincia,
+                            municipio: result.municipio,
+                            bairro: bairro,
+                            banido: false,
+                            publicado: false,
+                            aprovado: false,
+                            foto: "padrao.png",
+                            utilizadorId: idUtilizador,
+                            categoriaId: categoriaId,
+                            visualizacao: 0
+                        }
+                    }).then((sucesso) => {
+                        res.json(sucesso)
+                    }).catch((error) => {
+                        res.json(error)
+                    })
+
+                } else {
+                    console.log("Verifique o horário do evento")
+                    res.status(400).json("Verifique o horário do evento")
                 }
-            }).then((sucesso) => {
-                res.json(sucesso)
-            }).catch((error) => {
-                res.json(error)
-            })
+
+            } else {
+                res.status(400).json("A data de inicio e termino de ventos devem ser as mesmas.")
+                console.log("A data de inicio e termino de ventos devem ser as mesmas.")
+            }
+
 
         } else {
             res.json({
                 "Possiveis erros": {
                     "UtilizadorId": "Verifique o id do utilizador para saber se é um administrador, organizador ou participante.",
                     "Organizador": "Essa conta não é de organizador. Não pode criar evento",
-                    "Data de inicio e termino": "A Data de inicio e termino de um evento não devem ser iguais",
-                    "Data de inicio": result.dataInicio,
-                    "Data de termino": result.dataTermino,
-                    "Hora de crição de evento errada. Pode conferir aqui as horas válidas para criação de um evento":
-                    {
-
-                        "hora validação": {
-                            "hora validação inicio": new Date(`${dataInicio} ${"00:00:00"}`).getHours(),
-                            "hora valicação termino": new Date(`${dataInicio} ${"23:00:00"}`).getHours()
-                        },
-
-                        "hora do evento": {
-                            "hora inicio": result.horaInicio.getHours(),
-                            "hora termino ": result.horaTermino.getHours()
-                        }
-
-                    }
-
+                    
                 }
             })
         }

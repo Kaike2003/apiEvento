@@ -12,21 +12,24 @@ export const Historico = async (req: Request, res: Response) => {
         where: {
             item_bilhete: {
                 every: {
-                    reserva: {
-                        utilizadorId: idUtilizador
+                    compra: {
+                        utilizadorId: idUtilizador,
+                        pagamento: true
+                       
                     }
                 }
             }
         },
-        include:{
-            evento:{
-                include:{
-                    bilhete:{
-                        where:{
-                            item_bilhete:{
-                                every:{
-                                    reserva:{
-                                        utilizadorId: idUtilizador
+        include: {
+            evento: {
+                include: {
+                    bilhete: {
+                        where: {
+                            item_bilhete: {
+                                every: {
+                                    compra: {
+                                        utilizadorId: idUtilizador,
+                                        
                                     }
                                 }
                             }
@@ -37,7 +40,7 @@ export const Historico = async (req: Request, res: Response) => {
         }
     }).then(async (sucesso) => {
         res.json(sucesso)
-    }).catch((error)=>{
+    }).catch((error) => {
         res.json(error)
     })
 }

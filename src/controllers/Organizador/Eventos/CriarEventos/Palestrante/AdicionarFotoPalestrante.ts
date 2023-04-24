@@ -31,15 +31,16 @@ export const AdicionarFotoPalestrante = async (req: Request, res: Response) => {
                         eventoId: verificarIdEventoExiste.id,
                         palestranteId: verificarIdPalestrante.id
                     }
-                }, data: {
+                },
+                data: {
                     palestrante: {
                         update: {
-                            foto: foto
+                            foto: String(foto)
                         }
                     }
                 }
             }).then((sucesso) => {
-                res.json({ "Foto adicionada com sucesso": sucesso })
+                res.json(sucesso)
             }).catch((error) => {
                 res.json({
                     error: {

@@ -22,12 +22,12 @@ export const CriarCategoria = async (req: Request, res: Response) => {
             }
         })
 
-        if (existe?.nome === result.nome) {
+        if (existe?.nome === result.nome.toLowerCase()) {
             res.status(400).json("Esse valor já existe")
         } else {
             const criarCategoria = await prisma.categoria.create({
                 data: {
-                    nome: result.nome
+                    nome: result.nome.toLowerCase()
                 }
             }).then((sucesso) => {
                 res.status(201).json(sucesso)

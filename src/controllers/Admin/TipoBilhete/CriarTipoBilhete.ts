@@ -21,12 +21,12 @@ export const CriarTipoBilhete = async (req: Request, res: Response) => {
             }
         })
 
-        if (existe?.nome === result.nome) {
+        if (existe?.nome === result.nome.toLowerCase()) {
             res.status(400).json("Esse valor já existe")
         } else {
             const criarTipoBilhete = await prisma.tipoBilhete.create({
                 data: {
-                    nome: result.nome
+                    nome: result.nome.toLowerCase()
                 }
             }).then((sucesso) => {
                 res.status(201).json(sucesso)

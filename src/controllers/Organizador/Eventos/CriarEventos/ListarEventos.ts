@@ -43,6 +43,9 @@ export const ListarEventos = async (req: Request, res: Response) => {
             const listarEvento = await prisma.evento.findMany({
                 where: {
                     utilizador: { id: idUtilizador }
+                },
+                orderBy:{
+                    at_create: "desc"
                 }
             }).then((sucesso) => {
                 res.status(200).json(sucesso)

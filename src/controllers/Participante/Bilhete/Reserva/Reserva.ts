@@ -3,7 +3,8 @@ import { QueryParams, ReservaOmit, ReservaType } from "../../../../validation";
 import { prisma } from "../../../../prisma";
 import crypto from "crypto"
 import fs from 'fs';
-import { Console } from "console";
+import nodeSchedule from "node-schedule"
+
 
 let views: number = 0;
 
@@ -13,6 +14,116 @@ type Body = {
     bilheteId: string
 }
 
+// const rule = new nodeSchedule.RecurrenceRule()
+// rule.date = new Date().getDate() + 1
+// rule.hour = 23
+// rule.minute = 59
+// rule.second = 59
+// rule.month = new Date().getMonth()
+
+// const data = new Date(2023, 3, 16, 2, 21)
+
+// const job = nodeSchedule.scheduleJob(data, async (fireDate) => {
+
+
+//     const listaReservas = await prisma.reserva.findMany({
+//         where: {
+//             foto: null,
+//             pagamento: false
+//         }
+//     }).then(async (reserva) => {
+
+//         reserva.map(async (itemReserva) => {
+
+//             await prisma.item_Bilhete.findMany({
+//                 where: {
+//                     reservaId: itemReserva.id
+//                 }
+//             }).then(async (bilhete_item) => {
+
+//                 bilhete_item.map(async (itemBilhete) => {
+
+//                     await prisma.bilhete.findMany(
+//                         {
+//                             where: {
+//                                 id: itemBilhete.bilheteId
+//                             }
+//                         }
+//                     ).then(async (bilhete) => {
+
+//                         bilhete.map(async (itemBilheteBilhete) => {
+
+//                             if (itemBilheteBilhete.id === itemBilhete.bilheteId
+//                                 &&
+//                                 itemReserva.id === itemBilhete.reservaId
+//                             ) {
+
+
+//                                 await prisma.bilhete.update({
+//                                     where: {
+//                                         id: itemBilheteBilhete.id
+//                                     },
+//                                     data: {
+//                                         quantidade: itemReserva.quantidade + itemBilheteBilhete.quantidade
+//                                     }
+//                                 }).then(async (sucesso) => {
+
+
+//                                     await prisma.reserva.update({
+//                                         where: {
+//                                             id: itemReserva.id
+//                                         },
+//                                         data: {
+//                                             quantidade: itemReserva.quantidade - itemReserva.quantidade
+//                                         }
+//                                     }).then((sucesso) => {
+//                                         console.log(sucesso.quantidade)
+//                                     })
+
+//                                     console.log(sucesso.quantidade)
+
+//                                 }).catch((error) => {
+//                                     console.log(error)
+//                                 })
+
+//                             } else {
+
+//                                 console.log("Olá")
+
+//                             }
+
+//                         })
+
+
+
+//                     }).catch((error) => {
+//                         console.log(error)
+//                     })
+
+//                 })
+
+
+//             }).catch((error) => {
+//                 console.log(error)
+//             })
+
+//         })
+
+
+//     }).catch((error) => {
+//         console.log(error)
+//     })
+
+
+
+// })
+
+// console.log(job.nextInvocation())
+
+
+
+
+
 
 const tamanhoString = 8
 const bytesAleatorios = crypto.randomBytes(tamanhoString);
@@ -20,6 +131,9 @@ const stringAleatoria = bytesAleatorios.toString('base64');
 
 
 export const Reserva = async (req: Request, res: Response) => {
+
+
+
 
     views++;
     fs.writeFile('views.txt', views.toString(), (err) => {
@@ -29,10 +143,10 @@ export const Reserva = async (req: Request, res: Response) => {
     const { idUtilizador, idEvento }: QueryParams = req.params
 
     const { quantidade, bilheteId }: ReservaType = req.body
-    
+
     console.log(quantidade, bilheteId)
-    console.log(typeof(quantidade))
-    console.log(typeof(bilheteId))
+    console.log(typeof (quantidade))
+    console.log(typeof (bilheteId))
 
 
     const result = ReservaOmit.parseAsync({
@@ -43,7 +157,8 @@ export const Reserva = async (req: Request, res: Response) => {
 
     const verificarEvento = await prisma.evento.findFirst({
         where: {
-            id: idEvento
+            id: idEvento,
+            estado: "DESPONIVEL"
         }
     }).then(async (sucessoEvento) => {
 
@@ -54,7 +169,7 @@ export const Reserva = async (req: Request, res: Response) => {
         }).then(async (sucessoUtilizador) => {
 
             if (!sucessoUtilizador) {
-                res.json("valor nulo")
+                res.status(400).json("valor nulo")
             } else {
 
                 if (sucessoUtilizador.utilizador === "PARTICIPANTE") {
@@ -85,15 +200,15 @@ export const Reserva = async (req: Request, res: Response) => {
                                                         id: (await result).bilheteId
                                                     }
                                                 },
-                                                reserva: {
+                                                compra: {
                                                     create: {
                                                         total: sucessoBilhete?.preco * (await result).quantidade,
                                                         metodoPagamento: "Dinheiro",
                                                         quantidade: (await result).quantidade,
+                                                        pagamento: false,
                                                         utilizadorId: idUtilizador
                                                     }
-                                                },
-                                                nome: stringAleatoria
+                                                }
                                             }
                                         }).then(async (sucessoBilheteQuantidade) => {
                                             const reduzirBilhetes = await prisma.bilhete.update({
@@ -109,7 +224,7 @@ export const Reserva = async (req: Request, res: Response) => {
                                                     if (err) throw err;
                                                     views = parseInt(data.toString());
                                                     console.log(`Número anterior de visualizações: ${views}`);
-                                                  })
+                                                })
 
                                                 res.status(201).json({
                                                     "Codigo da sua reserva": stringAleatoria,
@@ -157,7 +272,7 @@ export const Reserva = async (req: Request, res: Response) => {
 
                 } else {
 
-                    res.status(400).json("Só os participantes podem reservar bilhetes")
+                    res.status(400).json("Só os participantes podem comprar bilhetes.")
 
                 }
 
@@ -184,7 +299,10 @@ export const Reserva = async (req: Request, res: Response) => {
     })
 
 
+
 }
+
+
 
 
 

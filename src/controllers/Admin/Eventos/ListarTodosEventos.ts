@@ -9,12 +9,12 @@ export const ListarTodosEventos = async (req: Request, res: Response) => {
         where: {
             publicado: true,
             banido: false,
-            aprovado: false
+            aprovado: true
         }
 
     }).then((sucesso) => {
         res.json(sucesso)
-        // console.log(sucesso)
+        console.log(sucesso)
     }).catch((error) => {
         res.json(error)
         console.log(error)

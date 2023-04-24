@@ -12,7 +12,7 @@ export const BilheteHistorico = async (req: Request, res: Response) => {
     const verificarUtilizador = await prisma.utilizador.findFirst({
         where: {
             id: idUtilizador,
-            reserva: {
+            compra: {
                 every: {
                     utilizadorId: idUtilizador
                 }
@@ -30,21 +30,39 @@ export const BilheteHistorico = async (req: Request, res: Response) => {
 
         } else {
 
-            const historicoBilhete = await prisma.reserva.findMany({
+            // res.json(sucesso.id)
+
+
+            const historicoBilhete = await prisma.compra.findMany({
                 where: {
-                    utilizadorId: idUtilizador
+                    utilizadorId: sucesso.id,
+                    pagamento: true
                 },
+
                 include: {
                     item_Bilhte: {
                         where: {
-                            reserva: {
-                                utilizadorId: idUtilizador
+                            compra: {
+                                utilizadorId: sucesso.id,
+                            }
+                        }
+                        ,
+                        include: {
+                            bilhete: {
+                                select: {
+                                    id: true,
+                                    eventoId: true
+                                }
                             }
                         }
                     }
                 }
             }).then(async (sucessoHistoricoBilhete) => {
+
+
                 res.json(sucessoHistoricoBilhete)
+
+
             }).catch((error) => {
                 res.json(error)
             })

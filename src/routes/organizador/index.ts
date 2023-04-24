@@ -5,6 +5,9 @@ import { upload } from "../../middlewares/uploadImage";
 import { PermissaoRotasOrganizador } from "../../middlewares/PermissaoRotas";
 import { Autenticacao } from "../../middlewares/AutenticacaoMiddlewares";
 import { EmailAutenticacao } from "../../middlewares/EmailAutenticacao";
+import { adicionarFotoPalestranteUpload } from "../../middlewares/uploadImagePalestrante"
+import { aciicionarOrganizadorUpload } from "../../middlewares/uploadImageOrganizador"
+
 
 const permissaoOrganizador: string = "ORGANIZADOR"
 
@@ -23,6 +26,12 @@ routerOrganizador.put(
 
 
 // * Perfil
+
+routerOrganizador.put(
+    RoutesOrganizador.adicionarFotoOrganizador,
+    aciicionarOrganizadorUpload.single("foto"),
+    ControllerRoutesOrganizador.AdicionarFotoOrganizador
+)
 
 routerOrganizador.put(
     RoutesOrganizador.atualizarInformacaoBasica,
@@ -93,7 +102,7 @@ routerOrganizador.put(
     RoutesOrganizador.adicionarFotoPalestrante,
     // Autenticacao,
     // PermissaoRotasOrganizador(permissaoOrganizador),
-    upload.single("foto"),
+    adicionarFotoPalestranteUpload.single("foto"),
     ControllerRoutesOrganizador.AdicionarFotoPalestrante)
 
 // * Criar palestrante
@@ -122,7 +131,7 @@ routerOrganizador.get(
     RoutesOrganizador.listaPalestrante,
     // Autenticacao,
     // PermissaoRotasOrganizador(permissaoOrganizador),
-     ControllerRoutesOrganizador.ListarPalestrante)
+    ControllerRoutesOrganizador.ListarPalestrante)
 
 
 // * Orador

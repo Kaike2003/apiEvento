@@ -184,6 +184,87 @@ routerAdmin.get(RoutesAdmin.listarTodosPalestrantesId,
 routerAdmin.get(RoutesAdmin.listarTodosOradoresId,
     ControllerRoutesAdmin.ListarTodosOradorId)
 
+// * Listar item bilhete da aplicacao
+routerAdmin.get(RoutesAdmin.itemBilhete,
+    ControllerRoutesAdmin.ListarItemBilhete)
+
+// * Listar todos pagamentos
+
+routerAdmin.get(RoutesAdmin.listarPagamentos,
+    ControllerRoutesAdmin.ListarPagamentos
+)
+
+// * Aprovar pagamento
+
+routerAdmin.put(RoutesAdmin.aprovarPagamento,
+    ControllerRoutesAdmin.AprovarPagamento)
+
+// * Pagamentos aprovados
+
+routerAdmin.get(RoutesAdmin.pagamentoAprovados,
+    ControllerRoutesAdmin.PagamentosAprovados
+)
+
+// * Cancelar pagamento
+
+routerAdmin.delete(RoutesAdmin.cancelarPagamento,
+    ControllerRoutesAdmin.CancelarPagamento
+)
+
+// * Listar todos usuarios
+routerAdmin.get(
+    RoutesAdmin.listarTodosUsuarios,
+    ControllerRoutesAdmin.ListarTodosUsuarios
+)
+
+
+// * Estatistica
+
+// * utilizadores
+
+routerAdmin.get(
+    RoutesAdmin.utilizadores,
+    ControllerRoutesAdmin.EstatisticaUtilizador
+)
+
+
+// * eventos publicados
+routerAdmin.get(
+    RoutesAdmin.eventosPublicadosEstatistica,
+    ControllerRoutesAdmin.EstatisticaEventosPublicados
+)
+
+
+// * categorias
+routerAdmin.get(
+    RoutesAdmin.categoriasEstatistica,
+    ControllerRoutesAdmin.EstatisticaCategorias
+)
+
+// * Compras
+
+routerAdmin.get(
+    RoutesAdmin.comprasEstatistica,
+    ControllerRoutesAdmin.EstatisticaCompra
+)
+
+
+routerAdmin.get(
+    RoutesAdmin.pagamentoEventoFeito,
+    ControllerRoutesAdmin.PagamentoEventoFeito
+)
+
+
+routerAdmin.get(
+    RoutesAdmin.pagamentoEvento,
+    ControllerRoutesAdmin.PagamentoEvento
+)
+
+routerAdmin.put(
+    RoutesAdmin.eventoPago,
+    ControllerRoutesAdmin.EventoPago
+)
+
 
 
 

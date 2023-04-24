@@ -37,7 +37,8 @@ export const Create = async (req: Request, res: Response) => {
                     palavraPasse: result.palavraPasse,
                     email: result.email,
                     utilizador: "ADMIN",
-                    codigo: stringAleatoria
+                    codigo: stringAleatoria,
+                    foto: "usuario.png"
                 }
             }).then(async (sucesso) => {
 

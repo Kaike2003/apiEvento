@@ -63,6 +63,56 @@ import * as listarTodosOradoresId from "./Eventos/Orador/ListarTodosOradorId"
 
 import * as listarTodosPalestrantesId from "./Eventos/Palestrante/ListarTodosPalestranteId"
 
+// * Listar todos item  bilhetes
+
+import * as itemBilhete from "./Eventos/Bilhete/ListarItemBilhete"
+
+// * Listar todos os pagamentos
+
+import * as listarPagamentos from "./AprovarPagamento/ListarPagamentos"
+
+import * as listarTodosUsuarios from "./ListarTodosUsuarios"
+
+// * Listar aprovarPagamento
+
+import * as aprovarPagamento from "./AprovarPagamento/AprovarPagamento"
+
+// * Listar pagamentosAprovados
+
+import * as pagamentoAprovados from "./AprovarPagamento/PagamentosAprovados"
+
+// * Cancelar pagamento 
+
+import * as cancelarPagamento from "./AprovarPagamento/CancelarPagamento"
+
+// * Estatistica de todos utilizadores da aplicação
+
+import * as utilizadores from "./Estatisitica/Utilizadores"
+
+// * Estatistica de todos eventos publicados
+
+import * as eventosPublicadosEstatistica from "./Estatisitica/EventosPublicados"
+
+// * Estatistica de todas categorias
+
+import * as categoriasEstatistica from "./Estatisitica/Categorias"
+
+
+// * Estatistica de todas compras
+
+import * as comprasEstatistica from "./Estatisitica/Compras"
+
+// * Pagamento Evento feito
+import * as pagamentoEventoFeito from "./Eventos/Pagamento/PagamentoEventoFeito"
+
+// * Pagamento evento 
+
+import * as pagamentoEvento from "./Eventos/Pagamento/PagamentoEvento"
+
+
+// * Evento Pago
+import * as eventoPago from "./Eventos/Pagamento/EventoPago"
+
 
 
 
@@ -125,6 +175,50 @@ export const ControllerRoutesAdmin = {
 
     // * Listar todos palestrantes com relacionamento com evento
     ...listarTodosPalestrantesId,
+
+    // * Listar item Bilhete 
+    ...itemBilhete,
+
+    // * Listar todos pagamentos
+    ...listarPagamentos,
+
+    // * Aprovar  pagamentos
+    ...aprovarPagamento,
+
+    // * Listar todos usuarios da aplicação
+    ...listarTodosUsuarios,
+
+    // * Listar todos pagamentos aprovados
+
+    ...pagamentoAprovados,
+
+    // * Cancelar pagamento
+
+    ...cancelarPagamento,
+
+    // * Utilizadores
+    ...utilizadores,
+
+    // * Eventos publicados estatisticas
+    ...eventosPublicadosEstatistica,
+
+    // * Total de categorias
+    ...categoriasEstatistica,
+
+    // * Tolta de compras,
+    ...comprasEstatistica,
+
+    // * Pagamento Evento feito
+    ...pagamentoEventoFeito,
+
+    // * Pagamento evento 
+    ...pagamentoEvento,
+
+
+    // * Evento Pago
+    ...eventoPago,
+
+
 
     ...verificarConta,
     ...recuperarsenhaAdmin

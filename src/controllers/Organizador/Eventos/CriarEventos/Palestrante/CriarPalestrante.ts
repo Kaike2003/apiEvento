@@ -22,7 +22,7 @@ export const CriarPalestrante = async (req: Request, res: Response) => {
             data: {
                 nome: nome,
                 blog: blog,
-                foto: "foto",
+                foto: "padrao.png",
                 evento: {
                     create: {
                         evento: {

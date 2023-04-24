@@ -63,6 +63,10 @@ import * as verificarConta from "./VerificarConta/VerificarConta"
 // * Verificar conta
 import *  as recuperarSenhaOrganidor from "./RecuperarSenhaOrganizador"
 
+
+// * Adicionar foto organizador 
+import *  as adicionarFotoOrganizador from "./AdicionarFotoOrganizador"
+
 export const ControllerRoutesOrganizador = {
     ...loginOrg,
     ...createOrg,
@@ -125,7 +129,10 @@ export const ControllerRoutesOrganizador = {
     ...verificarConta,
 
     // * Recuperar senha
-    ...recuperarSenhaOrganidor
+    ...recuperarSenhaOrganidor,
+
+    // * Adicionar foto organizador
+    ...adicionarFotoOrganizador
 
 
 }

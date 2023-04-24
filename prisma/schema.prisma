@@ -15,15 +15,16 @@ model Utilizador {
   nome           String?
   email          String         @unique
   palavraPasse   String
-  dataNascimento DateTime?       @db.Date
+  dataNascimento DateTime?      @db.Date
   localizacao    String?
   utilizador     TipoUtilizador @default(PARTICIPANTE)
   telefone       String?
   evento         Evento[]
-  reserva        Reserva[]
+  compra         Compra[]
   verificado     Boolean        @default(false)
   banido         Boolean        @default(false)
   codigo         String
+  foto           String?
 
   at_create DateTime @default(now())
   at_update DateTime @updatedAt
@@ -93,6 +94,7 @@ model Evento {
   aprovado     Boolean          @default(false)
   banido       Boolean          @default(false)
   visualizacao Int
+  pagamento    Boolean          @default(false)
 
   bilhete     Bilhete[]
   palestrante Palestrante_Evento[]
@@ -144,14 +146,14 @@ model Bilhete {
 }
 
 model Item_Bilhete {
-  id   String @id @default(uuid())
-  nome String
+  id     String @id @default(uuid())
+  codigo String @default(uuid())
 
   bilhete   Bilhete @relation(fields: [bilheteId], references: [id])
   bilheteId String
 
-  reserva   Reserva @relation(fields: [reservaId], references: [id])
-  reservaId String
+  compra   Compra @relation(fields: [compraId], references: [id])
+  compraId String
 
   at_create DateTime @default(now())
   at_update DateTime @updatedAt
@@ -159,11 +161,13 @@ model Item_Bilhete {
   @@map("itemBilhete")
 }
 
-model Reserva {
-  id              String @id @default(uuid())
+model Compra {
+  id              String  @id @default(uuid())
   quantidade      Int
   total           Int
   metodoPagamento String
+  pagamento       Boolean
+  foto            String?
 
   item_Bilhte Item_Bilhete[]
 
@@ -173,7 +177,7 @@ model Reserva {
   at_create DateTime @default(now())
   at_update DateTime @updatedAt
 
-  @@map("reserva")
+  @@map("compra")
 }
 
 model Palestrante_Evento {

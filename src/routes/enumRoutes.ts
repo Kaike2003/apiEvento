@@ -11,7 +11,47 @@ export const enum RoutesAdmin {
     listarTodosOradoresId = "/listarTodosOradoresId",
     listarTodosPalestrantesId = "/listarTodosPalestrantesId",
 
+    // * Pagamento Evento feito
+    pagamentoEventoFeito = "/pagamentoEventoFeito",
 
+    // * Pagamento evento 
+    pagamentoEvento = "/pagamentoEvento",
+
+
+    // * Evento Pago
+    eventoPago = "/eventoPago/:idEvento",
+
+
+    // * Listar item Bilhete
+    itemBilhete = "/itemBilhete",
+
+    // * Listar aprovarPagamento
+    listarPagamentos = "/listarPagamentos",
+
+    // * Aprovar pagamento
+
+    aprovarPagamento = "/aprovarPagamento/:idCompra/:idUtilizador",
+
+    // * Pagamentos aprovados
+
+    pagamentoAprovados = "/pagamentoAprovados",
+
+    // * Cancelar pagamento ,
+    cancelarPagamento = "/cancelarPagamento/:idCompra/:idUtilizador",
+
+    // * utilizadores 
+    utilizadores = "/utilizadores",
+
+    // * eventos publicados estatisticas
+
+    eventosPublicadosEstatistica = "/eventosPublicadosEstatistica",
+
+    // * eventos publicados estatisticas
+    categoriasEstatistica = "/categoriasEstatistica",
+
+    // * compras estatisticas
+
+    comprasEstatistica = "/comprasEstatistica",
 
 
     listaAdministradores = "/administradores/listaAdministradores",
@@ -51,7 +91,10 @@ export const enum RoutesAdmin {
 
 
     // * Recuperar senha Organizador
-    recuperarSenhaAdmin = "/recuperarSenha"
+    recuperarSenhaAdmin = "/recuperarSenha",
+
+    // * Listar todos usuarios
+    listarTodosUsuarios = "/listarTodosUsuarios"
 
 
 
@@ -70,10 +113,19 @@ export const enum RoutesParticipante {
     eventosPaginaPrincipal = "/paginaPrincipal",
     novosEventos = "/novosEventosPaginaPrincipal",
 
+    // * Adicionar foto do comprovativo
+    adicionarComprovaito = "/adicionarComprovaito/:idCompra/:idUtilizador",
+
+    // * Historico pago
+    historicoPago = "/meusEventos/historicoPago/:idUtilizador",
+
+    // * Historico pago
+    historicoNaoPago = "/meusEventos/historicoNaoPago/:idUtilizador",
 
 
     // * Perfil
 
+    adicionarFotoParticipante = "/perfil/:idUtilizador/adicionarFotoParticipante",
     informacaoBasica = "/perfil/:idUtilizador/informacao",
     atualizarPalavraPasse = "/perfil/:idUtilizador/atualizarPalavraPasse",
     atualizarInformacaoBasica = "/perfil/:idUtilizador/atualizarInformacaoBasica",
@@ -115,7 +167,29 @@ export const enum RoutesParticipante {
     recuperarSenhaParticipante = "/recuperarSenha",
 
     // * Listar participante
-    listarparticipante = "/listarParticipante"
+    listarparticipante = "/listarParticipante",
+
+
+    // * Listar teatro
+    listarTeatro = "/teatroEventos",
+    listarTeatroLimite = "/teatroEventos?limite",
+
+    // * Listar Concerto
+    listarConcerto = "/concertoEventos",
+    listarConcertoLimite = "/concertoEventos?limite",
+
+    // * Listar Seminario
+    listarSeminario = "/seminarioEventos",
+    listarSeminariotoLimite = "/seminarioEventos?limite",
+
+    // * Listar palestra
+    listarPalestra = "/palestraEventos",
+    listarPalestraLimite = "/palestraEventos?limite",
+
+    // * Listar shows
+    listarShows = "/showsEventos",
+    listarShowsLimite = "/showsEventos?limite"
+
 
 
 }
@@ -131,7 +205,7 @@ export const enum RoutesOrganizador {
 
 
     //* Perfil
-
+    adicionarFotoOrganizador = "/perfil/:idUtilizador/adicionarFotoOrganizador",
     informacaoBasica = "/perfil/:idUtilizador/informacao",
     atualizarPalavraPasse = "/perfil/:idUtilizador/atualizarPalavraPasse",
     atualizarInformacaoBasica = "/perfil/:idUtilizador/atualizarInformacaoBasica",
@@ -195,7 +269,7 @@ export const enum RoutesOrganizador {
     apagarBilhete = "/evento/detalhe/editar/:idEvento/bilhete/:idBilhete",
     // * Atualizar bilhete
     atualizarBilhete = "/evento/detalhe/editar/:idEvento/bilhete/:idBilhete"
-    // * Listar Orador
+    // * Listar bilhete
     , listaBilhete = "/evento/detalhe/editar/:idEvento/bilhete",
 
 

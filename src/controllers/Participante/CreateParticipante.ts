@@ -59,7 +59,9 @@ export const Create = async (req: Request, res: Response) => {
                     localizacao: result.localizacao,
                     telefone: result.telefone,
                     utilizador: "PARTICIPANTE",
-                    codigo: aleatorio
+                    codigo: aleatorio,
+                    foto: "usuario.png"
+
                 }
             }).then(async(sucesso) => {          
             

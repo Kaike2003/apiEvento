@@ -4,6 +4,10 @@ import { EmailAutenticacao } from "../../middlewares/EmailAutenticacao";
 import { PermissaoRotasParticipante } from "../../middlewares/PermissaoRotas";
 import { RoutesParticipante } from "../enumRoutes";
 import { Autenticacao } from "../../middlewares/AutenticacaoMiddlewares";
+import { adicionarComprovativoUpload } from "../../middlewares/uploadImageComprovativo";
+import { aciicionarParticipanteUpload } from "../../middlewares/uploadImageParticipante";
+
+
 
 const permissaoPARTICIPANTE: string = "PARTICIPANTE"
 
@@ -16,6 +20,11 @@ routerParticipante.post(
     RoutesParticipante.createParticipante,
     ControllerParticipante.Create)
 
+routerParticipante.put(
+    RoutesParticipante.adicionarFotoParticipante,
+    aciicionarParticipanteUpload.single("foto"),
+    ControllerParticipante.AdicionarFofoParticipante
+)
 
 routerParticipante.post(
     RoutesParticipante.loginParticipante,
@@ -187,8 +196,99 @@ routerParticipante.get(
     ControllerParticipante.EventosNovosLimiteVermais
 )
 
+// * Listar teatro
+
+routerParticipante.get(
+    RoutesParticipante.listarTeatro,
+    ControllerParticipante.Teatro
+)
+
+// * Listar teatro limite
+
+routerParticipante.get(
+    RoutesParticipante.listarTeatroLimite,
+    ControllerParticipante.TeatroLimite
+)
+
+// * Listar concerto
+
+routerParticipante.get(
+    RoutesParticipante.listarConcerto,
+    ControllerParticipante.Concerto
+)
+
+// * Listar concerto limite
+
+routerParticipante.get(
+    RoutesParticipante.listarConcertoLimite,
+    ControllerParticipante.ConcertoLimite
+)
 
 
+// * Listar seminário
 
+routerParticipante.get(
+    RoutesParticipante.listarSeminario,
+    ControllerParticipante.Seminario
+)
+
+// * Listar seminário limite
+
+routerParticipante.get(
+    RoutesParticipante.listarSeminariotoLimite,
+    ControllerParticipante.SeminarioLimite
+)
+
+// * Listar palestra
+
+routerParticipante.get(
+    RoutesParticipante.listarPalestra,
+    ControllerParticipante.Palestra
+)
+
+// * Listar palestra limite
+
+routerParticipante.get(
+    RoutesParticipante.listarPalestraLimite,
+    ControllerParticipante.PalestraLimite
+)
+
+// * Listar shows
+
+routerParticipante.get(
+    RoutesParticipante.listarShows,
+    ControllerParticipante.Shows
+)
+
+// * Listar shows limite
+
+routerParticipante.get(
+    RoutesParticipante.listarShowsLimite,
+    ControllerParticipante.ShowsLimite
+)
+
+
+// * Adicionar comprovativo
+
+routerParticipante.put(
+    RoutesParticipante.adicionarComprovaito,
+    adicionarComprovativoUpload.single("foto"),
+    ControllerParticipante.AdicioanarComprovativo
+)
+
+// * HistoricoPago
+
+routerParticipante.get(
+    RoutesParticipante.historicoPago,
+    ControllerParticipante.HistoricoPago
+)
+
+
+// * HistoricoNaoPago
+
+routerParticipante.get(
+    RoutesParticipante.historicoNaoPago,
+    ControllerParticipante.HistoricoNaoPago
+)
 
 export { routerParticipante }

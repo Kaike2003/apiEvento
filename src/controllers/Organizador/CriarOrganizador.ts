@@ -59,7 +59,9 @@ export const CreateOrg = async (req: Request, res: Response) => {
                     dataNascimento: result.dataNascimento,
                     localizacao: result.localizacao,
                     utilizador: "ORGANIZADOR",
-                    codigo: stringAleatoria
+                    codigo: stringAleatoria,
+                    foto: "usuario.png"
+
                 }
             }).then(async (sucesso) => {
 

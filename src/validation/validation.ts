@@ -38,7 +38,7 @@ export const UtilizadorSchema = z.object({
         invalid_type_error: "A data deve ser uma Data"
     })
         .min(new Date("1925-01-01"), { message: "Idade inválida. Velho demais" })
-        .max(new Date("2023-12-31"), { message: "Idade inválida. Muito jovem!" }),
+        .max(new Date("2004-12-31"), { message: "Idade inválida. Muito jovem!" }),
     localizacao: z.string({
         required_error: "O endereço é obrigatório",
         invalid_type_error: "O endereço deve ser uma string"
@@ -437,6 +437,7 @@ export type QueryParams = {
     idEvento?: string
     idBilhete?: string
     idOrador?: string
+    idCompra?: string
     idPalestrante?: string
     idUtilizador?: string
     idCategoria?: string

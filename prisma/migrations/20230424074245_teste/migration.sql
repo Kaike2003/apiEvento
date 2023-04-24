@@ -11,6 +11,7 @@ CREATE TABLE `utilizador` (
     `verificado` BOOLEAN NOT NULL DEFAULT false,
     `banido` BOOLEAN NOT NULL DEFAULT false,
     `codigo` VARCHAR(191) NOT NULL,
+    `foto` VARCHAR(191) NULL,
     `at_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `at_update` DATETIME(3) NOT NULL,
 
@@ -68,6 +69,7 @@ CREATE TABLE `evento` (
     `aprovado` BOOLEAN NOT NULL DEFAULT false,
     `banido` BOOLEAN NOT NULL DEFAULT false,
     `visualizacao` INTEGER NOT NULL,
+    `pagamento` BOOLEAN NOT NULL DEFAULT false,
     `utilizadorId` VARCHAR(191) NOT NULL,
     `categoriaId` VARCHAR(191) NOT NULL,
     `at_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -97,9 +99,9 @@ CREATE TABLE `bilhete` (
 -- CreateTable
 CREATE TABLE `itemBilhete` (
     `id` VARCHAR(191) NOT NULL,
-    `nome` VARCHAR(191) NOT NULL,
+    `codigo` VARCHAR(191) NOT NULL,
     `bilheteId` VARCHAR(191) NOT NULL,
-    `reservaId` VARCHAR(191) NOT NULL,
+    `compraId` VARCHAR(191) NOT NULL,
     `at_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `at_update` DATETIME(3) NOT NULL,
 
@@ -107,11 +109,13 @@ CREATE TABLE `itemBilhete` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `reserva` (
+CREATE TABLE `compra` (
     `id` VARCHAR(191) NOT NULL,
     `quantidade` INTEGER NOT NULL,
     `total` INTEGER NOT NULL,
     `metodoPagamento` VARCHAR(191) NOT NULL,
+    `pagamento` BOOLEAN NOT NULL,
+    `foto` VARCHAR(191) NULL,
     `utilizadorId` VARCHAR(191) NOT NULL,
     `at_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `at_update` DATETIME(3) NOT NULL,
@@ -163,10 +167,10 @@ ALTER TABLE `bilhete` ADD CONSTRAINT `bilhete_tipoEventoId_fkey` FOREIGN KEY (`t
 ALTER TABLE `itemBilhete` ADD CONSTRAINT `itemBilhete_bilheteId_fkey` FOREIGN KEY (`bilheteId`) REFERENCES `bilhete`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `itemBilhete` ADD CONSTRAINT `itemBilhete_reservaId_fkey` FOREIGN KEY (`reservaId`) REFERENCES `reserva`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `itemBilhete` ADD CONSTRAINT `itemBilhete_compraId_fkey` FOREIGN KEY (`compraId`) REFERENCES `compra`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `reserva` ADD CONSTRAINT `reserva_utilizadorId_fkey` FOREIGN KEY (`utilizadorId`) REFERENCES `utilizador`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `compra` ADD CONSTRAINT `compra_utilizadorId_fkey` FOREIGN KEY (`utilizadorId`) REFERENCES `utilizador`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Palestrante_Evento` ADD CONSTRAINT `Palestrante_Evento_palestranteId_fkey` FOREIGN KEY (`palestranteId`) REFERENCES `palestrante`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
