@@ -61,7 +61,7 @@ export const EditarEvento = async (req: Request, res: Response) => {
         dataTermino: new Date(dataTermino),
         horaInicio: new Date(`${dataInicio} ${horaInicio}`),
         horaTermino: new Date(`${dataTermino} ${horaTermino}`),
-        foto: "image.png",
+        foto: foto,
         provincia: provincia,
         municipio: municipio,
         bairro: bairro,
@@ -139,7 +139,7 @@ export const EditarEvento = async (req: Request, res: Response) => {
                                     banido: false,
                                     publicado: true,
                                     aprovado: true,
-                                    foto: "imagem",
+                                    foto: result.foto,
                                     categoriaId: categoriaId
                                 }
                             }).then((sucesso) => {

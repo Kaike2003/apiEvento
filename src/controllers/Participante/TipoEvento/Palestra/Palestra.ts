@@ -31,6 +31,11 @@ export const Palestra = async (req: Request, res: Response) => {
                     aprovado: true,
                     publicado: true,
                     banido: false,
+                    OR: [
+                        { estado: "DESPONIVEL" },
+                        { estado: "ADECORRER" },
+                        { estado: "CANCELADO" }
+                    ]
                 }, include: {
                     bilhete: {
                         include: {
@@ -65,7 +70,7 @@ export const Palestra = async (req: Request, res: Response) => {
 
 
 
-                    } else if (item.dataInicio.getDate() < diaAtual && item.dataInicio.getMonth() < mesAtual && item.dataInicio.getFullYear() < anoAtual) {
+                    } else if (item.dataInicio.getDate() <= diaAtual && item.dataInicio.getMonth() <= mesAtual && item.dataInicio.getFullYear() <= anoAtual) {
 
                         prisma.evento.update({
                             where: {

@@ -37,24 +37,38 @@ export const PublicarEvento = async (req: Request, res: Response) => {
             verificarIdUtilizadorExiste.utilizador === "ORGANIZADOR"
         ) {
 
-            if (verificarIdEventoExiste.publicado === false) {
-                const adicionarFotoEvento = await prisma.evento.update({
-                    where: {
-                        id: idEvento
-                    }, data: {
-                        publicado: true
-                    }
-                }).then(() => {
-                    res.status(201).json(`Evento ${idEvento} publicado com sucesso do evento`)
-                }).catch((error) => {
-                    res.status(400).json(error)
-                })
+            const verificarBilhete = await prisma.bilhete.findFirst({
+                where: {
+                    eventoId: idEvento
+                }
+            }).then(async(sucessoBilhete) => {
 
-                // res.json(`Evento ${idEvento} publicado com sucesso do evento`)
-            } else {
-                res.status(400).json(idEvento)
-                console.log("Aviso Esse evento já foi publicado", idEvento)
-            }
+                if (sucessoBilhete === null) {
+                    res.status(400).json("Crie um bilhe para esse assim, só assim poderás publicar")
+                } else {
+                    if (verificarIdEventoExiste.publicado === false) {
+                        const adicionarFotoEvento = await prisma.evento.update({
+                            where: {
+                                id: idEvento
+                            }, data: {
+                                publicado: true
+                            }
+                        }).then(() => {
+                            res.status(201).json(`Evento ${idEvento} publicado com sucesso do evento`)
+                        }).catch((error) => {
+                            res.status(400).json("Aviso Esse evento já foi publicado")
+                        })
+
+                        // res.json(`Evento ${idEvento} publicado com sucesso do evento`)
+                    } else {
+                        res.status(400).json(idEvento)
+                        console.log("Aviso Esse evento já foi publicado", idEvento)
+                    }
+                }
+
+            })
+
+
         } else {
 
             res.status(400).json({

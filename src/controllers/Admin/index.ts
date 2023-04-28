@@ -114,6 +114,10 @@ import * as pagamentoEvento from "./Eventos/Pagamento/PagamentoEvento"
 import * as eventoPago from "./Eventos/Pagamento/EventoPago"
 
 
+// * Listar todas compras pagas
+
+import * as listarComprasPagas from "./Eventos/Bilhete/ListarTodasCompras"
+
 
 
 export const ControllerRoutesAdmin = {
@@ -217,6 +221,9 @@ export const ControllerRoutesAdmin = {
 
     // * Evento Pago
     ...eventoPago,
+
+    // * Listar compras pagas
+    ...listarComprasPagas,
 
 
 

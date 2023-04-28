@@ -32,7 +32,6 @@ export const Autenticacao = (req: Request, res: Response, next: NextFunction) =>
             req.nome = nome,
             req.email = email
 
-    
             console.log(data)
             // console.log("User id", req.userId = userId)
             return next()

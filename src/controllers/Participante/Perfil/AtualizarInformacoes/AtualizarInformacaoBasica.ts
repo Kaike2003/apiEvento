@@ -13,7 +13,7 @@ export const AtualizarInformacaoBasica = async (req: Request, res: Response) => 
         nome: nome,
         dataNascimento: new Date(dataNascimento),
         localizacao: localizacao,
-        telefone: telefone
+        telefone: telefone,
     })
 
     const verificarUtilizadorExiste: Utilizador | null = await prisma.utilizador.findUnique({
@@ -41,7 +41,7 @@ export const AtualizarInformacaoBasica = async (req: Request, res: Response) => 
                     data: {
                         nome: (await result).nome,
                         dataNascimento: (await result).dataNascimento,
-                        telefone: (await result).telefone
+                        telefone: String((await result).telefone),
                     }
                 }).then((sucesso) => {
                     res.json({ "Atualizações das informações feita com sucesso.": sucesso })

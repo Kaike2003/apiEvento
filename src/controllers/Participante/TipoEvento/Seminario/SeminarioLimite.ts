@@ -33,6 +33,11 @@ export const SeminarioLimite = async (req: Request, res: Response) => {
                     aprovado: true,
                     publicado: true,
                     banido: false,
+                    OR: [
+                        { estado: "DESPONIVEL" },
+                        { estado: "ADECORRER" },
+                        { estado: "CANCELADO" }
+                    ]
                 },
                 orderBy: {
                     at_create: "desc"

@@ -70,7 +70,7 @@ routerAdmin.get(RoutesAdmin.sair,
 
 // * Eventos publicados
 routerAdmin.get(RoutesAdmin.eventosPublicados,
-    // Autenticacao,F
+    // Autenticacao,
     // PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.EventosPublicados)
 
@@ -93,8 +93,8 @@ routerAdmin.get(
 // * Aprovar evento
 routerAdmin.put(
     RoutesAdmin.aprovarEvento,
-    // Autenticacao,
-    // PermissaoRotasAdmin(permissaoADMIN),
+    Autenticacao,
+    PermissaoRotasAdmin(permissaoADMIN),
     ControllerRoutesAdmin.AprovarEvento
 )
 
@@ -264,6 +264,13 @@ routerAdmin.put(
     RoutesAdmin.eventoPago,
     ControllerRoutesAdmin.EventoPago
 )
+
+
+routerAdmin.get(
+    RoutesAdmin.listarTodasCompras,
+    ControllerRoutesAdmin.ListarTodasComprasPagas
+)
+
 
 
 

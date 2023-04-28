@@ -45,10 +45,17 @@ export const UtilizadorSchema = z.object({
     })
         .min(3, { message: "O endereço deve ter 15 ou mais caracteres" })
         .max(60, { message: "O endereço deve ter 60 ou menos caracteres" }),
-    telefone: z.string({
+    telefone: z.number({
         required_error: "O número de telefone é obrigatório",
-        invalid_type_error: "O nome deve ser uma string"
+        invalid_type_error: "O número deve ser um number"
+    }).min(100000000, { message: "O número telefone deve ser menor que 11111111" })
+        .max(999999999, { message: "O número de telefone de menor que 99999999" }),
+    iban: z.string({
+        required_error: "O IBAN é obrigatório",
+        invalid_type_error: "O IBAN deve ser uma string"
     })
+        .min(25, { message: "O IBAN deve ter 10 ou mais caracteres" })
+        .max(40, { message: "O IBAN deve ter 40 ou menos caracteres" }).optional(),
 })
 
 // * Esquema Evento
@@ -92,8 +99,8 @@ export const EventoSchema = z.object({
         required_error: "A descrição é obrigatória",
         invalid_type_error: "A descrição de ser uma string"
     })
-        .min(15, { message: "A descrição deve ter 15 ou mais caracteres" })
-        .max(4000, { message: "A descrição deve ter 200 ou menos caracteres" })
+        .min(200, { message: "A descrição deve ter 200 ou mais caracteres" })
+        .max(289, { message: "A descrição deve ter 289 ou menos caracteres" })
     ,
     provincia: z.string({
         required_error: "O nome da provincia é obrigatório",
@@ -309,9 +316,15 @@ export const UtilizadorSchemaInformaçãoPerfil = z.object({
     ,
     telefone: z.number({
         required_error: "O número de telefone é obrigatório",
-        invalid_type_error: "O nome deve ser uma string"
-    }).min(0).max(999999999)
-        .optional()
+        invalid_type_error: "O número de telefone deve ser uma string"
+    }).min(100000000).max(999999999)
+        .optional(),
+    iban: z.string({
+        required_error: "O IBAN é obrigatório",
+        invalid_type_error: "O IBAN deve ser uma string"
+    })
+        .min(25, { message: "O IBAN deve ter 10 ou mais caracteres" })
+        .max(40, { message: "O IBAN deve ter 40 ou menos caracteres" }).optional(),
 
 })
 

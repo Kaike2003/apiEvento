@@ -55,7 +55,7 @@ export const CreateOrg = async (req: Request, res: Response) => {
                     nome: result.nome,
                     palavraPasse: result.palavraPasse,
                     email: result.email,
-                    telefone: result.telefone,
+                    telefone: String(result.telefone),
                     dataNascimento: result.dataNascimento,
                     localizacao: result.localizacao,
                     utilizador: "ORGANIZADOR",
@@ -91,15 +91,12 @@ export const CreateOrg = async (req: Request, res: Response) => {
                             from: `${result.nome}
                             <kaikebartolomeu2003@gmail.com>` ,
                             to: `${result.email}`,
-                            subject: "Confirme seu e-mail para começar a usar a Reserva online",
+                            subject: "Confirme seu e-mail para começar a usar a Venda Online de bilhetes para eventos culturais e educacionais",
                             text: "",
                             html: `
-                            <h2 >Reserva online</h2>
-                            <p>Confirme seu e-mail para termos certeza de que a solicitação partiu de você.</p> 
-                            <p>A confirmação do seu e-mail é importante para enviarmos informações sobre sua conta da reserva online.</p>
-                            <span
-                            style={{color: "red"}}
-                            >Código</span>:<h3>  ${sucesso.codigo} </h3>
+                            <h2>Venda Online de bilhetes para eventos culturais e educacionais</h2>
+                            <p>Confirme seu e-mail para termos certeza de que a solicitação partiu de você. A confirmação do seu e-mail é importante para enviarmos informações sobre sua conta da Venda Online de bilhetes para eventos culturais e educacionais.</p>
+                            <h3>Código : ${sucesso.codigo} </h3>
                          `
                         }).then(message => {
                             console.log({ "Valido": message })

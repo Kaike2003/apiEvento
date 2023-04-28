@@ -12,6 +12,23 @@ export const EventosNovosLimiteVermais = async (req: Request, res: Response) => 
             publicado: true,
             banido: false,
             aprovado: true,
+            OR: [
+                { estado: "DESPONIVEL" },
+                { estado: "ADECORRER" },
+                { estado: "CANCELADO" }
+            ]
+        },
+        include: {
+            bilhete: {
+                include: {
+                    evento: {
+                        include: {
+                            bilhete: true
+                        }
+                    }
+                },
+                take: 1
+            }
         },
         orderBy: {
             at_create: "desc"

@@ -15,9 +15,10 @@ export const PagamentoEvento = async (req: Request, res: Response) => {
                     quantidade: true,
                     preco: true,
                 },
-            }
+            },
         }
     }).then(sucesso => {
+
         res.json(sucesso)
     }).catch(error => {
         res.json(error)

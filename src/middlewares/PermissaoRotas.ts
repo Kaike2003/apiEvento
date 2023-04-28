@@ -98,6 +98,7 @@ export const PermissaoRotasOrganizador = (cargo: string) => {
                 const CARGO: Utilizador | null = await prisma.utilizador.findFirst({
                     where: {
                         id: userId,
+                        utilizador: "ORGANIZADOR"
                     }
                 })
 
@@ -107,15 +108,22 @@ export const PermissaoRotasOrganizador = (cargo: string) => {
                         res.json("O cargo não pode ser nulo.")
                     } else {
 
-                        console.log({"Verificação": {
-                            CargoId :  CARGO.utilizador,
-                            cargo: cargo
-                        }})
+                        console.log({
+                            "Verificação": {
+                                CargoId: CARGO.utilizador,
+                                cargo: cargo
+                            }
+                        })
 
                         if (
                             CARGO.utilizador === cargo
-                            && CARGO.id === userId) {
-                            // console.log(`${cargo} tem acesso a todas rotas de ORGANIZADOR`)
+                            && 
+                            CARGO.id === userId
+                            &&
+                            CARGO.utilizador === "ORGANIZADOR"                           
+
+                            ) {
+                            console.log(`${cargo} tem acesso a todas rotas de ORGANIZADOR`)
                             // res.json(`${cargo} tem acesso a todas rotas de ORGANIZADOR`)
                             next()
                         } else {
@@ -167,6 +175,7 @@ export const PermissaoRotasParticipante = (cargo: string) => {
                 const CARGO: Utilizador | null = await prisma.utilizador.findFirst({
                     where: {
                         id: userId,
+                        utilizador: "PARTICIPANTE"
                     }
                 })
 
@@ -178,8 +187,11 @@ export const PermissaoRotasParticipante = (cargo: string) => {
 
                         if (
                             CARGO.utilizador === cargo
-                            && CARGO.id === userId) {
-                            // console.log(`${cargo} tem acesso a todas rotas de PARTICIPANTES`)
+                            &&
+                            CARGO.id === userId
+                            &&
+                            CARGO.utilizador === "PARTICIPANTE") {
+                            console.log(`${cargo} tem acesso a todas rotas de PARTICIPANTES`)
                             // res.json(`${cargo} tem acesso a todas rotas de PARTICIPANTES`)
                             next()
                         } else {

@@ -19,6 +19,7 @@ model Utilizador {
   localizacao    String?
   utilizador     TipoUtilizador @default(PARTICIPANTE)
   telefone       String?
+  iban           String?
   evento         Evento[]
   compra         Compra[]
   verificado     Boolean        @default(false)

@@ -57,11 +57,10 @@ export const Create = async (req: Request, res: Response) => {
                     email: result.email,
                     dataNascimento: result.dataNascimento,
                     localizacao: result.localizacao,
-                    telefone: result.telefone,
+                    telefone: String(result.telefone),
                     utilizador: "PARTICIPANTE",
                     codigo: aleatorio,
                     foto: "usuario.png"
-
                 }
             }).then(async(sucesso) => {          
             
@@ -91,11 +90,11 @@ export const Create = async (req: Request, res: Response) => {
                             from: `${result.nome}
                             <kaikebartolomeu2003@gmail.com>` ,
                             to: `${result.email}`,
-                            subject: "Confirme seu e-mail para começar a usar a KaikeEventos",
+                            subject: "Confirme seu e-mail para começar a usar a Venda Online de bilhetes para eventos culturais e educacionais",
                             text: "",
                             html: `
-                            <h2 >KaikeEventos</h2>
-                            <p>Confirme seu e-mail para termos certeza de que a solicitação partiu de você. A confirmação do seu e-mail é importante para enviarmos informações sobre sua conta da KaikeEventos.</>
+                            <h2>Venda Online de bilhetes para eventos culturais e educacionais</h2>
+                            <p>Confirme seu e-mail para termos certeza de que a solicitação partiu de você. A confirmação do seu e-mail é importante para enviarmos informações sobre sua conta da Venda Online de bilhetes para eventos culturais e educacionais.</p>
                             <h3>Código : ${sucesso.codigo} </h3>
                          `
                         }).then(message=>{

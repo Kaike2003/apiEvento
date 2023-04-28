@@ -57,7 +57,7 @@ export const RecuperarSenha = async (req: Request, res: Response) => {
                         transporter.sendMail({
                             from: "Rosinaldo Bartolomeu <kaikebartolomeu2003@gmail.com>",
                             to: `${email}`,
-                            subject: "Confirme seu e-mail para começar a usar a KaikeEventos",
+                            subject: "Recupere sua senha para voltar usar a Venda Online de bilhetes para eventos culturais e educacionais",
                             text: "",
                             html: `
                                     <h2 >Recuperação de senha</h2>

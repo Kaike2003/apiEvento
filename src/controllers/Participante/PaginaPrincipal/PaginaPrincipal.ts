@@ -10,6 +10,11 @@ export const PaginaPrincipalEventos = async (req: Request, res: Response) => {
             publicado: true,
             aprovado: true,
             banido: false,
+            OR: [
+                { estado: "DESPONIVEL" },
+                { estado: "ADECORRER" },
+                { estado: "CANCELADO" }
+            ]
         },
         include: {
             bilhete: {
@@ -33,6 +38,6 @@ export const PaginaPrincipalEventos = async (req: Request, res: Response) => {
         console.log(error)
     })
 
-    
+
 
 }

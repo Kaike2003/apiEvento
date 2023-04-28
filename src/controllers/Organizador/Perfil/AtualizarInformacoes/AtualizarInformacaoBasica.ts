@@ -11,13 +11,16 @@ import {
 export const AtualizarInformacaoBasica = async (req: Request, res: Response) => {
 
     const { idUtilizador }: QueryParams = req.params
-    const { nome, dataNascimento, localizacao, telefone }: OrganizadorType = req.body
+    const { nome, dataNascimento, localizacao, telefone, iban }: OrganizadorType = req.body
+
+    console.log(typeof (telefone))
 
     const result = UtilizadorSchemaInformaçãoPerfil.parseAsync({
         nome: nome,
         dataNascimento: new Date(dataNascimento),
         localizacao: localizacao,
-        telefone: telefone
+        telefone: telefone,
+        iban: iban
     })
 
     const verificarUtilizadorExiste: Utilizador | null = await prisma.utilizador.findUnique({
@@ -46,7 +49,8 @@ export const AtualizarInformacaoBasica = async (req: Request, res: Response) => 
                         nome: (await result).nome,
                         dataNascimento: (await result).dataNascimento,
                         telefone: String((await result).telefone),
-                        localizacao: (await result).localizacao
+                        localizacao: (await result).localizacao,
+                        iban: (await result).iban,
                     }
                 }).then((sucesso) => {
                     res.json({ "Atualizações das informações feita com sucesso.": sucesso })

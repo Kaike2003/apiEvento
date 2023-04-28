@@ -72,17 +72,39 @@ export const AprovarPagamento = async (req: Request, res: Response) => {
                                         }
                                     })
 
-                                    transporter.sendMail({
+                                    let mailOptions = {
                                         from: `${sucessoUtilizador.email}
-                                            <kaikebartolomeu2003@gmail.com>` ,
+                                        <kaikebartolomeu2003@gmail.com>` ,
                                         to: `${sucessoUtilizador.email}`,
-                                        subject: "Código qr",
-                                        text: "",
-                                        html: `
-                                            Foto: http://localhost:3456/public/upload/codigoQr/${sucessoCompra.id}.png
-                                            <img src="http://localhost:3456/public/upload/codigoQr/04a25202-3064-4396-8a3d-20c9931ac03e.png" alt="codigo" />
-                                                    `
-                                    }).then(message => {
+                                        subject: "Código Qr",
+                                        text: "Utilize o Código Qr para poderes ter acesso ao evento disponível pela sua compra de bilhete.",
+                                        html: '<h2>Utilize o Código Qr para poderes ter acesso ao evento disponível pela sua compra de bilhete.</h2>: <img src="cid:unique@kreata.ee"/>',
+                                        attachments: [{
+                                            filename: 'image.png',
+                                            path: `http://localhost:3456/public/upload/codigoQr/${sucessoCompra.id}.png`,
+                                            cid: 'unique@kreata.ee' //same cid value as in the html img src
+                                        }]
+                                    }
+
+                                    // transporter.sendMail({
+                                    //     from: `${sucessoUtilizador.email}
+                                    //         <kaikebartolomeu2003@gmail.com>` ,
+                                    //     to: `${sucessoUtilizador.email}`,
+                                    //     subject: "Código qr",
+                                    //     text: "",
+                                    //     html: `
+                                    //         Foto: http://localhost:3456/public/upload/codigoQr/${sucessoCompra.id}.png
+                                    //         <img src="http://localhost:3456/public/upload/codigoQr/04a25202-3064-4396-8a3d-20c9931ac03e.png" alt="codigo" />
+                                    //                 `
+                                    // }).then(message => {
+                                    //     console.log({ "Valido": message })
+                                    //     res.status(201).json(sucessoUtilizador)
+                                    // }).catch(error => {
+                                    //     console.log({ "Errado": error })
+                                    // })
+
+
+                                    transporter.sendMail(mailOptions).then(message => {
                                         console.log({ "Valido": message })
                                         res.status(201).json(sucessoUtilizador)
                                     }).catch(error => {

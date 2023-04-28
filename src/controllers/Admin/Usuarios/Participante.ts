@@ -9,15 +9,6 @@ export const Participante = async (req: Request, res: Response) => {
         const listartodosParticipantes = prisma.utilizador.findMany({
             where: {
                 utilizador: "PARTICIPANTE"
-            },
-            select: {
-                id: true,
-                nome: true,
-                email: true,
-                banido: true,
-                telefone: true,
-                at_create: true,
-                at_update: true,
             }
         }).then((sucesso) => {
             res.json(sucesso)

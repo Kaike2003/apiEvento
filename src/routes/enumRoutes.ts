@@ -11,6 +11,10 @@ export const enum RoutesAdmin {
     listarTodosOradoresId = "/listarTodosOradoresId",
     listarTodosPalestrantesId = "/listarTodosPalestrantesId",
 
+    // * Listar todas compras
+    listarTodasCompras = "/listarTodasCompras",
+
+
     // * Pagamento Evento feito
     pagamentoEventoFeito = "/pagamentoEventoFeito",
 

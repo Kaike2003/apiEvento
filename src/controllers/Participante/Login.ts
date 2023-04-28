@@ -33,7 +33,7 @@ export const LoginParticipante = async (req: Request, res: Response) => {
                 const token = jwt.sign({
                     userId: usuario.id,
                 }, SECRET, { expiresIn: "1d" })
-                res.json({ autenticação: true, token, usuario })
+                res.status(200).json({ autenticação: true, token, usuario })
             } else {
                 res.json("Verifique sua conta para poder fazer login na aplicação.")
             }

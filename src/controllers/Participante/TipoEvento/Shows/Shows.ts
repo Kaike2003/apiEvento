@@ -30,7 +30,11 @@ export const Shows = async (req: Request, res: Response) => {
                     categoriaId: sucesso.id,
                     aprovado: true,
                     publicado: true,
-                    banido: false,
+                    banido: false, OR: [
+                        { estado: "DESPONIVEL" },
+                        { estado: "ADECORRER" },
+                        { estado: "CANCELADO" }
+                    ]
                 }, include: {
                     bilhete: {
                         include: {

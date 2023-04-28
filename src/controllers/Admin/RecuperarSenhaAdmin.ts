@@ -59,10 +59,10 @@ export const RecuperarSenha = async (req: Request, res: Response) => {
                             from: `${sucesso.email}
                             <kaikebartolomeu2003@gmail.com>` ,
                             to: `${sucesso.email}`,
-                            subject: "Recuperação de senha",
+                            subject: "Recupere sua senha para voltar usar a Venda Online de bilhetes para eventos culturais e educacionais",
                             text: "",
                             html: `
-                            <h2 >Reserva online</h2>
+                            <h2 >Recuperação de senha</h2>
                             <p>Aqui está a sua senha nova para poder fazer login</p> 
                             <span>Código</span>:<h3>  ${stringAleatoria} </h3>
                          `

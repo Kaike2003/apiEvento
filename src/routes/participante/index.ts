@@ -23,6 +23,8 @@ routerParticipante.post(
 routerParticipante.put(
     RoutesParticipante.adicionarFotoParticipante,
     aciicionarParticipanteUpload.single("foto"),
+    Autenticacao,
+    PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.AdicionarFofoParticipante
 )
 
@@ -39,12 +41,14 @@ routerParticipante.put(
 
 routerParticipante.put(
     RoutesParticipante.atualizarInformacaoBasica,
-    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    Autenticacao,
+    PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.AtualizarInformacaoBasica)
 
 routerParticipante.put(
     RoutesParticipante.atualizarPalavraPasse,
-    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    Autenticacao,
+    PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.AtualizarPalavraPasse)
 
 routerParticipante.get(
@@ -55,17 +59,18 @@ routerParticipante.get(
 
 routerParticipante.get(
     RoutesParticipante.sair,
-    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    // Autenticacao,
+    PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.Sair)
 
 routerParticipante.get(
     RoutesParticipante.historicoCompra,
-    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.HistoricoCompra)
 
 routerParticipante.get(
     RoutesParticipante.notificacoes,
-    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.Notificacoes)
 
 routerParticipante.get(
@@ -88,12 +93,12 @@ routerParticipante.get(
 
 routerParticipante.get(
     RoutesParticipante.historico,
-    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.Historico)
 
 routerParticipante.get(
     RoutesParticipante.bilhetehistorico,
-    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.
         BilheteHistorico)
 
@@ -135,7 +140,8 @@ routerParticipante.get(
 
 routerParticipante.post(
     RoutesParticipante.reserva,
-    // PermissaoRotasParticipante(permissaoPARTICIPANTE),
+    Autenticacao,
+    PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.Reserva)
 
 // * Recuperar Senha
@@ -273,6 +279,8 @@ routerParticipante.get(
 routerParticipante.put(
     RoutesParticipante.adicionarComprovaito,
     adicionarComprovativoUpload.single("foto"),
+    Autenticacao,
+    PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.AdicioanarComprovativo
 )
 
@@ -280,6 +288,8 @@ routerParticipante.put(
 
 routerParticipante.get(
     RoutesParticipante.historicoPago,
+    Autenticacao,
+    PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.HistoricoPago
 )
 
@@ -288,6 +298,8 @@ routerParticipante.get(
 
 routerParticipante.get(
     RoutesParticipante.historicoNaoPago,
+    Autenticacao,
+    PermissaoRotasParticipante(permissaoPARTICIPANTE),
     ControllerParticipante.HistoricoNaoPago
 )
 
