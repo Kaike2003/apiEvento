@@ -94,6 +94,14 @@ routerOrganizador.put(
     // PermissaoRotasOrganizador(permissaoOrganizador),
     ControllerRoutesOrganizador.EditarEvento)
 
+
+// * Apagar Evento
+routerOrganizador.delete(
+    RoutesOrganizador.apagarEvento,
+    // Autenticacao,
+    // PermissaoRotasOrganizador(permissaoOrganizador),
+    ControllerRoutesOrganizador.ApagarEvento)
+
 // * Palestrante
 
 

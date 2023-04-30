@@ -5,8 +5,6 @@ import { ParticipanteOmit, ParticipanteType, VerificarcaoExiste_Participante } f
 import nodemailer from "nodemailer"
 import crypto from "crypto"
 
-import mailhog from "mailhog"
-
 
 const tamanhoString = 6
 const bytesAleatorios = crypto.randomBytes(tamanhoString);
@@ -15,9 +13,6 @@ const stringAleatoria = bytesAleatorios.toString('base64');
 const aleatorio: number = Math.floor(Math.random() * 1000000)
 
 export const Create = async (req: Request, res: Response) => {
-
-
-  
 
 
     const { nome, palavraPasse, email, localizacao, telefone, dataNascimento }: ParticipanteType = req.body
@@ -72,7 +67,7 @@ export const Create = async (req: Request, res: Response) => {
                 }).then((sucesso)=>{
 
                     if(!sucesso){
-                        res.json("Valor nulo kkk")
+                        res.json("Valor nulo")
                     } else{
 
           
@@ -102,6 +97,8 @@ export const Create = async (req: Request, res: Response) => {
                             res.status(201).json(sucesso)
                         }).catch(error=>{
                             console.log({"Errado": error})
+                            res.status(400).json(error)
+
                         })                
                     }
    

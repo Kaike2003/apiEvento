@@ -22,37 +22,46 @@ export const ListarOrador = async (req: Request, res: Response) => {
 
 
             const listarPalestrante = await prisma.orador.findMany({
-                where: {
-                    evento: {
-                        every: {
-                            eventoId: idEvento
-                        }
-                    }
-                }
-
-                // select: {
-                //     orador: {
-                //         where: {
-                //             evento: {
-                //                 id: idEvento
-                //             }
-                //         },
-                //         select: {
-                //             orador: {
-                //                 select: {
-                //                     nome: true
-                //                 }
-                //             }
+                // where: {
+                //     evento: {
+                //         every: {
+                //             eventoId: idEvento
                 //         }
                 //     }
-                // }
+                // },
+
+                where: {
+                        evento:{
+                            some:{
+                                eventoId: idEvento
+                            }
+                        }
+                    },
 
 
-            }).then((sucesso) => {
-                res.status(200).json(sucesso)
-            }).catch((error: any) => {
-                res.status(400).json(error)
-            })
+                    // select: {
+                    //     orador: {
+                    //         where: {
+                    //             evento: {
+                    //                 id: idEvento
+                    //             }
+                    //         },
+                    //         select: {
+                    //             orador: {
+                    //                 select: {
+                    //                     nome: true
+                    //                 }
+                    //             }
+                    //         }
+                    //     }
+                    // }
+
+
+                }).then((sucesso) => {
+                    res.status(200).json(sucesso)
+                }).catch((error: any) => {
+                    res.status(400).json(error)
+                })
 
 
 

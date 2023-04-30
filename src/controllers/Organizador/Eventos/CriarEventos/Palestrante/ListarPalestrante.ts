@@ -23,7 +23,7 @@ export const ListarPalestrante = async (req: Request, res: Response) => {
             const listarPalestrante = await prisma.palestrante.findMany({
                 where: {
                     evento: {
-                        every: {
+                        some: {
                             eventoId: idEvento
                         }
                     }

@@ -12,7 +12,7 @@ import * as sair from "./Perfil/Sair"
 // * Criar Evento
 import * as criarEvento from "./Eventos/CriarEventos/CriarEvento"
 
-// *Publicar Evento
+// * Publicar Evento
 import * as publicarEvento from "./Eventos/CriarEventos/PublicarEvento"
 
 import * as historicoEvento from "./Eventos/Historico/HistoricoEvento"
@@ -25,6 +25,9 @@ import * as listarEvento from "./Eventos/CriarEventos/ListarEventos"
 
 // * Editar Evento
 import * as editarEvento from "./Eventos/CriarEventos/EditarEvento"
+
+// * Apagar Evento
+import * as apagarEvento from "./Eventos/CriarEventos/ApagarEvento"
 
 
 // * Palestrante
@@ -96,6 +99,9 @@ export const ControllerRoutesOrganizador = {
 
     // * Editar evento,
     ...editarEvento,
+
+    // * Apagar evento,
+    ...apagarEvento,
 
     // * Adicionar foto palestrante 
     ...adicionarFotoPalestrante,

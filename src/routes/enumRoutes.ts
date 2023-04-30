@@ -235,6 +235,9 @@ export const enum RoutesOrganizador {
     // * Editar evento
     editarEvento = "/evento/detalhe/editarEvento/:idUtilizador/:idEvento",
 
+    // * Editar evento
+    apagarEvento = "/evento/detalhe/apagarEvento/:idUtilizador/:idEvento",
+
     // * Adicionar foto evento
     adicionarFotoEvento = "/evento/detalhe/editar/:idUtilizador/foto/:idEvento",
 
