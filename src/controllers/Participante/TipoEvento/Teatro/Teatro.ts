@@ -33,7 +33,7 @@ export const Teatro = async (req: Request, res: Response) => {
                     OR: [
                         { estado: "DESPONIVEL" },
                         { estado: "ADECORRER" },
-                        { estado: "CANCELADO" }
+                        { estado: "CANCELADO" },
                     ]
                 }, include: {
                     bilhete: {

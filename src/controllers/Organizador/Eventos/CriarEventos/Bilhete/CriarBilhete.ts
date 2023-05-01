@@ -53,16 +53,16 @@ export const CriarBilhete = async (req: Request, res: Response) => {
         verificarIdEvento.banido === false
     ) {
 
-        // if (
-        //     verificarIdEvento.dataInicio.getDate() > (await result).dataInicio.getDate()
-        //     &&
-        //     verificarIdEvento.dataInicio.getDate() >= (await result).dataTermino.getDate()
-        //     &&
-        //     verificarIdEvento.dataInicio.getDate() !== (await result).dataInicio.getDate()
-        //     && (await result).dataTermino > (await result).dataInicio
-        //     && (await result).dataInicio.getMonth() <= verificarIdEvento.dataInicio.getMonth()
-        //     && (await result).dataTermino.getMonth() <= verificarIdEvento.dataTermino.getMonth()
-        // ) {
+        if (
+            verificarIdEvento.dataInicio.getDate() > (await result).dataInicio.getDate()
+            &&
+            verificarIdEvento.dataInicio.getDate() >= (await result).dataTermino.getDate()
+            &&
+            verificarIdEvento.dataInicio.getDate() !== (await result).dataInicio.getDate()
+            && (await result).dataTermino > (await result).dataInicio
+            && (await result).dataInicio.getMonth() <= verificarIdEvento.dataInicio.getMonth()
+            && (await result).dataTermino.getMonth() <= verificarIdEvento.dataTermino.getMonth()
+        ) {
 
             const criarBilhete = await prisma.bilhete.create({
                 data: {
@@ -95,34 +95,64 @@ export const CriarBilhete = async (req: Request, res: Response) => {
 
 
 
-        // } else {
-        //     res.json({
-        //         "Possiveis erros": {
-        //             "Valores vindo do body": valores_Req_Body,
-        //             "Data inicio evento": `${verificarIdEvento.dataInicio.getDate()}/${verificarIdEvento.dataInicio.getMonth()}/${verificarIdEvento.dataInicio.getFullYear()}`,
-        //             "Data termino evento": `${verificarIdEvento.dataTermino.getDate()}/${verificarIdEvento.dataTermino.getMonth()}/${verificarIdEvento.dataTermino.getFullYear()}`,
-        //             "Data inicio bilhete": (await result).dataInicio.getDate(),
-        //             "Data termino bilhete": (await result).dataTermino.getDate(),
+        } else {
+            res.status(400).json(`
+            <p> 
+            A venda dos bilhetes deve acontecer dias antes do evento acontecer. 
+            <p> 
+            Data de inicio do evento:
+            <strong> 
+            ${verificarIdEvento.dataInicio.getDate()}/${verificarIdEvento.dataInicio.getMonth()}/${verificarIdEvento.dataInicio.getFullYear()}
+            </strong>
+            <br />
+            Data de termino do evento:
+            <strong>
+            ${verificarIdEvento.dataTermino.getDate()}/${verificarIdEvento.dataTermino.getMonth()}/${verificarIdEvento.dataTermino.getFullYear()} 
+            </strong> 
+           `)
 
-        //             "Teste de validação": verificarIdEvento.dataInicio.getDate() > (await result).dataInicio.getDate()
-        //                 &&
-        //                 verificarIdEvento.dataInicio.getDate() >= (await result).dataTermino.getDate()
-        //                 &&
-        //                 verificarIdEvento.dataInicio.getDate() !== (await result).dataInicio.getDate()
-        //                 && (await result).dataTermino > (await result).dataInicio
-        //         }
+            // res.status(400).json({
+            //     "Possiveis erros": {
+            //         "Valores vindo do body": valores_Req_Body,
+            //         "Data inicio evento": `${verificarIdEvento.dataInicio.getDate()}/${verificarIdEvento.dataInicio.getMonth()}/${verificarIdEvento.dataInicio.getFullYear()}`,
+            //         "Data termino evento": `${verificarIdEvento.dataTermino.getDate()}/${verificarIdEvento.dataTermino.getMonth()}/${verificarIdEvento.dataTermino.getFullYear()}`,
+            //         "Data inicio bilhete": (await result).dataInicio.getDate(),
+            //         "Data termino bilhete": (await result).dataTermino.getDate(),
 
-        //     })
+            //         "Teste de validação": verificarIdEvento.dataInicio.getDate() > (await result).dataInicio.getDate()
+            //             &&
+            //             verificarIdEvento.dataInicio.getDate() >= (await result).dataTermino.getDate()
+            //             &&
+            //             verificarIdEvento.dataInicio.getDate() !== (await result).dataInicio.getDate()
+            //             && (await result).dataTermino > (await result).dataInicio
+            //     }
 
-        // }
+            // })
+
+            console.log("Possiveis erros", {
+                "Valores vindo do body": valores_Req_Body,
+                "Data inicio evento": `${verificarIdEvento.dataInicio.getDate()}/${verificarIdEvento.dataInicio.getMonth()}/${verificarIdEvento.dataInicio.getFullYear()}`,
+                "Data termino evento": `${verificarIdEvento.dataTermino.getDate()}/${verificarIdEvento.dataTermino.getMonth()}/${verificarIdEvento.dataTermino.getFullYear()}`,
+                "Data inicio bilhete": (await result).dataInicio.getDate(),
+                "Data termino bilhete": (await result).dataTermino.getDate(),
+
+                "Teste de validação": verificarIdEvento.dataInicio.getDate() > (await result).dataInicio.getDate()
+                    &&
+                    verificarIdEvento.dataInicio.getDate() >= (await result).dataTermino.getDate()
+                    &&
+                    verificarIdEvento.dataInicio.getDate() !== (await result).dataInicio.getDate()
+                    && (await result).dataTermino > (await result).dataInicio
+            })
+
+        }
 
 
 
     } else {
         if (!verificarIdEvento) {
-            res.json({ "Evento nulo kk": verificarIdEvento })
+            res.status(400).json({ "Evento nulo kk": verificarIdEvento })
         } else {
-            res.json({
+            res.status(400).json({
                 "Id não existe ou evento não existe": idEvento,
             })
 

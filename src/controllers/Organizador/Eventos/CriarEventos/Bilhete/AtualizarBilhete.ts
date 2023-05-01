@@ -25,6 +25,18 @@ export const AtualizarBilhete = async (req: Request, res: Response) => {
         tipoEvento
     }: BilheteType = req.body
 
+    const valores_Req_Body: (String | Number | Date)[] = [nome,
+        preco,
+        horaInicio,
+        horaTermino,
+        dataInicio,
+        dataTermino,
+        quantidade,
+        tipoEvento]
+
+
+    console.log(valores_Req_Body)
+
     const result = BilheteOmit.parse({
         nome: nome,
         preco: preco,
@@ -36,14 +48,6 @@ export const AtualizarBilhete = async (req: Request, res: Response) => {
         horaTermino: new Date(`${dataTermino} ${horaTermino}`),
     })
 
-    const valores_Req_Body: (String | Number | Date)[] = [nome,
-        preco,
-        horaInicio,
-        horaTermino,
-        dataInicio,
-        dataTermino,
-        quantidade,
-        tipoEvento]
 
     const verificarIdEventoExiste: Evento | null = await prisma.evento.findFirst({
         where: {
@@ -97,16 +101,16 @@ export const AtualizarBilhete = async (req: Request, res: Response) => {
                 } else {
 
 
-                    // if (
-                    //     verificarIdEventoExiste.dataInicio.getDate() > (result).dataInicio.getDate()
-                    //     &&
-                    //     verificarIdEventoExiste.dataInicio.getDate() >= (result).dataTermino.getDate()
-                    //     &&
-                    //     verificarIdEventoExiste.dataInicio.getDate() !== (result).dataInicio.getDate()
-                    //     && (result).dataTermino > (result).dataInicio
-                    //     && (result).dataInicio.getMonth() <= verificarIdEventoExiste.dataInicio.getMonth()
-                    //     && (result).dataTermino.getMonth() <= verificarIdEventoExiste.dataTermino.getMonth()
-                    // ) {
+                    if (
+                        verificarIdEventoExiste.dataInicio.getDate() > (result).dataInicio.getDate()
+                        &&
+                        verificarIdEventoExiste.dataInicio.getDate() >= (result).dataTermino.getDate()
+                        &&
+                        verificarIdEventoExiste.dataInicio.getDate() !== (result).dataInicio.getDate()
+                        && (result).dataTermino > (result).dataInicio
+                        && (result).dataInicio.getMonth() <= verificarIdEventoExiste.dataInicio.getMonth()
+                        && (result).dataTermino.getMonth() <= verificarIdEventoExiste.dataTermino.getMonth()
+                    ) {
 
 
                         const atualizarBilhete = prisma.bilhete.update({
@@ -139,28 +143,43 @@ export const AtualizarBilhete = async (req: Request, res: Response) => {
                             res.json(error)
                         })
 
-                    // } else {
-                    //     res.json({
-                    //         "Possiveis erros": {
-                    //             "Valores vindo do body": valores_Req_Body,
-                    //             "Data inicio evento": `${verificarIdEventoExiste.dataInicio.getDate()}/${verificarIdEventoExiste.dataInicio.getMonth()}/${verificarIdEventoExiste.dataInicio.getFullYear()}`,
-                    //             "Data termino evento": `${verificarIdEventoExiste.dataTermino.getDate()}/${verificarIdEventoExiste.dataTermino.getMonth()}/${verificarIdEventoExiste.dataTermino.getFullYear()}`,
-                    //             "Data inicio bilhete": (result).dataInicio.getDate(),
-                    //             "Data termino bilhete": (result).dataTermino.getDate(),
+                    } else {
+                        // res.json({
+                        //     "Possiveis erros": {
+                        //         "Valores vindo do body": valores_Req_Body,
+                        //         "Data inicio evento": `${verificarIdEventoExiste.dataInicio.getDate()}/${verificarIdEventoExiste.dataInicio.getMonth()}/${verificarIdEventoExiste.dataInicio.getFullYear()}`,
+                        //         "Data termino evento": `${verificarIdEventoExiste.dataTermino.getDate()}/${verificarIdEventoExiste.dataTermino.getMonth()}/${verificarIdEventoExiste.dataTermino.getFullYear()}`,
+                        //         "Data inicio bilhete": (result).dataInicio.getDate(),
+                        //         "Data termino bilhete": (result).dataTermino.getDate(),
 
-                    //             "Teste de validação": verificarIdEventoExiste.dataInicio.getDate() > (result).dataInicio.getDate()
-                    //                 &&
-                    //                 verificarIdEventoExiste.dataInicio.getDate() >= (result).dataTermino.getDate()
-                    //                 &&
-                    //                 verificarIdEventoExiste.dataInicio.getDate() !== (result).dataInicio.getDate()
-                    //                 && (result).dataTermino > (result).dataInicio
-                    //         }
+                        //         "Teste de validação": verificarIdEventoExiste.dataInicio.getDate() > (result).dataInicio.getDate()
+                        //             &&
+                        //             verificarIdEventoExiste.dataInicio.getDate() >= (result).dataTermino.getDate()
+                        //             &&
+                        //             verificarIdEventoExiste.dataInicio.getDate() !== (result).dataInicio.getDate()
+                        //             && (result).dataTermino > (result).dataInicio
+                        //     }
 
-                    //     })
+                        // })
 
-                    // }
+                        res.status(400).json(`
+                        <p> 
+                        A venda dos bilhetes deve acontecer dias antes do evento acontecer. 
+                        <p> 
+                        Data de inicio do evento:
+                        <strong> 
+                        ${verificarIdEventoExiste.dataInicio.getDate()}/${verificarIdEventoExiste.dataInicio.getMonth()}/${verificarIdEventoExiste.dataInicio.getFullYear()}
+                        </strong>
+                        <br />
+                        Data de termino do evento:
+                        <strong>
+                        ${verificarIdEventoExiste.dataTermino.getDate()}/${verificarIdEventoExiste.dataTermino.getMonth()}/${verificarIdEventoExiste.dataTermino.getFullYear()}
+                        </strong> 
+                       `)
 
-                  
+                    }
+
+
                 }
 
             }).catch((error) => {

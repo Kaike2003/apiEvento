@@ -14,6 +14,130 @@ type Body = {
     bilheteId: string
 }
 
+
+
+const rule = new nodeSchedule.RecurrenceRule()
+rule.date = new Date().getDate() + 1
+rule.hour = 23
+rule.minute = 59
+rule.second = 59
+rule.month = new Date().getMonth()
+
+const data = new Date(2023, rule.month, rule.date, rule.hour, rule.minute, rule.second)
+
+
+const job = nodeSchedule.scheduleJob(data, async (fireDate) => {
+
+
+    const listaReservas = await prisma.compra.findMany({
+        where: {
+            foto: null,
+            pagamento: false
+        }
+    }).then(async (compra) => {
+
+
+        if (!compra) {
+            console.log("Valor nulo", compra)
+        } else {
+            compra.map(async itemCompra => {
+
+                await prisma.compra.findUnique({
+                    where: {
+                        id: itemCompra.id
+                    }
+                }).then(async (sucessoCompra) => {
+                    if (!sucessoCompra) {
+                        console.log("Valor nulo", sucessoCompra)
+                    } else {
+
+                        await prisma.item_Bilhete.findFirst({
+                            where: {
+                                compraId: sucessoCompra?.id
+                            }
+                        }).then(async (sucessoItemBilhete) => {
+
+
+                            await prisma.bilhete.findFirst({
+                                where: {
+                                    id: sucessoItemBilhete?.bilheteId
+                                }
+                            }).then(async (sucessoBilheteSelecionado) => {
+
+                                if (!sucessoBilheteSelecionado) {
+                                    console.log("Valor nulo", sucessoBilheteSelecionado)
+                                } else {
+
+                                    await prisma.bilhete.update({
+                                        where: {
+                                            id: sucessoBilheteSelecionado?.id
+                                        },
+                                        data: {
+                                            quantidade: sucessoBilheteSelecionado?.quantidade + sucessoCompra?.quantidade
+                                        }
+                                    }).then(async (sucessoBilheteRetornado) => {
+
+                                        await prisma.item_Bilhete.delete({
+                                            where: {
+                                                id: sucessoItemBilhete?.id
+                                            }
+                                        }).then(async () => {
+
+                                            await prisma.compra.delete({
+                                                where: {
+                                                    id: sucessoCompra.id
+                                                }
+                                            }).then(async (sucessoDeletarCompra) => {
+
+                                                console.log("Compras apagas", sucessoDeletarCompra)
+
+                                            }).catch((error) => {
+                                                console.log(error)
+                                            })
+
+                                        }).catch((error) => {
+                                            console.log(error)
+                                        })
+
+
+
+                                    }).catch((error) => {
+                                        console.log(error)
+                                    })
+                                }
+
+
+
+                            }).catch((error) => {
+                                console.log(error)
+                            })
+
+                        }).catch((error) => {
+                            console.log(error)
+                        })
+
+                    }
+
+                }).catch((error) => {
+                    console.log(error)
+                })
+
+            })
+        }
+
+
+
+    }).catch((error) => {
+        console.log(error)
+    })
+
+
+
+})
+
+console.log(job.nextInvocation())
+
+
 // const rule = new nodeSchedule.RecurrenceRule()
 // rule.date = new Date().getDate() + 1
 // rule.hour = 23
