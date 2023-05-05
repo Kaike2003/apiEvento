@@ -9,7 +9,7 @@ import nodeSchedule from "node-schedule"
 let views: number = 0;
 
 
-type Body = {
+type TBody = {
     quantidade: number
     bilheteId: string
 }
@@ -17,16 +17,12 @@ type Body = {
 
 
 const rule = new nodeSchedule.RecurrenceRule()
-rule.date = new Date().getDate() + 1
-rule.hour = 23
-rule.minute = 59
-rule.second = 59
-rule.month = new Date().getMonth()
+rule.minute = 40
 
-const data = new Date(2023, rule.month, rule.date, rule.hour, rule.minute, rule.second)
+// const data = new Date(2023, rule.month, rule.date, rule.hour, rule.minute, rule.second)
 
 
-const job = nodeSchedule.scheduleJob(data, async (fireDate) => {
+const job = nodeSchedule.scheduleJob(rule, async (fireDate) => {
 
 
     const listaReservas = await prisma.compra.findMany({

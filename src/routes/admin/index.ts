@@ -18,6 +18,11 @@ routerAdmin.post(RoutesAdmin.loginAdmin,
 routerAdmin.post(RoutesAdmin.post,
     ControllerRoutesAdmin.Create)
 
+// * Contacto
+
+routerAdmin.post(RoutesAdmin.contacto,
+    ControllerRoutesAdmin.Contacto)
+
 // * Verificar conta
 routerAdmin.put(
     RoutesAdmin.verificarContaAdmin,

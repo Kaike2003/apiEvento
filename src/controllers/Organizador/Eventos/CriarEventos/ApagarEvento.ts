@@ -61,17 +61,20 @@ export const ApagarEvento = async (req: Request, res: Response) => {
                                         res.status(200)
                                         console.log("Bilhete apagado com sucesso")
                                     }).catch(error => {
-                                        res.status(400).json(error)
+                                        res.status(400)
+                                        console.log(error)
                                     })
                                 }).catch((error) => {
                                     res.status(400).json(error)
+                                    console.log(error)
                                 })
 
                             })
 
 
                         }).catch((error) => {
-                            res.status(400).json(error)
+                            res.status(400)
+                            console.log(error)
                         })
 
                         const apagarOradores = await prisma.orador_Evento.findMany({
@@ -103,7 +106,8 @@ export const ApagarEvento = async (req: Request, res: Response) => {
                                         console.log("Oradores apagados", sucessoOradoresApagado)
 
                                     }).catch((error) => {
-                                        res.status(400).json(error)
+                                        res.status(400)
+                                        console.log(error)
 
                                     })
 
@@ -112,7 +116,8 @@ export const ApagarEvento = async (req: Request, res: Response) => {
                             })
 
                         }).catch((error) => {
-                            res.status(400).json(error)
+                            res.status(400)
+                            console.log(error)
                         })
 
 
@@ -145,7 +150,8 @@ export const ApagarEvento = async (req: Request, res: Response) => {
                                         console.log("Palestrantes apagados", sucessoPalestrantesApagado)
 
                                     }).catch((error) => {
-                                        res.status(400).json(error)
+                                        res.status(400)
+                                        console.log(error)
 
                                     })
 
@@ -157,9 +163,11 @@ export const ApagarEvento = async (req: Request, res: Response) => {
                             res.status(400).json(error)
                         })
 
+                        console.log("Id do evento", sucessoEvento.id)
+
                         const apagarEvento = await prisma.evento.delete({
                             where: {
-                                id: sucessoEvento.id
+                                id: idEvento
                             }
                         }).then((sucessoEventoApagado) => {
 
@@ -168,8 +176,10 @@ export const ApagarEvento = async (req: Request, res: Response) => {
 
 
                         }).catch((error) => {
-                            res.status(400).json(error)
+                            res.status(400)
+                            console.log(error)
                         })
+
 
 
                     } else {
@@ -184,7 +194,12 @@ export const ApagarEvento = async (req: Request, res: Response) => {
             })
 
 
+
+
         }
+
+
+
 
 
     }).catch((error) => {

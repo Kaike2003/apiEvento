@@ -37,6 +37,8 @@ export const LoginParticipante = async (req: Request, res: Response) => {
             } else {
                 res.json("Verifique sua conta para poder fazer login na aplicação.")
             }
+
+            
         }
     } catch (error) {
         res.json({ "Error": error, "Palavra passe incorreta": palavraPasse })

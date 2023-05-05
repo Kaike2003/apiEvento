@@ -4,7 +4,13 @@ import nodemailer from "nodemailer"
 
 export const Contacto = (req: Request, res: Response) => {
 
-    const { nome, email, genero, mensagem } = req.body
+    interface Icontacto {
+        nome: string,
+        email: string,
+        mensagem: string
+    }
+
+    const { nome, email, mensagem }: Icontacto = req.body
 
 
     let transporter = nodemailer.createTransport({
@@ -19,9 +25,9 @@ export const Contacto = (req: Request, res: Response) => {
 
     transporter.sendMail({
         from: `${nome}
-                            <kaikebartolomeu2003@gmail.com>` ,
-        to: `${email}`,
-        subject: "Confirme seu e-mail para começar a usar a Venda Online de bilhetes para eventos culturais e educacionais",
+                        <${email}>`,
+        to: `bartolomeu20233@gmail.com`,
+        subject: "Obtenção de algumas informações",
         text: "",
         html: `${mensagem}`
     }).then(message => {

@@ -27,10 +27,14 @@ export const Login = async (req: Request, res: Response) => {
                 usuario.utilizador === "ADMIN" &&
                 usuario.verificado === true
             ) {
+
                 const token = jwt.sign({
                     userId: usuario.id,
                 }, SECRET, { expiresIn: "1d" })
+
+
                 res.json({ autenticação: true, token, usuario })
+                console.log(token)
             }
         }
     } catch (error) {

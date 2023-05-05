@@ -13,7 +13,11 @@ export const Teatro = async (req: Request, res: Response) => {
     const categoriaNome: string = String("teatro")
     const listarTeatros = await prisma.categoria.findFirst({
         where: {
-            nome: categoriaNome
+            nome: categoriaNome,
+            OR: [
+                { nome: "teatro" },
+                { nome: "teatros" },
+            ]
         }
     }).then(async (sucesso) => {
 
@@ -90,7 +94,16 @@ export const Teatro = async (req: Request, res: Response) => {
                         })
 
                     } else {
-                        console.log("Evento desponivel")
+                        prisma.evento.update({
+                            where: {
+                                id: item.id
+                            },
+                            data: {
+                                estado: "DESPONIVEL"
+                            }
+                        }).then((sucessoEvento) => {
+                            console.log("Evento desponivel", sucessoEvento)
+                        })
                     }
                 }))
                     res.json(evento)

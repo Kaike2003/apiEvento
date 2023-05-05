@@ -8,6 +8,8 @@ export const AprovarEvento = async (req: Request, res: Response) => {
 
     const { idEvento }: QueryParams = req.params
 
+    console.log(idEvento)
+
     try {
         const verificarIdEventoExiste = await prisma.evento.findFirst({
             where: {
